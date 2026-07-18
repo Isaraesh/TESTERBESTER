@@ -53,30 +53,30 @@
         ::-webkit-scrollbar-thumb { background: #ffb3c6; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-[#fff0f5] text-[#7a1a3e] font-nunito min-h-screen sm:py-8 flex flex-col items-center">
+<body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] bg-fixed text-[#7a1a3e] font-nunito min-h-screen sm:py-8 flex flex-col items-center">
 
     <!-- Detached Top Navigation -->
-    <nav class="sticky top-4 z-40 bg-white/95 backdrop-blur-md border border-[#f72585]/15 py-2.5 px-4 sm:px-6 flex justify-center gap-1 sm:gap-2 mb-6 rounded-full shadow-xl w-max max-w-[92%]">
+    <nav class="sticky top-4 z-40 bg-white/95 backdrop-blur-md border border-[#f72585]/15 py-2.5 px-4 sm:px-6 flex justify-center gap-1 sm:gap-2 mb-6 rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] w-max max-w-[92%]">
         <button onclick="nav('home')" id="nav-home" class="nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all bg-[#ffb3c6] text-[#c2185b] shadow-sm"><i data-lucide="house" class="w-4 h-4"></i>Home</button>
         <button onclick="nav('gallery')" id="nav-gallery" class="nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all text-[#b05c7a] hover:bg-[#ffb3c6]/40"><i data-lucide="image" class="w-4 h-4"></i>Gallery</button>
         <button onclick="nav('guestbook')" id="nav-guestbook" class="nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all text-[#b05c7a] hover:bg-[#ffb3c6]/40"><i data-lucide="book-heart" class="w-4 h-4"></i>Guestbook</button>
     </nav>
 
     <!-- Enclosed App Wrapper -->
-    <div class="w-full max-w-[480px] bg-white min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-2xl relative pb-12 sm:border-[8px] border-white">
+    <div class="w-full max-w-[480px] bg-white min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] relative pb-12 sm:border-[8px] border-white">
 
         <div class="w-full relative">
 
             <!-- ================= HOME PAGE ================= -->
             <div id="home" class="page active">
                 <div class="px-8 py-4 flex flex-col items-center text-center">
-                    <div class="flex justify-center mb-6">
-                        <div onclick="openProfilePic()" class="cursor-pointer relative transform transition-transform hover:scale-105 duration-300 w-28 h-28">
-                            <div class="avatar-ring w-full h-full rounded-full flex items-center justify-center p-1" style="background: linear-gradient(135deg, #ffb3c6, #f72585)">
+                    <div class="flex flex-col items-center justify-center mb-6">
+                        <div onclick="openProfilePic()" class="cursor-pointer relative transform transition-transform hover:scale-105 duration-300 w-36 h-36">
+                            <div class="avatar-ring w-full h-full rounded-full flex items-center justify-center p-1.5" style="background: linear-gradient(135deg, #ffb3c6, #f72585)">
                                 <!-- Replace src with your actual profile picture URL -->
-                                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=400&q=80" alt="Vanessa" class="w-full h-full rounded-full object-cover border-[3px] border-white bg-white">
+                                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=400&q=80" alt="Vanessa" class="w-full h-full rounded-full object-cover border-[3.5px] border-white bg-white">
                             </div>
-                            <div class="sparkle-badge absolute -top-1 -right-1 w-9 h-9 rounded-full flex items-center justify-center text-base shadow-md z-10" style="background: linear-gradient(135deg, #f72585, #ff85a1); border: 2px solid white;">🌸</div>
+                            <div class="sparkle-badge absolute top-0 right-0 w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md z-10" style="background: linear-gradient(135deg, #f72585, #ff85a1); border: 2.5px solid white;">🌸</div>
                         </div>
                     </div>
 
@@ -134,10 +134,11 @@
 
             <!-- Profile Picture Modal -->
             <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/70 backdrop-blur-md transition-opacity">
-                <div class="relative max-w-sm w-full flex justify-center transform transition-all scale-100">
+                <div class="relative max-w-sm w-full flex flex-col items-center transform transition-all scale-100">
                     <button onclick="closeProfilePic()" class="absolute -top-4 -right-2 w-10 h-10 rounded-full bg-[#f72585] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
                     <!-- Replace src with your actual profile picture URL -->
                     <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=800&q=80" alt="Full Profile" class="w-full h-auto aspect-square rounded-[2.5rem] shadow-2xl border-[8px] border-white object-cover bg-white">
+                    <p class="mt-6 text-2xl font-pacifico text-[#f72585] drop-shadow-sm">that's me! ✨</p>
                 </div>
             </div>
 
@@ -184,7 +185,52 @@
         </div> <!-- End pages container -->
     </div> <!-- End Enclosed App Wrapper -->
 
+    <!-- Footer Text -->
+    <footer class="mt-6 mb-4 text-center z-10 relative">
+        <p class="text-[10px] font-quicksand font-bold tracking-widest text-[#b05c7a]/60 uppercase">
+            made with love • &copy; 2026
+        </p>
+    </footer>
+
+    <!-- Audio Elements -->
+    <audio id="bgm" src="bgm.mp3" loop></audio>
+    <audio id="sfx-gallery" src="galleryclick.mp3"></audio>
+    <audio id="sfx-heart" src="heart.mp3"></audio>
+    <audio id="sfx-pin" src="pin.mp3"></audio>
+    <audio id="sfx-sticker" src="sticker.mp3"></audio>
+
     <script>
+        // --- AUDIO SETUP ---
+        const sfx = {
+            bgm: document.getElementById('bgm'),
+            gallery: document.getElementById('sfx-gallery'),
+            heart: document.getElementById('sfx-heart'),
+            pin: document.getElementById('sfx-pin'),
+            sticker: document.getElementById('sfx-sticker')
+        };
+        
+        sfx.bgm.volume = 0.12; // Quiet background music
+        sfx.gallery.volume = 0.5;
+        sfx.heart.volume = 0.6;
+        sfx.pin.volume = 0.7;
+        sfx.sticker.volume = 0.4;
+
+        function playSFX(name) {
+            if (sfx[name]) {
+                sfx[name].currentTime = 0;
+                sfx[name].play().catch(() => {}); // Catch prevents errors if clicked too fast
+            }
+        }
+
+        // Start BGM on first user interaction (browser autoplay policy requirement)
+        let bgmStarted = false;
+        document.addEventListener('click', () => {
+            if (!bgmStarted) {
+                sfx.bgm.play().catch(() => {});
+                bgmStarted = true;
+            }
+        });
+
         // --- NAVIGATION LOGIC ---
         function nav(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -259,6 +305,7 @@
 
         function likeCollection(e, index) {
             e.stopPropagation(); // Prevents opening the carousel
+            playSFX('heart');
             
             collections[index].likes++;
             document.getElementById(`like-count-${index}`).innerText = collections[index].likes;
@@ -277,6 +324,7 @@
         let currentImgIndex = 0;
 
         function openCarousel(colIndex) {
+            playSFX('gallery');
             const c = collections[colIndex];
             currentCollection = c.images;
             currentImgIndex = 0;
@@ -379,11 +427,12 @@
             lucide.createIcons();
         }
 
-        function setColor(k) { activeColor = k; renderGuestbookUI(); }
-        function setSticker(s) { activeSticker = s; renderGuestbookUI(); }
+        function setColor(k) { activeColor = k; playSFX('sticker'); renderGuestbookUI(); }
+        function setSticker(s) { activeSticker = s; playSFX('sticker'); renderGuestbookUI(); }
 
         function submitGuestbook(e) {
             e.preventDefault();
+            playSFX('pin');
             const name = document.getElementById('gb-name').value;
             const message = document.getElementById('gb-message').value;
             if(!name || !message) return;
