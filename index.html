@@ -16,6 +16,10 @@
     <!-- Load Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
     
+    <!-- Load Swiper.js for 3D Carousels -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    
     <!-- Load Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -51,30 +55,30 @@
         .page { display: none; animation: fadeIn 0.4s ease-out forwards; }
         .page.active { display: block; }
 
-        /* Dynamic Navigation Button Colors */
-        .active-nav-btn {
-            background-color: #ffb3c6;
-            color: #c2185b;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        .dark .active-nav-btn {
-            background-color: #3b2c5c;
-            color: #e0e7ff;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-        }
-        .inactive-nav-btn {
+        /* Dynamic Sliding Navigation Button Colors */
+        .nav-btn {
             color: #b05c7a;
             background-color: transparent;
         }
-        .dark .inactive-nav-btn {
+        .dark .nav-btn {
             color: #8b8bb4;
         }
-        .inactive-nav-btn:hover {
-            background-color: rgba(255, 179, 198, 0.4);
+        .nav-btn:hover {
+            color: #c2185b;
         }
-        .dark .inactive-nav-btn:hover {
-            background-color: rgba(59, 44, 92, 0.6);
+        .dark .nav-btn:hover {
             color: #c7d2fe;
+        }
+        .nav-btn.active {
+            color: #c2185b;
+        }
+        .dark .nav-btn.active {
+            color: #e0e7ff;
+        }
+
+        /* Bouncy Pill Animation (Based on Codepen) */
+        #nav-indicator {
+            transition: transform 0.5s cubic-bezier(0.5, 1.2, 0.3, 1.15), width 0.5s cubic-bezier(0.5, 1.2, 0.3, 1.15), height 0.5s cubic-bezier(0.5, 1.2, 0.3, 1.15);
         }
         
         /* Custom Scrollbar */
@@ -142,15 +146,26 @@
             transition: all 0.5s;
         }
         .sleepy-toggle.dark .toggle-star { opacity: 1; }
+
+        /* Custom Swiper styles */
+        .swiper { width: 100%; padding-top: 10px; padding-bottom: 40px; }
+        .swiper-slide { background-position: center; background-size: cover; width: 75%; height: 260px; }
+        .swiper-button-next::after, .swiper-button-prev::after { font-size: 14px !important; font-weight: bold; }
+        .swiper-pagination-bullet { background: #f72585 !important; opacity: 0.3; transition: all 0.3s; }
+        .swiper-pagination-bullet-active { opacity: 1; width: 16px; border-radius: 8px; }
+        .dark .swiper-pagination-bullet { background: #c7d2fe !important; }
     </style>
 </head>
 <body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center transition-colors duration-500">
 
-    <!-- Detached Top Navigation -->
-    <nav class="sticky top-4 z-40 bg-white/95 dark:bg-[#1a1b41]/95 backdrop-blur-md border border-[#f72585]/15 dark:border-[#c7d2fe]/10 py-2.5 px-4 sm:px-6 flex justify-center gap-1 sm:gap-2 mb-6 rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] w-max max-w-[92%] transition-colors duration-500">
-        <button onclick="nav('home')" id="nav-home" class="nav-btn active-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="house" class="w-4 h-4"></i>Home</button>
-        <button onclick="nav('gallery')" id="nav-gallery" class="nav-btn inactive-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="image" class="w-4 h-4"></i>Gallery</button>
-        <button onclick="nav('guestbook')" id="nav-guestbook" class="nav-btn inactive-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="book-heart" class="w-4 h-4"></i>Guestbook</button>
+    <!-- Detached Top Navigation (Sliding Pill Design) -->
+    <nav id="main-nav" class="sticky top-4 z-40 bg-white/95 dark:bg-[#1a1b41]/95 backdrop-blur-md border border-[#f72585]/15 dark:border-[#c7d2fe]/10 p-1.5 flex justify-center gap-1 mb-6 rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] w-max max-w-[92%] transition-colors duration-500 relative">
+        <!-- The sliding background pill with spring physics -->
+        <div id="nav-indicator" class="absolute top-0 left-0 rounded-full bg-[#ffb3c6] dark:bg-[#3b2c5c] shadow-sm z-0" style="width: 0; height: 0;"></div>
+        
+        <button onclick="nav('home')" id="nav-home" class="nav-btn active relative z-10 flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300"><i data-lucide="house" class="w-4 h-4"></i>Home</button>
+        <button onclick="nav('gallery')" id="nav-gallery" class="nav-btn relative z-10 flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300"><i data-lucide="image" class="w-4 h-4"></i>Gallery</button>
+        <button onclick="nav('guestbook')" id="nav-guestbook" class="nav-btn relative z-10 flex items-center gap-1.5 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300"><i data-lucide="book-heart" class="w-4 h-4"></i>Guestbook</button>
     </nav>
 
     <!-- Enclosed App Wrapper -->
@@ -208,21 +223,23 @@
                 </div>
             </div>
 
-            <!-- Dynamic Content Modal (Replaces old carousel modal) -->
+            <!-- Dynamic Content Modal (With 3D Carousel) -->
             <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
                 <div class="bg-[#fff0f5] dark:bg-[#25234b] w-full max-w-sm rounded-3xl p-4 shadow-xl relative border-[1.5px] border-[rgba(247,37,133,0.2)] dark:border-[#c7d2fe]/20 transition-colors duration-500">
                     <button onclick="closeGalleryModal()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-4 h-4"></i></button>
                     <h2 id="modal-title" class="text-center text-lg mb-3 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff]">Title</h2>
                     
-                    <!-- Content Block: Carousel -->
+                    <!-- Content Block: 3D Swiper Carousel -->
                     <div id="modal-carousel" class="hidden w-full">
-                        <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-[#ffe0ec] dark:bg-[#3b2c5c] transition-colors duration-500">
-                            <img id="carousel-img" src="" alt="Gallery Image" class="w-full h-full object-cover transition-opacity duration-300">
-                            
-                            <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-md hover:bg-white dark:hover:bg-black transition-colors"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                            <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-md hover:bg-white dark:hover:bg-black transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        <div class="swiper mySwiper overflow-hidden">
+                            <div class="swiper-wrapper" id="carousel-wrapper">
+                                <!-- Slides populated by JS -->
+                            </div>
+                            <!-- Swiper Nav/Pagination -->
+                            <div class="swiper-pagination"></div>
+                            <div class="swiper-button-prev !text-[#f72585] dark:!text-[#c7d2fe] !w-8 !h-8 bg-white/90 dark:bg-black/60 rounded-full shadow-md backdrop-blur-sm -ml-2"></div>
+                            <div class="swiper-button-next !text-[#f72585] dark:!text-[#c7d2fe] !w-8 !h-8 bg-white/90 dark:bg-black/60 rounded-full shadow-md backdrop-blur-sm -mr-2"></div>
                         </div>
-                        <div id="carousel-dots" class="flex justify-center gap-1.5 mt-4 mb-2"></div>
                     </div>
 
                     <!-- Content Block: YouTube Embed -->
@@ -390,18 +407,34 @@
         }
 
         // --- NAVIGATION LOGIC ---
+        function updateNavIndicator(activeBtnId) {
+            const btn = document.getElementById(activeBtnId);
+            const indicator = document.getElementById('nav-indicator');
+            if (btn && indicator) {
+                indicator.style.width = `${btn.offsetWidth}px`;
+                indicator.style.height = `${btn.offsetHeight}px`;
+                indicator.style.transform = `translate(${btn.offsetLeft}px, ${btn.offsetTop}px)`;
+            }
+        }
+
         function nav(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active-nav-btn');
-                btn.classList.add('inactive-nav-btn');
+                btn.classList.remove('active');
             });
-            const activeBtn = document.getElementById(`nav-${pageId}`);
-            activeBtn.classList.remove('inactive-nav-btn');
-            activeBtn.classList.add('active-nav-btn');
+            const activeBtnId = `nav-${pageId}`;
+            const activeBtn = document.getElementById(activeBtnId);
+            activeBtn.classList.add('active');
+            
+            updateNavIndicator(activeBtnId);
         }
+
+        window.addEventListener('resize', () => {
+            const activePage = document.querySelector('.page.active');
+            if (activePage) updateNavIndicator(`nav-${activePage.id}`);
+        });
 
         // --- HOME PAGE LOGIC ---
         const interests = ["🎮 gaming", "🎵 lo-fi music", "🍵 matcha", "🌸 art"];
@@ -435,10 +468,11 @@
         const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80"; // Pastel clouds
         const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; // Setup
         const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80"; // Cute toys
+        const img4 = "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80"; // Retro Setup
 
         const collections = [
-            { type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Illustration", desc: "Chibi art, customized profile pictures, and whimsical custom assets.", images: [img1, img2, img3], likes: Math.floor(Math.random() * 121) + 40 },
-            { type: "carousel", emoji: "📸", label: "12 COLLECTIONS", title: "Pastel Aesthetics", desc: "Chasing sunsets, cozy room setups, and perfect latte art snaps.", images: [img3, img1, img2], likes: Math.floor(Math.random() * 121) + 40 },
+            { type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Illustration", desc: "Chibi art, customized profile pictures, and whimsical custom assets.", images: [img1, img2, img3, img4], likes: Math.floor(Math.random() * 121) + 40 },
+            { type: "carousel", emoji: "📸", label: "12 COLLECTIONS", title: "Pastel Aesthetics", desc: "Chasing sunsets, cozy room setups, and perfect latte art snaps.", images: [img3, img1, img4, img2], likes: Math.floor(Math.random() * 121) + 40 },
             { type: "youtube", videoId: "jfKfPfyJRdk", emoji: "⭐", label: "NEW VIDEO", title: "Sticker Shop Plans", desc: "Designing hand-cut vinyl stickers of cute desserts and sleepy animals!", likes: Math.floor(Math.random() * 121) + 40 },
             { type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Gaming Corner", desc: "Curating pastel setups, custom mechanical keyboards, and indie game reviews.", likes: Math.floor(Math.random() * 121) + 40,
               specs: `
@@ -495,8 +529,7 @@
             }, 300);
         }
 
-        let currentCollection = [];
-        let currentImgIndex = 0;
+        let swiperInstance = null;
 
         function openGalleryModal(colIndex) {
             playSFX('gallery');
@@ -510,9 +543,33 @@
 
             // Show and populate the correct block based on type
             if (c.type === 'carousel') {
-                currentCollection = c.images;
-                currentImgIndex = 0;
-                updateCarouselUI();
+                const wrapper = document.getElementById('carousel-wrapper');
+                // Create the swiper slides dynamically
+                wrapper.innerHTML = c.images.map(img => `
+                    <div class="swiper-slide !w-[70%]">
+                        <img src="${img}" class="w-full h-full object-cover rounded-2xl shadow-lg border-[3px] border-white dark:border-[#2d2d5a]">
+                    </div>
+                `).join('');
+
+                // Re-initialize Swiper specifically for Coverflow 3D
+                if (swiperInstance) swiperInstance.destroy(true, true);
+                
+                swiperInstance = new Swiper(".mySwiper", {
+                    effect: "coverflow",
+                    grabCursor: true,
+                    centeredSlides: true,
+                    slidesPerView: "auto",
+                    coverflowEffect: {
+                        rotate: 30, // Angle of side slides
+                        stretch: 0, 
+                        depth: 100, // Distance of side slides
+                        modifier: 1, 
+                        slideShadows: true,
+                    },
+                    pagination: { el: ".swiper-pagination", clickable: true },
+                    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+                });
+
                 document.getElementById('modal-carousel').classList.remove('hidden');
             } else if (c.type === 'youtube') {
                 document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${c.videoId}?autoplay=1`;
@@ -523,28 +580,15 @@
             }
 
             document.getElementById('gallery-modal').classList.remove('hidden');
+            
+            // Fix swiper width bugs on initial open
+            if(swiperInstance) setTimeout(() => swiperInstance.update(), 50); 
         }
 
         function closeGalleryModal() {
             document.getElementById('gallery-modal').classList.add('hidden');
-            document.getElementById('youtube-iframe').src = ""; // Stop video playback when closed
-        }
-
-        function nextSlide() {
-            currentImgIndex = (currentImgIndex + 1) % currentCollection.length;
-            updateCarouselUI();
-        }
-
-        function prevSlide() {
-            currentImgIndex = (currentImgIndex - 1 + currentCollection.length) % currentCollection.length;
-            updateCarouselUI();
-        }
-
-        function updateCarouselUI() {
-            document.getElementById('carousel-img').src = currentCollection[currentImgIndex];
-            document.getElementById('carousel-dots').innerHTML = currentCollection.map((_, i) => 
-                `<div class="w-2 h-2 rounded-full transition-all ${i === currentImgIndex ? (isSleepyMode ? 'bg-[#c7d2fe] w-4' : 'bg-[#f72585] w-4') : (isSleepyMode ? 'bg-[#c7d2fe]/30' : 'bg-[#f72585]/30')}"></div>`
-            ).join('');
+            document.getElementById('youtube-iframe').src = ""; // Stop video playback
+            if(swiperInstance) swiperInstance.destroy(true, true); // Cleanup 3D carousel memory
         }
 
         // --- PROFILE PIC LOGIC ---
@@ -557,7 +601,6 @@
         }
 
         // --- GUESTBOOK LOGIC ---
-        // Note colors remain pastel even in sleepy mode for that cute contrast aesthetic!
         const COLORS = [
             { key: "pink", bg: "#ffe0ec", border: "#f72585" },
             { key: "lavender", bg: "#ede0ff", border: "#9b59b6" },
@@ -585,19 +628,16 @@
         }
 
         function renderGuestbookUI() {
-            // Colors
             document.getElementById('color-picker').innerHTML = COLORS.map(c => `
                 <div class="w-9 h-9 flex items-center justify-center">
                     <button type="button" onclick="setColor('${c.key}')" class="w-7 h-7 rounded-full transition-transform hover:scale-110" style="background: ${c.bg}; border: ${activeColor === c.key ? `2.5px solid ${c.border}` : '2px solid rgba(0,0,0,0.1)'}; box-shadow: ${activeColor === c.key ? `0 0 0 2px white, 0 0 0 4px ${c.border}` : 'none'}; transform: ${activeColor === c.key ? 'scale(1.15)' : 'scale(1)'}"></button>
                 </div>
             `).join('');
 
-            // Stickers
             document.getElementById('sticker-picker').innerHTML = STICKERS.map(s => `
                 <button type="button" onclick="setSticker('${s}')" class="w-9 h-9 rounded-xl text-lg flex items-center justify-center transition-all hover:scale-110" style="background: ${activeSticker === s ? (isSleepyMode ? '#3b2c5c' : '#ffe0ec') : 'transparent'}; border: ${activeSticker === s ? (isSleepyMode ? '2px solid #a5b4fc' : '2px solid #f72585') : (isSleepyMode ? '1.5px solid rgba(199,210,254,0.15)' : '1.5px solid rgba(247,37,133,0.15)')}; transform: ${activeSticker === s ? 'scale(1.18)' : 'scale(1)'}">${s}</button>
             `).join('');
 
-            // Wall
             document.getElementById('gb-count').innerText = entries.length;
             document.getElementById('guestbook-wall').innerHTML = entries.map((entry, i) => {
                 const c = COLORS.find(col => col.key === entry.color) || COLORS[0];
@@ -639,19 +679,10 @@
                 date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
             };
 
-            // --- SEND EMAIL VIA FORMSPREE ---
             fetch("https://formspree.io/f/xlgqjyka", {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Accept": "application/json"
-                },
-                body: JSON.stringify({
-                    GuestName: newEntry.name,
-                    Message: newEntry.message,
-                    Sticker: newEntry.sticker,
-                    Color: newEntry.color
-                })
+                headers: { "Content-Type": "application/json", "Accept": "application/json" },
+                body: JSON.stringify({ GuestName: newEntry.name, Message: newEntry.message, Sticker: newEntry.sticker, Color: newEntry.color })
             }).catch(error => console.log("Email failed to send", error));
 
             entries.unshift(newEntry);
@@ -666,6 +697,9 @@
         // Initialize Everything
         renderGuestbookUI();
         lucide.createIcons();
+        
+        // Ensure sliding indicator is set to correct default position slightly after load
+        setTimeout(() => updateNavIndicator('nav-home'), 50);
 
     </script>
 </body>
