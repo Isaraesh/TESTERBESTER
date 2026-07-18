@@ -163,7 +163,7 @@
         .carousel-wrapper { touch-action: pan-y; }
 
         .gb-note { transform: rotate(var(--note-rot, 0deg)); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, z-index 0.4s; position: relative; }
-        .gb-note:hover { transform: scale(1.05) translateY(-4px) rotate(0deg); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15); z-index: 10; }
+        .gb-note:hover { transform: scale(1.02) translateY(-4px) rotate(0deg); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15); z-index: 10; }
         .dark .gb-note:hover { box-shadow: 0 12px 24px -8px rgba(0,0,0,0.4); }
         
         @keyframes plant-grow {
@@ -728,7 +728,7 @@
             document.getElementById('gb-count').innerText = entries.length;
             document.getElementById('guestbook-wall').innerHTML = entries.map((entry, i) => {
                 const c = COLORS.find(col => col.key === entry.color) || COLORS[0];
-                const rotation = i % 2 === 0 ? '0.5deg' : '-0.5deg';
+                const rotation = '0deg'; // Fixed rotation to 0deg to be non-tilted
                 return `
                 <div class="gb-note rounded-2xl p-4 relative" style="background: ${c.bg}; border: 1.5px solid ${c.border}30; --note-rot: ${rotation};">
                     <div class="absolute -top-2.5 -right-1 w-8 h-8 rounded-full flex items-center justify-center text-base shadow-sm bg-white" style="border: 1.5px solid ${c.border}40">${entry.sticker}</div>
