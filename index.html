@@ -5,8 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vanessa's Pastel Corner 🌸</title>
     
-    <!-- Load Tailwind CSS without installation -->
+    <!-- Load Tailwind CSS and configure Dark Mode -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     
     <!-- Load Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -35,7 +40,6 @@
         }
         
         .heart-pop { animation: heartPop 0.3s ease-out; }
-        
         .avatar-ring { animation: pulse-glow 3s ease-in-out infinite; }
         .sparkle-badge { animation: spin-slow 6s linear infinite; }
         
@@ -46,24 +50,111 @@
         /* Page Navigation Logic */
         .page { display: none; animation: fadeIn 0.4s ease-out forwards; }
         .page.active { display: block; }
+
+        /* Dynamic Navigation Button Colors */
+        .active-nav-btn {
+            background-color: #ffb3c6;
+            color: #c2185b;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .dark .active-nav-btn {
+            background-color: #3b2c5c;
+            color: #e0e7ff;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        .inactive-nav-btn {
+            color: #b05c7a;
+            background-color: transparent;
+        }
+        .dark .inactive-nav-btn {
+            color: #8b8bb4;
+        }
+        .inactive-nav-btn:hover {
+            background-color: rgba(255, 179, 198, 0.4);
+        }
+        .dark .inactive-nav-btn:hover {
+            background-color: rgba(59, 44, 92, 0.6);
+            color: #c7d2fe;
+        }
         
         /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #fff0f5; }
+        ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #ffb3c6; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #4c489d; }
+
+        /* Sleepy Mode Toggle Animation Styles */
+        .sleepy-toggle {
+            position: relative;
+            width: 64px;
+            height: 32px;
+            background: #87ceeb;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: background 0.5s;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 2px solid white;
+        }
+        .sleepy-toggle.dark {
+            background: #1a1b41;
+            border-color: #2d2d5a;
+        }
+        .sleepy-toggle .sun-moon {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 24px;
+            height: 24px;
+            background: #ffdf00;
+            border-radius: 50%;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 0 10px rgba(255,223,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .sleepy-toggle.dark .sun-moon {
+            left: calc(100% - 26px);
+            background: #e0e7ff;
+            box-shadow: 0 0 10px rgba(255,255,255,0.4);
+        }
+        .sleepy-toggle .crater {
+            opacity: 0;
+            background: rgba(0,0,0,0.1);
+            border-radius: 50%;
+            position: absolute;
+            transition: opacity 0.5s;
+        }
+        .sleepy-toggle.dark .crater { opacity: 1; }
+        .toggle-cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            transition: all 0.5s;
+        }
+        .sleepy-toggle.dark .toggle-cloud { opacity: 0; transform: translateY(10px); }
+        .toggle-star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+        .sleepy-toggle.dark .toggle-star { opacity: 1; }
     </style>
 </head>
-<body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] bg-fixed text-[#7a1a3e] font-nunito min-h-screen sm:py-8 flex flex-col items-center">
+<body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center transition-colors duration-500">
 
     <!-- Detached Top Navigation -->
-    <nav class="sticky top-4 z-40 bg-white/95 backdrop-blur-md border border-[#f72585]/15 py-2.5 px-4 sm:px-6 flex justify-center gap-1 sm:gap-2 mb-6 rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] w-max max-w-[92%]">
-        <button onclick="nav('home')" id="nav-home" class="nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all bg-[#ffb3c6] text-[#c2185b] shadow-sm"><i data-lucide="house" class="w-4 h-4"></i>Home</button>
-        <button onclick="nav('gallery')" id="nav-gallery" class="nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all text-[#b05c7a] hover:bg-[#ffb3c6]/40"><i data-lucide="image" class="w-4 h-4"></i>Gallery</button>
-        <button onclick="nav('guestbook')" id="nav-guestbook" class="nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all text-[#b05c7a] hover:bg-[#ffb3c6]/40"><i data-lucide="book-heart" class="w-4 h-4"></i>Guestbook</button>
+    <nav class="sticky top-4 z-40 bg-white/95 dark:bg-[#1a1b41]/95 backdrop-blur-md border border-[#f72585]/15 dark:border-[#c7d2fe]/10 py-2.5 px-4 sm:px-6 flex justify-center gap-1 sm:gap-2 mb-6 rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] w-max max-w-[92%] transition-colors duration-500">
+        <button onclick="nav('home')" id="nav-home" class="nav-btn active-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="house" class="w-4 h-4"></i>Home</button>
+        <button onclick="nav('gallery')" id="nav-gallery" class="nav-btn inactive-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="image" class="w-4 h-4"></i>Gallery</button>
+        <button onclick="nav('guestbook')" id="nav-guestbook" class="nav-btn inactive-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="book-heart" class="w-4 h-4"></i>Guestbook</button>
     </nav>
 
     <!-- Enclosed App Wrapper -->
-    <div class="w-full max-w-[480px] bg-white min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] relative pb-12 sm:border-[8px] border-white">
+    <div class="w-full max-w-[480px] bg-white dark:bg-[#1f1e3d] min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative pb-12 sm:border-[8px] border-white dark:border-[#1f1e3d] transition-colors duration-500">
 
         <div class="w-full relative">
 
@@ -72,17 +163,18 @@
                 <div class="px-8 py-4 flex flex-col items-center text-center">
                     <div class="flex flex-col items-center justify-center mb-6">
                         <div onclick="openProfilePic()" class="cursor-pointer relative transform transition-transform hover:scale-105 duration-300 w-36 h-36">
-                            <div class="avatar-ring w-full h-full rounded-full flex items-center justify-center p-1.5" style="background: linear-gradient(135deg, #ffb3c6, #f72585)">
+                            <div id="avatar-ring" class="avatar-ring w-full h-full rounded-full flex items-center justify-center p-1.5 transition-colors duration-500" style="background: linear-gradient(135deg, #ffb3c6, #f72585)">
                                 <!-- Replace src with your actual profile picture URL -->
-                                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=400&q=80" alt="Vanessa" class="w-full h-full rounded-full object-cover border-[3.5px] border-white bg-white">
+                                <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=400&q=80" alt="Vanessa" class="w-full h-full rounded-full object-cover border-[3.5px] border-white dark:border-[#1f1e3d] bg-white dark:bg-[#1f1e3d] transition-colors duration-500">
                             </div>
-                            <div class="sparkle-badge absolute top-0 right-0 w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md z-10" style="background: linear-gradient(135deg, #f72585, #ff85a1); border: 2.5px solid white;">🌸</div>
+                            <!-- Moon swaps out the sparkle badge in sleepy mode using CSS via JS logic below -->
+                            <div id="home-badge" class="sparkle-badge absolute top-0 right-0 w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-md z-10 transition-colors duration-500" style="background: linear-gradient(135deg, #f72585, #ff85a1); border: 2.5px solid white;">🌸</div>
                         </div>
                     </div>
 
-                    <h1 class="text-4xl mb-1 font-pacifico text-[#c2185b]">hi, i'm Vanessa 🌸</h1>
-                    <p class="text-xs tracking-widest uppercase mb-5 font-quicksand font-bold text-[#f72585]">dreamer • creator • cozy corner</p>
-                    <p class="text-sm leading-relaxed mb-6 text-[#9e4a6e] max-w-[320px]">welcome to my tiny pastel corner of the internet! i make cozy things, collect cute stickers, and drink way too much matcha. nice to meet ya! ✨</p>
+                    <h1 class="text-4xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">hi, i'm Vanessa 🌸</h1>
+                    <p class="text-xs tracking-widest uppercase mb-5 font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">dreamer • creator • cozy corner</p>
+                    <p class="text-sm leading-relaxed mb-6 text-[#9e4a6e] dark:text-[#b1b1d1] max-w-[320px] transition-colors duration-500">welcome to my tiny pastel corner of the internet! i make cozy things, collect cute stickers, and drink way too much matcha. nice to meet ya! ✨</p>
 
                     <div class="flex flex-wrap justify-center gap-2 mb-8" id="interests-container">
                         <!-- Populated by JS -->
@@ -98,96 +190,132 @@
             <!-- ================= GALLERY PAGE ================= -->
             <div id="gallery" class="page px-6 py-4">
                 <div class="text-center mb-8">
-                    <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b]">my little gallery 🐻</h1>
-                    <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585]">a visual diary of what makes me smile</p>
+                    <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">my little gallery 🐻</h1>
+                    <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">a visual diary of what makes me smile</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 mb-8" id="gallery-grid">
                     <!-- Populated by JS -->
                 </div>
 
-                <div class="rounded-2xl overflow-hidden" style="border: 1.5px solid rgba(247,37,133,0.15)">
-                    <div class="flex items-center justify-center gap-2 py-2.5 text-xs tracking-widest uppercase font-bold bg-[#ffe0ec] text-[#f72585] font-quicksand">
+                <div class="rounded-2xl overflow-hidden border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10 transition-colors duration-500">
+                    <div class="flex items-center justify-center gap-2 py-2.5 text-xs tracking-widest uppercase font-bold bg-[#ffe0ec] dark:bg-[#3b2c5c] text-[#f72585] dark:text-[#c7d2fe] font-quicksand transition-colors duration-500">
                         🎵 cozy soundtrack
                     </div>
-                    <div class="bg-[#fff5f8] flex justify-center py-4">
+                    <div class="bg-[#fff5f8] dark:bg-[#25234b] flex justify-center py-4 transition-colors duration-500">
                         <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2nQZ2w4OhLwIjsNVoWAYoZ?utm_source=generator&theme=0&si=108b5d134cd3422d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- Fullscreen Image Carousel Modal -->
-            <div id="carousel-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/60 backdrop-blur-md transition-opacity">
-                <div class="bg-[#fff0f5] w-full max-w-sm rounded-3xl p-4 shadow-xl relative" style="border: 1.5px solid rgba(247,37,133,0.2)">
-                    <button onclick="closeCarousel()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#f72585] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-4 h-4"></i></button>
-                    <h2 id="carousel-title" class="text-center text-lg mb-3 font-quicksand font-bold text-[#c2185b]">Title</h2>
+            <!-- Dynamic Content Modal (Replaces old carousel modal) -->
+            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
+                <div class="bg-[#fff0f5] dark:bg-[#25234b] w-full max-w-sm rounded-3xl p-4 shadow-xl relative border-[1.5px] border-[rgba(247,37,133,0.2)] dark:border-[#c7d2fe]/20 transition-colors duration-500">
+                    <button onclick="closeGalleryModal()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-4 h-4"></i></button>
+                    <h2 id="modal-title" class="text-center text-lg mb-3 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff]">Title</h2>
                     
-                    <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-[#ffe0ec]">
-                        <img id="carousel-img" src="" alt="Gallery Image" class="w-full h-full object-cover transition-opacity duration-300">
-                        
-                        <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 text-[#f72585] flex items-center justify-center shadow-md hover:bg-white"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                        <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 text-[#f72585] flex items-center justify-center shadow-md hover:bg-white"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                    <!-- Content Block: Carousel -->
+                    <div id="modal-carousel" class="hidden w-full">
+                        <div class="relative w-full aspect-square rounded-xl overflow-hidden bg-[#ffe0ec] dark:bg-[#3b2c5c] transition-colors duration-500">
+                            <img id="carousel-img" src="" alt="Gallery Image" class="w-full h-full object-cover transition-opacity duration-300">
+                            
+                            <button onclick="prevSlide()" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-md hover:bg-white dark:hover:bg-black transition-colors"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
+                            <button onclick="nextSlide()" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-md hover:bg-white dark:hover:bg-black transition-colors"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                        </div>
+                        <div id="carousel-dots" class="flex justify-center gap-1.5 mt-4 mb-2"></div>
                     </div>
-                    <div id="carousel-dots" class="flex justify-center gap-1.5 mt-4 mb-2"></div>
+
+                    <!-- Content Block: YouTube Embed -->
+                    <div id="modal-youtube" class="hidden w-full">
+                        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-inner">
+                            <iframe id="youtube-iframe" width="100%" height="100%" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+
+                    <!-- Content Block: PC Specs -->
+                    <div id="modal-specs" class="hidden w-full bg-white dark:bg-[#1a1b41] rounded-xl p-5 text-sm text-[#7a1a3e] dark:text-[#c7d2fe] font-nunito border border-[#ffe0ec] dark:border-[#3b2c5c] shadow-inner overflow-y-auto max-h-[350px] transition-colors duration-500">
+                        <!-- Populated via JS -->
+                    </div>
+
                 </div>
             </div>
 
             <!-- Profile Picture Modal -->
-            <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/70 backdrop-blur-md transition-opacity">
+            <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/70 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
                 <div class="relative max-w-sm w-full flex flex-col items-center transform transition-all scale-100">
-                    <button onclick="closeProfilePic()" class="absolute -top-4 -right-2 w-10 h-10 rounded-full bg-[#f72585] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    <button onclick="closeProfilePic()" class="absolute -top-4 -right-2 w-10 h-10 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
                     <!-- Replace src with your actual profile picture URL -->
-                    <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=800&q=80" alt="Full Profile" class="w-full h-auto aspect-square rounded-[2.5rem] shadow-2xl border-[8px] border-white object-cover bg-white">
-                    <p class="mt-6 text-2xl font-pacifico text-[#f72585] drop-shadow-sm">that's me! ✨</p>
+                    <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=800&q=80" alt="Full Profile" class="w-full h-auto aspect-square rounded-[2.5rem] shadow-2xl border-[8px] border-white dark:border-[#1f1e3d] object-cover bg-white dark:bg-[#1f1e3d] transition-colors duration-500">
+                    <p class="mt-3 text-sm font-medium text-gray-500 dark:text-[#a5b4fc] text-center w-full tracking-wide transition-colors duration-500">that's me! ✨</p>
                 </div>
             </div>
 
             <!-- ================= GUESTBOOK PAGE ================= -->
             <div id="guestbook" class="page px-6 py-4">
                 <div class="text-center mb-8">
-                    <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b]">guestbook 🎀</h1>
-                    <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585]">leave a virtual sticky note!</p>
+                    <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">guestbook 🎀</h1>
+                    <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">leave a virtual sticky note!</p>
                 </div>
 
-                <form onsubmit="submitGuestbook(event)" class="rounded-2xl p-5 mb-8 bg-[#fff5f8]" style="border: 1.5px solid rgba(247,37,133,0.15)">
-                    <p class="text-xs font-bold tracking-widest uppercase mb-4 flex items-center gap-1.5 font-quicksand text-[#f72585]"><span>+</span> scribble a note</p>
+                <form onsubmit="submitGuestbook(event)" class="rounded-2xl p-5 mb-8 bg-[#fff5f8] dark:bg-[#25234b] border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10 transition-colors duration-500">
+                    <p class="text-xs font-bold tracking-widest uppercase mb-4 flex items-center gap-1.5 font-quicksand text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500"><span>+</span> scribble a note</p>
 
-                    <input type="text" id="gb-name" required placeholder="your name/nickname" maxlength="40" class="w-full rounded-xl px-4 py-2.5 text-sm mb-3 outline-none transition-all focus:ring-2 focus:ring-[#f72585]/30 bg-white text-[#7a1a3e]" style="border: 1.5px solid rgba(247,37,133,0.2)">
+                    <input type="text" id="gb-name" required placeholder="your name/nickname" maxlength="40" class="w-full rounded-xl px-4 py-2.5 text-sm mb-3 outline-none transition-all focus:ring-2 focus:ring-[#f72585]/30 dark:focus:ring-[#6366f1]/50 bg-white dark:bg-[#1a1b41] text-[#7a1a3e] dark:text-[#e0e7ff] border-[1.5px] border-[rgba(247,37,133,0.2)] dark:border-[#c7d2fe]/20">
                     
-                    <textarea id="gb-message" required placeholder="write something sweet..." maxlength="200" rows="3" class="w-full rounded-xl px-4 py-2.5 text-sm mb-4 outline-none resize-none transition-all focus:ring-2 focus:ring-[#f72585]/30 bg-white text-[#7a1a3e]" style="border: 1.5px solid rgba(247,37,133,0.2)"></textarea>
+                    <textarea id="gb-message" required placeholder="write something sweet..." maxlength="200" rows="3" class="w-full rounded-xl px-4 py-2.5 text-sm mb-4 outline-none resize-none transition-all focus:ring-2 focus:ring-[#f72585]/30 dark:focus:ring-[#6366f1]/50 bg-white dark:bg-[#1a1b41] text-[#7a1a3e] dark:text-[#e0e7ff] border-[1.5px] border-[rgba(247,37,133,0.2)] dark:border-[#c7d2fe]/20"></textarea>
 
                     <div class="mb-3">
-                        <p class="text-[10px] font-bold uppercase tracking-widest mb-2 font-quicksand text-[#b05c7a]">note style:</p>
-                        <div class="flex gap-2 flex-wrap" id="color-picker"></div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest mb-2 font-quicksand text-[#b05c7a] dark:text-[#a5b4fc]/80 transition-colors duration-500">note style:</p>
+                        <div class="flex w-full justify-between" id="color-picker"></div>
                     </div>
 
                     <div class="mb-5">
-                    <p class="text-[10px] font-bold uppercase tracking-widest mb-2 font-quicksand text-[#b05c7a]">add sticker:</p>
-                    <div class="flex flex-wrap gap-1.5" id="sticker-picker"></div>
-                </div>
+                        <p class="text-[10px] font-bold uppercase tracking-widest mb-2 font-quicksand text-[#b05c7a] dark:text-[#a5b4fc]/80 transition-colors duration-500">add sticker:</p>
+                        <div class="flex w-full justify-between" id="sticker-picker"></div>
+                    </div>
 
-                <button type="submit" class="w-full py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] text-white font-quicksand" style="background: linear-gradient(135deg, #f72585, #ff85a1); box-shadow: 0 6px 20px rgba(247,37,133,0.35);">
-                    <span>✨</span> pin to wall! <i data-lucide="send" class="w-3.5 h-3.5"></i>
-                </button>
-            </form>
+                    <button type="submit" id="submit-btn" class="w-full py-3 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-all hover:scale-[1.02] active:scale-[0.98] text-white font-quicksand shadow-[0_6px_20px_rgba(247,37,133,0.35)] dark:shadow-[0_6px_20px_rgba(0,0,0,0.4)]" style="background: linear-gradient(135deg, #f72585, #ff85a1);">
+                        <span>✨</span> pin to wall! <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                    </button>
+                </form>
 
-            <div>
-                <p class="text-[10px] font-bold tracking-widest uppercase mb-4 flex items-center gap-2 font-quicksand text-[#b05c7a]">
-                    <span>virtual sticky wall</span>
-                    <span id="gb-count" class="rounded-full px-2 py-0.5 text-[9px] bg-[#f72585] text-white">0</span>
-                </p>
-                <div class="flex flex-col gap-3" id="guestbook-wall">
-                    <!-- Populated by JS -->
+                <div>
+                    <p class="text-[10px] font-bold tracking-widest uppercase mb-4 flex items-center gap-2 font-quicksand text-[#b05c7a] dark:text-[#a5b4fc]/80 transition-colors duration-500">
+                        <span>virtual sticky wall</span>
+                        <span id="gb-count" class="rounded-full px-2 py-0.5 text-[9px] bg-[#f72585] dark:bg-[#6366f1] text-white transition-colors duration-500">0</span>
+                    </p>
+                    <div class="flex flex-col gap-3" id="guestbook-wall">
+                        <!-- Populated by JS -->
+                    </div>
                 </div>
             </div>
-        </div>
 
         </div> <!-- End pages container -->
     </div> <!-- End Enclosed App Wrapper -->
 
+    <!-- SLEEPY MODE TOGGLE SWITCH -->
+    <div class="mt-6 mb-2 flex flex-col items-center justify-center gap-1.5 z-10 relative">
+        <div id="sleepy-toggle" class="sleepy-toggle" onclick="toggleSleepyMode()">
+            <!-- Sky Clouds -->
+            <div class="toggle-cloud" style="width: 14px; height: 10px; top: 16px; left: 26px;"></div>
+            <div class="toggle-cloud" style="width: 20px; height: 12px; top: 9px; left: 35px;"></div>
+            <!-- Night Stars -->
+            <div class="toggle-star" style="width: 3px; height: 3px; top: 6px; left: 16px;"></div>
+            <div class="toggle-star" style="width: 2px; height: 2px; top: 16px; left: 26px;"></div>
+            <div class="toggle-star" style="width: 4px; height: 4px; top: 20px; left: 10px;"></div>
+            
+            <div class="sun-moon">
+                <div class="crater" style="width: 5px; height: 5px; top: 4px; left: 10px;"></div>
+                <div class="crater" style="width: 3px; height: 3px; top: 14px; left: 4px;"></div>
+                <div class="crater" style="width: 7px; height: 7px; top: 12px; left: 13px;"></div>
+            </div>
+        </div>
+        <span class="text-[10px] font-quicksand font-bold text-[#b05c7a] dark:text-[#8b8bb4] uppercase tracking-widest transition-colors duration-300 text-center" id="sleepy-text">Sleepy Mode</span>
+    </div>
+
     <!-- Footer Text -->
-    <footer class="mt-6 mb-4 text-center z-10 relative">
-        <p class="text-[10px] font-quicksand font-bold tracking-widest text-[#b05c7a]/60 uppercase">
+    <footer class="mt-2 mb-4 text-center z-10 relative">
+        <p class="text-[10px] font-quicksand font-bold tracking-widest text-[#b05c7a]/60 dark:text-[#8b8bb4]/50 uppercase transition-colors duration-500">
             made with love • &copy; 2026
         </p>
     </footer>
@@ -209,7 +337,7 @@
             sticker: document.getElementById('sfx-sticker')
         };
         
-        sfx.bgm.volume = 0.12; // Quiet background music
+        sfx.bgm.volume = 0.12;
         sfx.gallery.volume = 0.5;
         sfx.heart.volume = 0.6;
         sfx.pin.volume = 0.7;
@@ -218,11 +346,10 @@
         function playSFX(name) {
             if (sfx[name]) {
                 sfx[name].currentTime = 0;
-                sfx[name].play().catch(() => {}); // Catch prevents errors if clicked too fast
+                sfx[name].play().catch(() => {});
             }
         }
 
-        // Start BGM on first user interaction (browser autoplay policy requirement)
         let bgmStarted = false;
         document.addEventListener('click', () => {
             if (!bgmStarted) {
@@ -231,71 +358,119 @@
             }
         });
 
+        // --- SLEEPY MODE LOGIC ---
+        let isSleepyMode = false;
+        function toggleSleepyMode() {
+            playSFX('pin'); // Cute sound for the toggle
+            isSleepyMode = !isSleepyMode;
+            const root = document.documentElement;
+            const toggle = document.getElementById('sleepy-toggle');
+            const text = document.getElementById('sleepy-text');
+            const homeBadge = document.getElementById('home-badge');
+            const submitBtn = document.getElementById('submit-btn');
+            const avatarRing = document.getElementById('avatar-ring');
+
+            if (isSleepyMode) {
+                root.classList.add('dark');
+                toggle.classList.add('dark');
+                text.innerText = "Wake Up";
+                homeBadge.innerText = "🌙";
+                homeBadge.style.background = "linear-gradient(135deg, #6366f1, #a5b4fc)";
+                submitBtn.style.background = "linear-gradient(135deg, #4c489d, #6366f1)";
+                avatarRing.style.background = "linear-gradient(135deg, #a5b4fc, #6366f1)";
+            } else {
+                root.classList.remove('dark');
+                toggle.classList.remove('dark');
+                text.innerText = "Sleepy Mode";
+                homeBadge.innerText = "🌸";
+                homeBadge.style.background = "linear-gradient(135deg, #f72585, #ff85a1)";
+                submitBtn.style.background = "linear-gradient(135deg, #f72585, #ff85a1)";
+                avatarRing.style.background = "linear-gradient(135deg, #ffb3c6, #f72585)";
+            }
+        }
+
         // --- NAVIGATION LOGIC ---
         function nav(pageId) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
             document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('bg-[#ffb3c6]', 'text-[#c2185b]', 'shadow-sm');
-                btn.classList.add('text-[#b05c7a]');
+                btn.classList.remove('active-nav-btn');
+                btn.classList.add('inactive-nav-btn');
             });
             const activeBtn = document.getElementById(`nav-${pageId}`);
-            activeBtn.classList.remove('text-[#b05c7a]');
-            activeBtn.classList.add('bg-[#ffb3c6]', 'text-[#c2185b]', 'shadow-sm');
+            activeBtn.classList.remove('inactive-nav-btn');
+            activeBtn.classList.add('active-nav-btn');
         }
 
         // --- HOME PAGE LOGIC ---
         const interests = ["🎮 gaming", "🎵 lo-fi music", "🍵 matcha", "🌸 art"];
         const socials = [
-            { icon: "instagram", label: "instagram", handle: "@vanessapastel", color: "#E1306C" },
-            { icon: "twitter", label: "twitter", handle: "@vanessacreates", color: "#1DA1F2" },
-            { icon: "github", label: "github", handle: "vanessa-dev", color: "#7a1a3e" },
-            { icon: "music", label: "spotify", handle: "cozy playlist", color: "#1DB954" },
-            { icon: "youtube", label: "youtube", handle: "vanessa vlogs", color: "#FF0000" },
-            { icon: "coffee", label: "ko-fi", handle: "buy me a matcha", color: "#FF5E5B" },
+            { icon: "instagram", label: "instagram", handle: "@vanessapastel", color: "#E1306C", darkColor: "#E1306C" },
+            { icon: "twitter", label: "twitter", handle: "@vanessacreates", color: "#1DA1F2", darkColor: "#1DA1F2" },
+            { icon: "github", label: "github", handle: "vanessa-dev", color: "#7a1a3e", darkColor: "#c7d2fe" },
+            { icon: "music", label: "spotify", handle: "cozy playlist", color: "#1DB954", darkColor: "#1DB954" },
+            { icon: "youtube", label: "youtube", handle: "vanessa vlogs", color: "#FF0000", darkColor: "#FF0000" },
+            { icon: "coffee", label: "ko-fi", handle: "buy me a matcha", color: "#FF5E5B", darkColor: "#FF5E5B" },
         ];
 
         document.getElementById('interests-container').innerHTML = interests.map(tag => 
-            `<span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#fff0f5] text-[#c2185b] font-quicksand border-[1.5px] border-[#f72585]/25">${tag}</span>`
+            `<span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#fff0f5] dark:bg-[#3b2c5c] text-[#c2185b] dark:text-[#e0e7ff] font-quicksand border-[1.5px] border-[#f72585]/25 dark:border-[#c7d2fe]/20 transition-colors duration-500">${tag}</span>`
         ).join('');
 
         document.getElementById('socials-container').innerHTML = socials.map(s => `
-            <div class="flex items-center justify-between px-4 py-3 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] bg-[#fff5f8] group" style="border: 1.5px solid rgba(247,37,133,0.12)">
+            <div class="flex items-center justify-between px-4 py-3 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] bg-[#fff5f8] dark:bg-[#25234b] group border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10">
                 <div class="flex items-center gap-3">
-                    <i data-lucide="${s.icon}" class="w-[18px] h-[18px]" style="color: ${s.color}"></i>
-                    <span class="text-sm font-semibold text-[#7a1a3e]">${s.label}</span>
+                    <i data-lucide="${s.icon}" class="w-[18px] h-[18px] transition-colors duration-500 text-[${s.color}] dark:text-[${s.darkColor}]" style="color: ${s.color}"></i>
+                    <span class="text-sm font-semibold text-[#7a1a3e] dark:text-[#e0e7ff] transition-colors duration-500">${s.label}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-xs font-quicksand font-bold text-[#f72585]">${s.handle}</span>
-                    <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 group-hover:text-[#f72585] transition-colors"></i>
+                    <span class="text-xs font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">${s.handle}</span>
+                    <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>
                 </div>
             </div>
         `).join('');
 
         // --- GALLERY LOGIC ---
-        // Using high-quality unsplash placeholders since we don't have a build tool to load local files
         const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80"; // Pastel clouds
         const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; // Setup
         const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80"; // Cute toys
 
         const collections = [
-            { emoji: "🎨", label: "7.8K VIEWS", title: "Digital Illustration", desc: "Chibi art, customized profile pictures, and whimsical custom assets.", images: [img1, img2, img3], likes: Math.floor(Math.random() * 121) + 40 },
-            { emoji: "📸", label: "12 COLLECTIONS", title: "Pastel Aesthetics", desc: "Chasing sunsets, cozy room setups, and perfect latte art snaps.", images: [img3, img1, img2], likes: Math.floor(Math.random() * 121) + 40 },
-            { emoji: "⭐", label: "COMING SOON", title: "Sticker Shop Plans", desc: "Designing hand-cut vinyl stickers of cute desserts and sleepy animals!", images: [img2, img3, img1], likes: Math.floor(Math.random() * 121) + 40 },
-            { emoji: "☕", label: "ACTIVE DAILY", title: "Cozy Gaming Corner", desc: "Curating pastel setups, custom mechanical keyboards, and indie game reviews.", images: [img1, img3, img2], likes: Math.floor(Math.random() * 121) + 40 },
+            { type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Illustration", desc: "Chibi art, customized profile pictures, and whimsical custom assets.", images: [img1, img2, img3], likes: Math.floor(Math.random() * 121) + 40 },
+            { type: "carousel", emoji: "📸", label: "12 COLLECTIONS", title: "Pastel Aesthetics", desc: "Chasing sunsets, cozy room setups, and perfect latte art snaps.", images: [img3, img1, img2], likes: Math.floor(Math.random() * 121) + 40 },
+            { type: "youtube", videoId: "jfKfPfyJRdk", emoji: "⭐", label: "NEW VIDEO", title: "Sticker Shop Plans", desc: "Designing hand-cut vinyl stickers of cute desserts and sleepy animals!", likes: Math.floor(Math.random() * 121) + 40 },
+            { type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Gaming Corner", desc: "Curating pastel setups, custom mechanical keyboards, and indie game reviews.", likes: Math.floor(Math.random() * 121) + 40,
+              specs: `
+                <div class="space-y-4">
+                    <p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-base mb-4 text-center font-quicksand">My Cozy White & Pastel Build 🌸</p>
+                    <ul class="space-y-3 px-2">
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Case:</span> <span>Lian Li O11 Dynamic Mini Snow Edition</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">CPU:</span> <span>AMD Ryzen 7 5800X</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">GPU:</span> <span>NVIDIA RTX 3060 Ti White</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">RAM:</span> <span>32GB Corsair Vengeance RGB Pro</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Keeb:</span> <span>Epomaker Alice with Matcha Switches</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Mouse:</span> <span>Logitech G705</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Audio:</span> <span>Razer Kraken BT Kitty Edition</span></li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-[#fff0f5] dark:bg-[#3b2c5c] rounded-lg border border-[#ffb3c6] dark:border-[#6366f1]/30">
+                        <p class="text-[11px] italic text-center font-bold">I love keeping my space clean, bright, and full of pastel accents! ✨</p>
+                    </div>
+                </div>
+              `
+            },
         ];
 
         document.getElementById('gallery-grid').innerHTML = collections.map((c, i) => `
-            <div onclick="openCarousel(${i})" class="rounded-2xl p-4 cursor-pointer text-left transition-transform hover:-translate-y-1 bg-[#fff5f8]" style="border: 1.5px solid rgba(247,37,133,0.12)">
+            <div onclick="openGalleryModal(${i})" class="rounded-2xl p-4 cursor-pointer text-left transition-transform hover:-translate-y-1 bg-[#fff5f8] dark:bg-[#25234b] border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10">
                 <div class="flex items-start justify-between mb-2">
-                    <div class="w-8 h-8 rounded-xl flex items-center justify-center text-base bg-[#ffe0ec]">${c.emoji}</div>
-                    <span class="text-[9px] tracking-widest uppercase font-bold font-quicksand text-[#f72585]">${c.label}</span>
+                    <div class="w-8 h-8 rounded-xl flex items-center justify-center text-base bg-[#ffe0ec] dark:bg-[#3b2c5c] transition-colors duration-500">${c.emoji}</div>
+                    <span class="text-[9px] tracking-widest uppercase font-bold font-quicksand text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">${c.label}</span>
                 </div>
-                <h3 class="text-sm font-bold mb-1 font-quicksand text-[#c2185b]">${c.title}</h3>
-                <p class="text-xs leading-relaxed text-[#b05c7a]">${c.desc}</p>
+                <h3 class="text-sm font-bold mb-1 font-quicksand text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">${c.title}</h3>
+                <p class="text-xs leading-relaxed text-[#b05c7a] dark:text-[#b1b1d1] transition-colors duration-500">${c.desc}</p>
                 <div class="flex justify-end mt-3">
-                    <button onclick="likeCollection(event, ${i})" class="flex items-center gap-1.5 text-[#f72585]/60 hover:text-[#f72585] transition-colors group">
+                    <button onclick="likeCollection(event, ${i})" class="flex items-center gap-1.5 text-[#f72585]/60 dark:text-[#a5b4fc]/60 hover:text-[#f72585] dark:hover:text-[#a5b4fc] transition-colors group">
                         <i data-lucide="heart" id="heart-icon-${i}" class="w-3.5 h-3.5 transition-transform group-active:scale-125"></i>
                         <span id="like-count-${i}" class="text-[10px] font-bold font-quicksand">${c.likes}</span>
                     </button>
@@ -304,7 +479,7 @@
         `).join('');
 
         function likeCollection(e, index) {
-            e.stopPropagation(); // Prevents opening the carousel
+            e.stopPropagation(); 
             playSFX('heart');
             
             collections[index].likes++;
@@ -312,8 +487,8 @@
             
             const icon = document.getElementById(`heart-icon-${index}`);
             icon.classList.add('heart-pop');
-            icon.setAttribute('fill', '#f72585'); // Fill in the heart
-            icon.style.color = '#f72585';
+            icon.setAttribute('fill', isSleepyMode ? '#a5b4fc' : '#f72585'); 
+            icon.style.color = isSleepyMode ? '#a5b4fc' : '#f72585';
             
             setTimeout(() => {
                 icon.classList.remove('heart-pop');
@@ -323,18 +498,36 @@
         let currentCollection = [];
         let currentImgIndex = 0;
 
-        function openCarousel(colIndex) {
+        function openGalleryModal(colIndex) {
             playSFX('gallery');
             const c = collections[colIndex];
-            currentCollection = c.images;
-            currentImgIndex = 0;
-            document.getElementById('carousel-title').innerText = `${c.emoji} ${c.title}`;
-            updateCarouselUI();
-            document.getElementById('carousel-modal').classList.remove('hidden');
+            document.getElementById('modal-title').innerText = `${c.emoji} ${c.title}`;
+            
+            // Hide all potential content blocks initially
+            document.getElementById('modal-carousel').classList.add('hidden');
+            document.getElementById('modal-youtube').classList.add('hidden');
+            document.getElementById('modal-specs').classList.add('hidden');
+
+            // Show and populate the correct block based on type
+            if (c.type === 'carousel') {
+                currentCollection = c.images;
+                currentImgIndex = 0;
+                updateCarouselUI();
+                document.getElementById('modal-carousel').classList.remove('hidden');
+            } else if (c.type === 'youtube') {
+                document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${c.videoId}?autoplay=1`;
+                document.getElementById('modal-youtube').classList.remove('hidden');
+            } else if (c.type === 'specs') {
+                document.getElementById('modal-specs').innerHTML = c.specs;
+                document.getElementById('modal-specs').classList.remove('hidden');
+            }
+
+            document.getElementById('gallery-modal').classList.remove('hidden');
         }
 
-        function closeCarousel() {
-            document.getElementById('carousel-modal').classList.add('hidden');
+        function closeGalleryModal() {
+            document.getElementById('gallery-modal').classList.add('hidden');
+            document.getElementById('youtube-iframe').src = ""; // Stop video playback when closed
         }
 
         function nextSlide() {
@@ -350,7 +543,7 @@
         function updateCarouselUI() {
             document.getElementById('carousel-img').src = currentCollection[currentImgIndex];
             document.getElementById('carousel-dots').innerHTML = currentCollection.map((_, i) => 
-                `<div class="w-2 h-2 rounded-full transition-all ${i === currentImgIndex ? 'bg-[#f72585] w-4' : 'bg-[#f72585]/30'}"></div>`
+                `<div class="w-2 h-2 rounded-full transition-all ${i === currentImgIndex ? (isSleepyMode ? 'bg-[#c7d2fe] w-4' : 'bg-[#f72585] w-4') : (isSleepyMode ? 'bg-[#c7d2fe]/30' : 'bg-[#f72585]/30')}"></div>`
             ).join('');
         }
 
@@ -364,6 +557,7 @@
         }
 
         // --- GUESTBOOK LOGIC ---
+        // Note colors remain pastel even in sleepy mode for that cute contrast aesthetic!
         const COLORS = [
             { key: "pink", bg: "#ffe0ec", border: "#f72585" },
             { key: "lavender", bg: "#ede0ff", border: "#9b59b6" },
@@ -371,7 +565,7 @@
             { key: "yellow", bg: "#fff9cc", border: "#e6c800" },
             { key: "mint", bg: "#d4f5d4", border: "#2ecc71" },
             { key: "blue", bg: "#c8e6fa", border: "#3498db" },
-            { key: "rose", bg: "#fadce6", border: "#e84393" },
+            { key: "mocha", bg: "#f5ece5", border: "#a07865" },
             { key: "lilac", bg: "#f0e6ff", border: "#b19cd9" },
         ];
         const STICKERS = ["🌸", "🎀", "🧸", "🍓", "✨", "💌", "🐰", "☁️"];
@@ -379,10 +573,8 @@
         let activeColor = "pink";
         let activeSticker = "🌸";
         
-        // Load from LocalStorage so it saves instantly without a backend
         let entries = JSON.parse(localStorage.getItem('guestbook_entries'));
         
-        // Check if there are less than 3 entries to ensure the new default one shows up!
         if (!entries || entries.length < 3) {
             entries = [
                 { id: 1, name: "@emma 🐇", message: "this space is so cozy and cute! i love the stickers so much! 💕", color: "pink", sticker: "🌸", date: "July 14, 2026" },
@@ -395,12 +587,14 @@
         function renderGuestbookUI() {
             // Colors
             document.getElementById('color-picker').innerHTML = COLORS.map(c => `
-                <button type="button" onclick="setColor('${c.key}')" class="w-7 h-7 rounded-full transition-transform hover:scale-110" style="background: ${c.bg}; border: ${activeColor === c.key ? `2.5px solid ${c.border}` : '2px solid rgba(0,0,0,0.1)'}; box-shadow: ${activeColor === c.key ? `0 0 0 2px white, 0 0 0 4px ${c.border}` : 'none'}; transform: ${activeColor === c.key ? 'scale(1.15)' : 'scale(1)'}"></button>
+                <div class="w-9 h-9 flex items-center justify-center">
+                    <button type="button" onclick="setColor('${c.key}')" class="w-7 h-7 rounded-full transition-transform hover:scale-110" style="background: ${c.bg}; border: ${activeColor === c.key ? `2.5px solid ${c.border}` : '2px solid rgba(0,0,0,0.1)'}; box-shadow: ${activeColor === c.key ? `0 0 0 2px white, 0 0 0 4px ${c.border}` : 'none'}; transform: ${activeColor === c.key ? 'scale(1.15)' : 'scale(1)'}"></button>
+                </div>
             `).join('');
 
             // Stickers
             document.getElementById('sticker-picker').innerHTML = STICKERS.map(s => `
-                <button type="button" onclick="setSticker('${s}')" class="w-9 h-9 rounded-xl text-lg flex items-center justify-center transition-all hover:scale-110" style="background: ${activeSticker === s ? '#ffe0ec' : 'white'}; border: ${activeSticker === s ? '2px solid #f72585' : '1.5px solid rgba(247,37,133,0.15)'}; transform: ${activeSticker === s ? 'scale(1.18)' : 'scale(1)'}">${s}</button>
+                <button type="button" onclick="setSticker('${s}')" class="w-9 h-9 rounded-xl text-lg flex items-center justify-center transition-all hover:scale-110" style="background: ${activeSticker === s ? (isSleepyMode ? '#3b2c5c' : '#ffe0ec') : 'transparent'}; border: ${activeSticker === s ? (isSleepyMode ? '2px solid #a5b4fc' : '2px solid #f72585') : (isSleepyMode ? '1.5px solid rgba(199,210,254,0.15)' : '1.5px solid rgba(247,37,133,0.15)')}; transform: ${activeSticker === s ? 'scale(1.18)' : 'scale(1)'}">${s}</button>
             `).join('');
 
             // Wall
@@ -423,7 +617,6 @@
                 `;
             }).join('');
             
-            // Re-initialize icons since DOM changed
             lucide.createIcons();
         }
 
@@ -447,7 +640,6 @@
             };
 
             // --- SEND EMAIL VIA FORMSPREE ---
-            // REPLACE the URL below with your actual Formspree endpoint URL!
             fetch("https://formspree.io/f/xlgqjyka", {
                 method: "POST",
                 headers: {
@@ -461,10 +653,9 @@
                     Color: newEntry.color
                 })
             }).catch(error => console.log("Email failed to send", error));
-            // --------------------------------
 
             entries.unshift(newEntry);
-            localStorage.setItem('guestbook_entries', JSON.stringify(entries)); // Saves to browser memory!
+            localStorage.setItem('guestbook_entries', JSON.stringify(entries)); 
             
             document.getElementById('gb-name').value = '';
             document.getElementById('gb-message').value = '';
