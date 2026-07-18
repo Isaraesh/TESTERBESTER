@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Vanessa's Pastel Corner 🌸</title>
     
-    <!-- Load Tailwind CSS and configure Dark Mode -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -13,16 +12,25 @@
         }
     </script>
     
-    <!-- Load Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    
-    <!-- Load Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --pulse-color-start: rgba(247, 37, 133, 0.25);
+            --pulse-color-end: rgba(247, 37, 133, 0);
+            --bgColorMenu: #ffffff;
+            --duration: .7s;
+        }
+        .dark {
+            --pulse-color-start: rgba(99, 102, 241, 0.35);
+            --pulse-color-end: rgba(99, 102, 241, 0);
+            --bgColorMenu: #1a1b41;
+        }
+        
         @keyframes pulse-glow { 
-            0%, 100% { box-shadow: 0 0 0 0 rgba(247,37,133,0.25); } 
-            50% { box-shadow: 0 0 0 18px rgba(247,37,133,0); } 
+            0%, 100% { box-shadow: 0 0 0 0 var(--pulse-color-start); } 
+            50% { box-shadow: 0 0 0 18px var(--pulse-color-end); } 
         }
         @keyframes spin-slow { 
             from { transform: rotate(0deg); } 
@@ -48,36 +56,25 @@
         
         .page { display: none; animation: fadeIn 0.4s ease-out forwards; }
         .page.active { display: block; }
-
-        .active-nav-btn {
-            background-color: #ffb3c6;
-            color: #c2185b;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-        }
-        .dark .active-nav-btn {
-            background-color: #3b2c5c;
-            color: #e0e7ff;
-            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-        }
-        .inactive-nav-btn {
-            color: #b05c7a;
-            background-color: transparent;
-        }
-        .dark .inactive-nav-btn {
-            color: #8b8bb4;
-        }
-        .inactive-nav-btn:hover {
-            background-color: rgba(255, 179, 198, 0.4);
-        }
-        .dark .inactive-nav-btn:hover {
-            background-color: rgba(59, 44, 92, 0.6);
-            color: #c7d2fe;
-        }
         
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #ffb3c6; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #4c489d; }
+
+        .nav-indicator {
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease, width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes strok {
+            0% { stroke-dashoffset: 150; }
+            100% { stroke-dashoffset: 0; }
+        }
+        
+        .nav-item.active-nav svg * {
+            stroke-dasharray: 150;
+            animation: strok 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
 
         .ux-parent {
             width: 100%;
@@ -87,9 +84,7 @@
             filter: drop-shadow(0 15px 25px rgba(247, 37, 133, 0.15));
             transition: filter 0.5s;
         }
-        .dark .ux-parent {
-            filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.45));
-        }
+        .dark .ux-parent { filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.45)); }
 
         .ux-card {
             position: relative;
@@ -104,46 +99,14 @@
 
         .ux-parent:hover .ux-card {
             transform: rotate3d(1, 1, 0, 22deg);
-            box-shadow: rgba(247, 37, 133, 0.2) 20px 40px 28px -20px,
-                        rgba(255, 255, 255, 0.1) 0 0 30px -10px,
-                        rgba(0, 0, 0, 0.1) 0 20px 30px 0;
+            box-shadow: rgba(247, 37, 133, 0.2) 20px 40px 28px -20px, rgba(255, 255, 255, 0.1) 0 0 30px -10px, rgba(0, 0, 0, 0.1) 0 20px 30px 0;
         }
 
-        /* Themed Variables */
-        .ux-parent--pink {
-            --ux-grad: linear-gradient(135deg, #ffb3c6 0%, #f72585 100%);
-            --ux-title: #ffffff;
-            --ux-body: rgba(255, 255, 255, 0.9);
-            --ux-cta: #ffffff;
-            --ux-orbit: rgba(255, 255, 255, 0.25);
-            --ux-fill: #f72585;
-        }
-        .ux-parent--purple {
-            --ux-grad: linear-gradient(145deg, #e0c3fc 0%, #8ec5fc 100%);
-            --ux-title: #3b2c5c;
-            --ux-body: rgba(59, 44, 92, 0.85);
-            --ux-cta: #4c489d;
-            --ux-orbit: rgba(255, 255, 255, 0.35);
-            --ux-fill: #4c489d;
-        }
-        .ux-parent--peach {
-            --ux-grad: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            --ux-title: #7a1a3e;
-            --ux-body: rgba(122, 26, 62, 0.85);
-            --ux-cta: #d96245;
-            --ux-orbit: rgba(255, 255, 255, 0.4);
-            --ux-fill: #d96245;
-        }
-        .ux-parent--mint {
-            --ux-grad: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
-            --ux-title: #1e5631;
-            --ux-body: rgba(30, 86, 49, 0.85);
-            --ux-cta: #2e8540;
-            --ux-orbit: rgba(255, 255, 255, 0.4);
-            --ux-fill: #2e8540;
-        }
+        .ux-parent--pink { --ux-grad: linear-gradient(135deg, #ffb3c6 0%, #f72585 100%); --ux-title: #ffffff; --ux-body: rgba(255, 255, 255, 0.9); --ux-cta: #ffffff; --ux-orbit: rgba(255, 255, 255, 0.25); --ux-fill: #f72585; }
+        .ux-parent--purple { --ux-grad: linear-gradient(145deg, #e0c3fc 0%, #8ec5fc 100%); --ux-title: #3b2c5c; --ux-body: rgba(59, 44, 92, 0.85); --ux-cta: #4c489d; --ux-orbit: rgba(255, 255, 255, 0.35); --ux-fill: #4c489d; }
+        .ux-parent--peach { --ux-grad: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); --ux-title: #7a1a3e; --ux-body: rgba(122, 26, 62, 0.85); --ux-cta: #d96245; --ux-orbit: rgba(255, 255, 255, 0.4); --ux-fill: #d96245; }
+        .ux-parent--mint { --ux-grad: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); --ux-title: #1e5631; --ux-body: rgba(30, 86, 49, 0.85); --ux-cta: #2e8540; --ux-orbit: rgba(255, 255, 255, 0.4); --ux-fill: #2e8540; }
 
-        /* 3D Glass Layer */
         .ux-glass {
             transform-style: preserve-3d;
             position: absolute;
@@ -157,95 +120,25 @@
             pointer-events: none;
             transition: all 0.5s ease-in-out;
         }
-        .dark .ux-glass {
-            background: linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.25) 100%);
-        }
+        .dark .ux-glass { background: linear-gradient(0deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.25) 100%); }
 
-        /* 3D Floating Logos/Orbits */
-        .ux-logo {
-            position: absolute;
-            inset-inline-end: 0;
-            top: 0;
-            transform-style: preserve-3d;
-            pointer-events: none;
-            z-index: 2;
-        }
-
-        .ux-circle {
-            display: block;
-            position: absolute;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            background: var(--ux-orbit);
-            box-shadow: rgba(0, 0, 0, 0.1) -5px 5px 15px 0;
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            transition: all 0.5s ease-in-out;
-        }
-
+        .ux-logo { position: absolute; inset-inline-end: 0; top: 0; transform-style: preserve-3d; pointer-events: none; z-index: 2; }
+        .ux-circle { display: block; position: absolute; aspect-ratio: 1; border-radius: 50%; background: var(--ux-orbit); box-shadow: rgba(0, 0, 0, 0.1) -5px 5px 15px 0; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); transition: all 0.5s ease-in-out; }
         .ux-circle:nth-child(1) { width: 100px; transform: translate3d(0, 0, 12px); top: 5px; inset-inline-end: 5px; }
         .ux-circle:nth-child(2) { width: 80px; transform: translate3d(0, 0, 24px); top: 10px; inset-inline-end: 10px; backdrop-filter: blur(4px); transition-delay: 0.05s; }
         .ux-circle:nth-child(3) { width: 60px; transform: translate3d(0, 0, 36px); top: 15px; inset-inline-end: 15px; transition-delay: 0.1s; }
         .ux-circle:nth-child(4) { width: 40px; transform: translate3d(0, 0, 48px); top: 20px; inset-inline-end: 20px; transition-delay: 0.15s; }
-        .ux-circle:nth-child(5) { 
-            width: 30px; 
-            transform: translate3d(0, 0, 60px); 
-            top: 25px; 
-            inset-inline-end: 25px; 
-            display: grid; 
-            place-content: center; 
-            transition-delay: 0.2s;
-            font-size: 1.1rem;
-        }
+        .ux-circle:nth-child(5) { width: 30px; transform: translate3d(0, 0, 60px); top: 25px; inset-inline-end: 25px; display: grid; place-content: center; transition-delay: 0.2s; font-size: 1.1rem; }
 
         .ux-parent:hover .ux-circle:nth-child(2) { transform: translate3d(0, 0, 35px); }
         .ux-parent:hover .ux-circle:nth-child(3) { transform: translate3d(0, 0, 50px); }
         .ux-parent:hover .ux-circle:nth-child(4) { transform: translate3d(0, 0, 65px); }
         .ux-parent:hover .ux-circle:nth-child(5) { transform: translate3d(0, 0, 80px); }
 
-        .ux-content {
-            padding: 85px 1rem 0 1rem;
-            transform: translate3d(0, 0, 20px);
-            position: relative;
-            z-index: 3;
-            pointer-events: none;
-        }
-
-        .ux-title {
-            display: block;
-            color: var(--ux-title);
-            font-family: 'Quicksand', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: -0.02em;
-            line-height: 1.2;
-        }
-
-        .ux-text {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            margin-top: 0.4rem;
-            color: var(--ux-body);
-            font-size: 0.75rem;
-            line-height: 1.4;
-            font-weight: 600;
-        }
-
-        .ux-bottom {
-            padding: 10px;
-            transform-style: preserve-3d;
-            position: absolute;
-            bottom: 6px;
-            left: 10px;
-            right: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transform: translate3d(0, 0, 22px);
-            z-index: 4;
-        }
+        .ux-content { padding: 85px 1rem 0 1rem; transform: translate3d(0, 0, 20px); position: relative; z-index: 3; pointer-events: none; }
+        .ux-title { display: block; color: var(--ux-title); font-family: 'Quicksand', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; line-height: 1.2; }
+        .ux-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: 0.4rem; color: var(--ux-body); font-size: 0.75rem; line-height: 1.4; font-weight: 600; }
+        .ux-bottom { padding: 10px; transform-style: preserve-3d; position: absolute; bottom: 6px; left: 10px; right: 10px; display: flex; align-items: center; justify-content: space-between; transform: translate3d(0, 0, 22px); z-index: 4; }
 
         .ux-social-btn {
             height: 28px;
@@ -262,7 +155,6 @@
             transform-style: preserve-3d;
         }
 
-        .ux-social-btn i { color: var(--ux-fill); }
         .ux-social-btn span { color: var(--ux-fill); }
 
         .ux-parent:hover .ux-social-btn {
@@ -270,105 +162,65 @@
             box-shadow: rgba(0, 0, 0, 0.15) -3px 10px 10px 0;
         }
 
-        .ux-more-btn {
-            background: none;
-            border: none;
-            color: var(--ux-cta);
-            font-weight: 800;
-            font-size: 0.75rem;
-            font-family: inherit;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            transition: transform 0.2s ease;
-        }
-        .ux-more-btn:hover {
-            transform: translate3d(0, 0, 10px);
-        }
+        .ux-more-btn { background: none; border: none; color: var(--ux-cta); font-weight: 800; font-size: 0.75rem; font-family: inherit; cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em; transition: transform 0.2s ease; }
+        .ux-more-btn:hover { transform: translate3d(0, 0, 10px); }
 
-        .sleepy-toggle {
-            position: relative;
-            width: 64px;
-            height: 32px;
-            background: #87ceeb;
-            border-radius: 32px;
-            cursor: pointer;
-            transition: background 0.5s;
-            box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
-            overflow: hidden;
-            border: 2px solid white;
-        }
-        .sleepy-toggle.dark {
-            background: #1a1b41;
-            border-color: #2d2d5a;
-        }
-        .sleepy-toggle .sun-moon {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 24px;
-            height: 24px;
-            background: #ffdf00;
-            border-radius: 50%;
-            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 0 10px rgba(255,223,0,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .sleepy-toggle.dark .sun-moon {
-            left: calc(100% - 26px);
-            background: #e0e7ff;
-            box-shadow: 0 0 10px rgba(255,255,255,0.4);
-        }
-        .sleepy-toggle .crater {
-            opacity: 0;
-            background: rgba(0,0,0,0.1);
-            border-radius: 50%;
-            position: absolute;
-            transition: opacity 0.5s;
-        }
+        .sleepy-toggle { position: relative; width: 64px; height: 32px; background: #87ceeb; border-radius: 32px; cursor: pointer; transition: background 0.5s; box-shadow: inset 0 0 5px rgba(0,0,0,0.1); overflow: hidden; border: 2px solid white; }
+        .sleepy-toggle.dark { background: #1a1b41; border-color: #2d2d5a; }
+        .sleepy-toggle .sun-moon { position: absolute; top: 2px; left: 2px; width: 24px; height: 24px; background: #ffdf00; border-radius: 50%; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55); box-shadow: 0 0 10px rgba(255,223,0,0.4); display: flex; align-items: center; justify-content: center; }
+        .sleepy-toggle.dark .sun-moon { left: calc(100% - 26px); background: #e0e7ff; box-shadow: 0 0 10px rgba(255,255,255,0.4); }
+        .sleepy-toggle .crater { opacity: 0; background: rgba(0,0,0,0.1); border-radius: 50%; position: absolute; transition: opacity 0.5s; }
         .sleepy-toggle.dark .crater { opacity: 1; }
-        .toggle-cloud {
-            position: absolute;
-            background: white;
-            border-radius: 50px;
-            transition: all 0.5s;
-        }
+        .toggle-cloud { position: absolute; background: white; border-radius: 50px; transition: all 0.5s; }
         .sleepy-toggle.dark .toggle-cloud { opacity: 0; transform: translateY(10px); }
-        .toggle-star {
-            position: absolute;
-            background: white;
-            border-radius: 50%;
-            opacity: 0;
-            transition: all 0.5s;
-        }
+        .toggle-star { position: absolute; background: white; border-radius: 50%; opacity: 0; transition: all 0.5s; }
         .sleepy-toggle.dark .toggle-star { opacity: 1; }
 
-        /* NEW 3D Carousel Styles */
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
-        .carousel-item {
-            transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease;
-            will-change: transform, opacity, filter;
-            -webkit-user-select: none;
-            user-select: none;
+        .carousel-item { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease; will-change: transform, opacity, filter; -webkit-user-select: none; user-select: none; }
+        .carousel-wrapper { touch-action: pan-y; }
+
+        /* Fixed Guestbook Hover Styles */
+        .gb-note {
+            transform: rotate(var(--note-rot, 0deg));
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, z-index 0.4s;
+            position: relative;
         }
-        .carousel-wrapper {
-            /* Prevent vertical scroll interference when swiping left/right on mobile */
-            touch-action: pan-y;
+        .gb-note:hover {
+            transform: scale(1.05) translateY(-4px) rotate(0deg);
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15);
+            z-index: 10;
+        }
+        .dark .gb-note:hover {
+            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.4);
+        }
+        
+        /* Clean up iframe outlines */
+        .spotify-container iframe {
+            outline: none !important;
+            border: none !important;
         }
     </style>
 </head>
 <body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center transition-colors duration-500">
 
-    <nav class="sticky top-4 z-40 bg-white/95 dark:bg-[#1a1b41]/95 backdrop-blur-md border border-[#f72585]/15 dark:border-[#c7d2fe]/10 py-2.5 px-4 sm:px-6 flex justify-center gap-1 sm:gap-2 mb-6 rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] w-max max-w-[92%] transition-colors duration-500">
-        <button onclick="nav('home')" id="nav-home" class="nav-btn active-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="house" class="w-4 h-4"></i>Home</button>
-        <button onclick="nav('gallery')" id="nav-gallery" class="nav-btn inactive-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="image" class="w-4 h-4"></i>Gallery</button>
-        <button onclick="nav('guestbook')" id="nav-guestbook" class="nav-btn inactive-nav-btn flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold font-quicksand transition-all"><i data-lucide="book-heart" class="w-4 h-4"></i>Guestbook</button>
+    <nav class="relative flex items-center justify-center p-1.5 bg-white/90 dark:bg-[#1a1b41]/90 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] z-40 sticky top-4 mb-6 transition-colors duration-500 overflow-visible w-max max-w-[92%] mx-auto border border-[#f72585]/10 dark:border-[#c7d2fe]/10">
+        <!-- Sliding Indicator -->
+        <div id="nav-indicator" class="nav-indicator absolute left-1.5 top-1.5 bottom-1.5 rounded-full z-0" style="width: 104px; background-color: #ffb3c6; transform: translateX(0px);"></div>
+
+        <button id="btn-home" class="nav-item active-nav relative z-10 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300 text-[#c2185b] dark:text-[#e0e7ff]" data-color-light="#ffb3c6" data-color-dark="#4c489d" onclick="nav('home', this)">
+            <i data-lucide="house" class="w-4 h-4"></i> Home
+        </button>
+        <button id="btn-gallery" class="nav-item relative z-10 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300 text-[#b05c7a] dark:text-[#8b8bb4] hover:text-[#c2185b] dark:hover:text-[#e0e7ff]" data-color-light="#e0c3fc" data-color-dark="#3b2c5c" onclick="nav('gallery', this)">
+            <i data-lucide="image" class="w-4 h-4"></i> Gallery
+        </button>
+        <button id="btn-guestbook" class="nav-item relative z-10 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300 text-[#b05c7a] dark:text-[#8b8bb4] hover:text-[#c2185b] dark:hover:text-[#e0e7ff]" data-color-light="#ffecd2" data-color-dark="#7a1a3e" onclick="nav('guestbook', this)">
+            <i data-lucide="book-heart" class="w-4 h-4"></i> Guestbook
+        </button>
     </nav>
 
-    <div class="w-full max-w-[480px] bg-white dark:bg-[#1f1e3d] min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative pb-12 sm:border-[8px] border-white dark:border-[#1f1e3d] transition-colors duration-500 overflow-hidden sm:overflow-visible">
+    <div class="w-full max-w-[480px] bg-white dark:bg-[#1f1e3d] min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative pb-12 sm:border-[8px] border-white dark:border-[#1f1e3d] transition-colors duration-500 overflow-hidden sm:overflow-visible mt-2">
         <div class="w-full relative">
 
             <div id="home" class="page active">
@@ -394,49 +246,42 @@
             <div id="gallery" class="page px-6 py-4">
                 <div class="text-center mb-8">
                     <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">my little gallery 🐻</h1>
-                    <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">a 3D visual diary</p>
+                    <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">a visual diary that makes me smile</p>
                 </div>
 
                 <div class="grid grid-cols-2 gap-3 mb-8" id="gallery-grid">
-                    <!-- Populated by JS to support full 3D interactive shapes -->
+                    <!-- Populated by JS -->
                 </div>
 
-                <div class="rounded-2xl overflow-hidden border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10 transition-colors duration-500">
+                <div class="rounded-2xl overflow-hidden border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10 transition-colors duration-500 spotify-container bg-[#fff5f8] dark:bg-[#25234b]">
                     <div class="flex items-center justify-center gap-2 py-2.5 text-xs tracking-widest uppercase font-bold bg-[#ffe0ec] dark:bg-[#3b2c5c] text-[#f72585] dark:text-[#c7d2fe] font-quicksand transition-colors duration-500">
                         🎵 cozy soundtrack
                     </div>
-                    <div class="bg-[#fff5f8] dark:bg-[#25234b] flex justify-center py-4 transition-colors duration-500">
-                        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2nQZ2w4OhLwIjsNVoWAYoZ?utm_source=generator&theme=0&si=108b5d134cd3422d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="flex justify-center py-4 transition-colors duration-500">
+                        <iframe data-testid="embed-iframe" class="outline-none focus:outline-none border-none ring-0" style="border-radius:12px; outline:none; border:none;" src="https://open.spotify.com/embed/playlist/2nQZ2w4OhLwIjsNVoWAYoZ?utm_source=generator&theme=0&si=108b5d134cd3422d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
 
-            <!-- Content Modals -->
             <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
                 <div class="bg-[#fff0f5] dark:bg-[#25234b] w-full max-w-sm rounded-3xl p-4 shadow-xl relative border-[1.5px] border-[rgba(247,37,133,0.2)] dark:border-[#c7d2fe]/20 transition-colors duration-500">
                     <button onclick="closeGalleryModal()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-50"><i data-lucide="x" class="w-4 h-4"></i></button>
                     <h2 id="modal-title" class="text-center text-lg mb-4 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
                     
-                    <!-- ENHANCED 3D CAROUSEL -->
                     <div id="modal-carousel" class="hidden w-full relative">
-                        <!-- Wrapper serves as drag container and 3D camera -->
-                        <div class="carousel-wrapper relative w-full aspect-[4/3] rounded-xl flex items-center justify-center perspective-1000 mb-3 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
+                        <!-- Taller aspect ratio for larger images as requested -->
+                        <div class="carousel-wrapper relative w-full aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-3 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
                             
-                            <!-- Track holds the 3D items -->
                             <div id="carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d">
-                                <!-- Items injected by JS -->
                             </div>
                             
-                            <!-- Floating Nav Controls -->
                             <button onclick="prevSlide(event)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
                             <button onclick="nextSlide(event)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
                         </div>
                         
-                        <!-- Interactive Progress Dots -->
                         <div id="carousel-dots" class="flex justify-center items-center gap-2 h-4 mt-2"></div>
                     </div>
 
-                    <!-- Alternate Content Modes (YouTube/Specs) -->
                     <div id="modal-youtube" class="hidden w-full relative z-10">
                         <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-inner">
                             <iframe id="youtube-iframe" width="100%" height="100%" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -448,7 +293,6 @@
                 </div>
             </div>
 
-            <!-- Profile Zoom Modal -->
             <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/70 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
                 <div class="relative max-w-sm w-full flex flex-col items-center transform transition-all scale-100">
                     <button onclick="closeProfilePic()" class="absolute -top-4 -right-2 w-10 h-10 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
@@ -516,7 +360,6 @@
         </p>
     </footer>
 
-    <!-- Audio Elements -->
     <audio id="bgm" src="bgm.mp3" loop></audio>
     <audio id="sfx-gallery" src="galleryclick.mp3"></audio>
     <audio id="sfx-heart" src="heart.mp3"></audio>
@@ -524,7 +367,6 @@
     <audio id="sfx-sticker" src="sticker.mp3"></audio>
 
     <script>
-        // --- AUDIO SETUP ---
         const sfx = {
             bgm: document.getElementById('bgm'),
             gallery: document.getElementById('sfx-gallery'),
@@ -554,7 +396,6 @@
             }
         });
 
-        // --- SLEEPY MODE LOGIC ---
         let isSleepyMode = false;
         function toggleSleepyMode() {
             playSFX('pin'); 
@@ -584,24 +425,66 @@
                 avatarRing.style.background = "linear-gradient(135deg, #ffb3c6, #f72585)";
             }
 
-            // Update open carousel visuals if active
             if (!document.getElementById('gallery-modal').classList.contains('hidden') && currentCollection.length > 0) {
                 updateCarouselUI();
             }
+
+            const activeBtn = document.querySelector('.active-nav');
+            if (activeBtn) updateNavIndicator(activeBtn);
         }
 
-        function nav(pageId) {
+        // --- NEW PILL NAV SCRIPT ---
+        function updateNavIndicator(btn) {
+            if (!btn) return;
+            const indicator = document.getElementById('nav-indicator');
+            const navContainer = btn.closest('nav');
+            
+            const navRect = navContainer.getBoundingClientRect();
+            const btnRect = btn.getBoundingClientRect();
+            
+            const paddingOffset = 6; // 1.5 * 4px for Tailwind p-1.5
+            const offsetLeft = btnRect.left - navRect.left;
+            
+            indicator.style.transform = `translateX(${offsetLeft - paddingOffset}px)`;
+            indicator.style.width = `${btnRect.width}px`;
+
+            const isDark = document.documentElement.classList.contains('dark');
+            indicator.style.backgroundColor = isDark ? btn.dataset.colorDark : btn.dataset.colorLight;
+
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('text-[#c2185b]', 'dark:text-[#e0e7ff]', 'active-nav');
+                item.classList.add('text-[#b05c7a]', 'dark:text-[#8b8bb4]');
+            });
+            btn.classList.remove('text-[#b05c7a]', 'dark:text-[#8b8bb4]');
+            btn.classList.add('text-[#c2185b]', 'dark:text-[#e0e7ff]', 'active-nav');
+        }
+
+        function nav(pageId, btn) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active-nav-btn');
-                btn.classList.add('inactive-nav-btn');
-            });
-            const activeBtn = document.getElementById(`nav-${pageId}`);
-            activeBtn.classList.remove('inactive-nav-btn');
-            activeBtn.classList.add('active-nav-btn');
+            if (btn) {
+                updateNavIndicator(btn);
+            } else {
+                updateNavIndicator(document.getElementById(`btn-${pageId}`));
+            }
         }
+
+        window.addEventListener("resize", () => {
+            const activeBtn = document.querySelector('.active-nav');
+            if(activeBtn) {
+                const indicator = document.getElementById('nav-indicator');
+                indicator.style.transition = 'none';
+                updateNavIndicator(activeBtn);
+                setTimeout(() => indicator.style.transition = '', 50);
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                updateNavIndicator(document.getElementById('btn-home'));
+            }, 100);
+        });
 
         const interests = ["🎮 gaming", "🎵 lo-fi music", "🍵 matcha", "🌸 art"];
         const socials = [
@@ -630,14 +513,16 @@
             </div>
         `).join('');
 
-        // --- GALLERY DATA ---
+        // --- GALLERY DATA UPDATED TO 5 IMAGES ---
         const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80";
         const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; 
         const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
+        const img4 = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=600&q=80";
+        const img5 = "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80";
 
         const collections = [
-            { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [img1, img2, img3], likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [img3, img1, img2], likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [img1, img2, img3, img4, img5], likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [img4, img1, img5, img3, img2], likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "peach", type: "youtube", videoId: "jfKfPfyJRdk", emoji: "⭐", label: "NEW VID", title: "Sticker Shop", desc: "Hand-cut vinyl stickers!", likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "mint", type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Setup", desc: "Pastel builds & keyboards.", likes: Math.floor(Math.random() * 121) + 40,
               specs: `
@@ -678,7 +563,8 @@
 
                     <div class="ux-bottom">
                         <button onclick="likeCollection(event, ${i})" class="ux-social-btn">
-                            <i data-lucide="heart" id="heart-icon-${i}" class="w-3.5 h-3.5 fill-current"></i>
+                            <!-- Updated Heart Color Defaulting to Red/Pink explicitly -->
+                            <i data-lucide="heart" id="heart-icon-${i}" class="w-4 h-4 fill-[#f72585] text-[#f72585] dark:fill-[#f72585] dark:text-[#f72585] transition-colors duration-300"></i>
                             <span id="like-count-${i}" class="text-[10px] font-bold font-quicksand ml-0.5">${c.likes}</span>
                         </button>
                         <button class="ux-more-btn flex items-center gap-1">
@@ -698,7 +584,6 @@
             
             const icon = document.getElementById(`heart-icon-${index}`);
             icon.classList.add('heart-pop');
-            icon.style.color = isSleepyMode ? '#a5b4fc' : '#f72585';
             
             setTimeout(() => {
                 icon.classList.remove('heart-pop');
@@ -721,7 +606,6 @@
                 currentCollection = c.images;
                 currentImgIndex = 0;
                 
-                // Clear the track to rebuild DOM elements cleanly for the new layout
                 document.getElementById('carousel-track').innerHTML = '';
                 updateCarouselUI();
                 
@@ -764,14 +648,12 @@
             updateCarouselUI();
         }
 
-        // The core logic for rendering the 3D rotating stacked layout
         function updateCarouselUI() {
             const track = document.getElementById('carousel-track');
             
-            // Generate Image DOM elements if empty
             if (track.children.length === 0) {
                 track.innerHTML = currentCollection.map((src, i) => `
-                    <div class="carousel-item absolute w-[75%] h-[85%] top-[7.5%] rounded-[1.5rem] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] cursor-pointer bg-[#ffe0ec] dark:bg-[#3b2c5c]" onclick="goToSlide(${i}, event)">
+                    <div class="carousel-item absolute w-[80%] h-[90%] top-[5%] rounded-[1.5rem] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] cursor-pointer bg-[#ffe0ec] dark:bg-[#3b2c5c]" onclick="goToSlide(${i}, event)">
                         <img src="${src}" class="w-full h-full object-cover select-none pointer-events-none" draggable="false">
                         <div class="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent pointer-events-none"></div>
                         <div class="absolute inset-0 border-[1.5px] border-white/40 dark:border-white/10 rounded-[1.5rem] pointer-events-none"></div>
@@ -783,44 +665,38 @@
             const len = currentCollection.length;
 
             items.forEach((item, i) => {
-                // Calculate distance from center taking wrapping into account
                 let offset = i - currentImgIndex;
                 if (offset > Math.floor(len / 2)) offset -= len;
                 if (offset < -Math.floor(len / 2)) offset += len;
 
                 const absOffset = Math.abs(offset);
                 
-                // Physics Calculations
-                let tx = offset * 65;         // Percentage X offset
-                let tz = absOffset * -150;    // Push back into Z-space
-                let scale = 1 - (absOffset * 0.15); // Shrink size based on distance
-                let rotateY = offset * -18;   // Turn inward
+                let tx = offset * 65; 
+                let tz = absOffset * -150;
+                let scale = 1 - (absOffset * 0.15); 
+                let rotateY = offset * -18;
                 
                 let opacity = absOffset === 0 ? 1 : Math.max(0, 0.7 - (absOffset * 0.2));
                 let zIndex = 20 - absOffset;
 
-                // Handle items very far out of view gracefully
                 if (absOffset > 2) {
                     opacity = 0;
                     scale = 0.5;
                 }
 
-                // Apply Transforms
                 item.style.transform = `translateX(${tx}%) translateZ(${tz}px) scale(${scale}) rotateY(${rotateY}deg)`;
                 item.style.opacity = opacity;
                 item.style.zIndex = zIndex;
                 
-                // Apply visual states for active/inactive
                 if (absOffset !== 0) {
                     item.style.filter = isSleepyMode ? 'brightness(0.4) saturate(0.8)' : 'brightness(0.7) saturate(0.9)';
-                    item.style.pointerEvents = 'auto'; // allow clicking to focus
+                    item.style.pointerEvents = 'auto'; 
                 } else {
                     item.style.filter = 'brightness(1) saturate(1)';
-                    item.style.pointerEvents = 'none'; // so swipe wrapper underneath catches drags reliably
+                    item.style.pointerEvents = 'none'; 
                 }
             });
 
-            // Update Progress Dots
             document.getElementById('carousel-dots').innerHTML = currentCollection.map((_, i) => 
                 `<div onclick="goToSlide(${i}, event)" class="cursor-pointer h-2 rounded-full transition-all duration-500 ease-out ${i === currentImgIndex ? (isSleepyMode ? 'bg-[#c7d2fe] w-6' : 'bg-[#f72585] w-6') : (isSleepyMode ? 'bg-[#c7d2fe]/30 w-2 hover:bg-[#c7d2fe]/60' : 'bg-[#f72585]/30 w-2 hover:bg-[#f72585]/60')} shadow-sm"></div>`
             ).join('');
@@ -832,7 +708,6 @@
         function setupSwipeEvents() {
             const wrapper = document.getElementById('carousel-wrapper');
             
-            // Touch handlers (Mobile)
             wrapper.addEventListener('touchstart', e => {
                 touchStartX = e.changedTouches[0].screenX;
                 isSwiping = true;
@@ -844,7 +719,6 @@
                 handleSwipeFinish(touchEndX);
             }, {passive: true});
 
-            // Mouse handlers (Desktop)
             wrapper.addEventListener('mousedown', e => {
                 touchStartX = e.screenX;
                 isSwiping = true;
@@ -913,8 +787,9 @@
             document.getElementById('guestbook-wall').innerHTML = entries.map((entry, i) => {
                 const c = COLORS.find(col => col.key === entry.color) || COLORS[0];
                 const rotation = i % 2 === 0 ? '0.5deg' : '-0.5deg';
+                // Inline CSS variable --note-rot passed safely to the stylesheet for smooth hovers without !important conflicts
                 return `
-                <div class="rounded-2xl p-4 relative transform transition-transform hover:scale-[1.02]" style="background: ${c.bg}; border: 1.5px solid ${c.border}30; transform: rotate(${rotation})">
+                <div class="gb-note rounded-2xl p-4 relative" style="background: ${c.bg}; border: 1.5px solid ${c.border}30; --note-rot: ${rotation};">
                     <div class="absolute -top-2.5 -right-1 w-8 h-8 rounded-full flex items-center justify-center text-base shadow-sm bg-white" style="border: 1.5px solid ${c.border}40">${entry.sticker}</div>
                     <p class="text-xs font-bold mb-2 font-quicksand text-[#c2185b]">${entry.name}</p>
                     <p class="text-sm leading-relaxed mb-3 text-[#7a1a3e]">&ldquo;${entry.message}&rdquo;</p>
@@ -922,7 +797,7 @@
                         <div class="flex items-center gap-1.5 text-[10px] text-[#b05c7a]">
                             <i data-lucide="calendar" class="w-2.5 h-2.5"></i> ${entry.date}
                         </div>
-                        <span class="text-xs" style="color: ${c.border}">♥</span>
+                        <span onclick="likeGuestbookNote(event, this)" class="text-base select-none cursor-pointer inline-block transition-transform hover:scale-125 active:scale-90" style="color: ${c.border}">♥</span>
                     </div>
                 </div>
                 `;
@@ -959,7 +834,15 @@
             renderGuestbookUI();
         }
 
-        // Initialize App UI and Bindings
+        function likeGuestbookNote(e, el) {
+            e.stopPropagation();
+            playSFX('heart');
+            el.classList.add('heart-pop');
+            setTimeout(() => {
+                el.classList.remove('heart-pop');
+            }, 300);
+        }
+
         renderGuestbookUI();
         setupSwipeEvents();
         lucide.createIcons();
