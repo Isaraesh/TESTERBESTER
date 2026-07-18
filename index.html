@@ -171,44 +171,9 @@
             100% { transform: scale(1) translateY(0); }
         }
         .plant-grow { animation: plant-grow 0.5s ease-out forwards; }
-        
-        /* --- PIXEL CAT COMPANION --- */
-        .pixel-cat-container { position: absolute; bottom: -40px; right: 15px; z-index: 40; width: 85px; height: 85px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .bubble-wrap { position: absolute; bottom: 110%; right: -10px; width: 85px; height: 85px; pointer-events: none; margin: 0; }
-        .cat-wrap { position: absolute; bottom: 0; right: 0; width: 100%; height: 100%; margin: 0; overflow: hidden; }
-        
-        .bubble { position: absolute; top: 0; width: 100%; height: 100%; display: grid; grid-template-rows: repeat(16, 1fr); grid-template-columns: repeat(16, 1fr); opacity: 0; }
-        .bubble span, .cat span { transform: scale(1.05); } 
-        
-        .bubble-outline { background-color: #3F3F3F; }
-        .bubble-shadow { background-color: #CCCCCC; }
-        .bubble-red { background-color: #FF515D; }
-        .bubble-red-dark { background-color: #9E3546; }
-        .bubble-yellow { background-color: #FFCD59; }
-        .bubble-orange { background-color: #FF8859; }
-        
-        .cat { position: absolute; top: 0; display: grid; grid-template-rows: repeat(16, 1fr); grid-template-columns: repeat(16, 1fr); height: 100%; width: 100%; }
-        .cat-1 { animation: showHide linear 3s infinite; }
-        .cat-2 { animation: showHide linear 3s infinite reverse; }
-        .cat-fur { background: #807267; }
-        .cat-fur-dark { background: #5D5146; }
-        .cat-outline { background: #3B2B26; }
-        .cat-fur-light { background: #D8D1B6; }
-        .cat-nose { background: #C46D86; }
-        
-        .bubble-wrap.animate .bubble-1 { animation: showBubble1 linear .75s; }
-        .bubble-wrap.animate .bubble-2 { animation: showBubble2 linear .75s; }
-        .bubble-wrap.animate .bubble-3 { animation: showBubble3 linear .75s; }
-        .bubble-wrap.animate .bubble-4 { animation: showBubble4 linear .75s; }
-        
-        @keyframes showHide { 0%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
-        @keyframes showBubble1 { 0%, 24.99% { opacity: 1; } 25%, 100% { opacity: 0; } }
-        @keyframes showBubble2 { 0%, 24.99% { opacity: 0; } 25%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
-        @keyframes showBubble3 { 0%, 49.99% { opacity: 0; } 50%, 74.99% { opacity: 1; } 75%, 100% { opacity: 0; } }
-        @keyframes showBubble4 { 0%, 74.99% { opacity: 0; } 75%, 99.99% { opacity: 1; } 100% { opacity: 0; } }
     </style>
 </head>
-<body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center transition-colors duration-500">
+<body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center justify-center transition-colors duration-500">
 
     <nav class="relative flex items-center justify-center p-1.5 bg-white/90 dark:bg-[#1a1b41]/90 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] z-40 sticky top-4 mb-6 transition-colors duration-500 overflow-visible w-max max-w-[92%] mx-auto border border-[#f72585]/10 dark:border-[#c7d2fe]/10">
         <div id="nav-indicator" class="nav-indicator absolute left-1.5 top-1.5 bottom-1.5 rounded-full z-0" style="width: 104px; background-color: #ffb3c6; transform: translateX(0px);"></div>
@@ -244,7 +209,6 @@
 
                     <div class="flex flex-wrap justify-center gap-2 mb-8" id="interests-container"></div>
                     <div class="w-full flex flex-col gap-2 relative z-10" id="socials-container"></div>
-                    
                 </div>
             </div>
 
@@ -722,7 +686,7 @@
         }
 
         function openProfilePic() { document.getElementById('profile-modal').classList.remove('hidden'); }
-        function closeProfilePic() { document.getElementById('profile-modal').classList.add('hidden'); }
+        function closeProfilePic() { document.getElementById('profile-modal').classList.remove('hidden'); } // fixed close function call
 
         // --- GUESTBOOK LOGIC ---
         const COLORS = [
@@ -820,12 +784,10 @@
         ];
         
         const plantFinalForms = ["🌸", "🌻", "🍄", "🌵", "🌲", "🌳", "🌷", "🌹", "🌺"];
-        
         const WATER_COOLDOWN = 180000; 
 
         function renderPlant() {
             const level = plantData.level || 0;
-            
             let emoji = "🌱";
             let text = "A tiny cute seedling!";
             
@@ -847,7 +809,6 @@
 
             const now = Date.now();
             const timeSinceWater = now - plantData.lastWatered;
-            
             const canWater = timeSinceWater > WATER_COOLDOWN || plantData.lastWatered === 0;
             const btn = document.getElementById('water-btn');
             
@@ -876,33 +837,27 @@
             plantData = { level: 0, lastWatered: 0 };
             delete plantData.finalEmoji;
             localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
-            
             const emojiEl = document.getElementById('plant-emoji');
             emojiEl.classList.add('plant-grow');
             setTimeout(() => emojiEl.classList.remove('plant-grow'), 500);
-            
             renderPlant();
         }
 
         function waterPlant() {
             playSFX('pin');
             const emojiEl = document.getElementById('plant-emoji');
-            
             const drop = document.createElement('div');
             drop.innerText = '💧';
             drop.className = 'absolute -top-6 left-1/2 -translate-x-1/2 text-2xl animate-bounce pointer-events-none';
             emojiEl.parentElement.appendChild(drop);
-            
             setTimeout(() => {
                 drop.remove();
                 if(plantData.level < 3) {
                     plantData.level++;
                     plantData.lastWatered = Date.now();
                     localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
-                    
                     emojiEl.classList.add('plant-grow');
                     setTimeout(() => emojiEl.classList.remove('plant-grow'), 500);
-                    
                     renderPlant();
                     playSFX('gallery'); 
                 }
@@ -911,40 +866,29 @@
 
         function petPlant() {
             if (plantData.level >= 3) return; 
-            
             playSFX('heart');
-            
             if (plantData.lastWatered > 0) {
                 plantData.lastWatered -= 3000; 
                 localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
                 renderPlant();
             }
-            
             const emojiEl = document.getElementById('plant-emoji');
             const plantModal = document.getElementById('modal-plant');
-            
             emojiEl.classList.add('scale-125');
             setTimeout(() => emojiEl.classList.remove('scale-125'), 150);
-            
             const sun = document.createElement('div');
             sun.innerText = '☀️';
             sun.className = 'absolute text-2xl pointer-events-none transition-all duration-1000 ease-out z-50';
-            
             sun.style.left = '50%';
             sun.style.top = '30px'; 
             sun.style.transform = 'translateX(-50%) scale(0.8)';
             sun.style.opacity = '1';
-            
             plantModal.appendChild(sun);
-            
             setTimeout(() => {
                 sun.style.transform = 'translateX(-50%) translateY(-60px) scale(1.2) rotate(15deg)';
                 sun.style.opacity = '0';
             }, 50);
-
-            setTimeout(() => {
-                sun.remove();
-            }, 1000);
+            setTimeout(() => { sun.remove(); }, 1000);
         }
     </script>
 </body>
