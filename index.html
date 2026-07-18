@@ -140,28 +140,9 @@
         .ux-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; margin-top: 0.4rem; color: var(--ux-body); font-size: 0.75rem; line-height: 1.4; font-weight: 600; }
         .ux-bottom { padding: 10px; transform-style: preserve-3d; position: absolute; bottom: 6px; left: 10px; right: 10px; display: flex; align-items: center; justify-content: space-between; transform: translate3d(0, 0, 22px); z-index: 4; }
 
-        .ux-social-btn {
-            height: 28px;
-            padding: 0 10px;
-            background: #fff;
-            border-radius: 14px;
-            border: none;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            box-shadow: rgba(0, 0, 0, 0.15) 0 6px 8px -3px;
-            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            transform-style: preserve-3d;
-        }
-
+        .ux-social-btn { height: 28px; padding: 0 10px; background: #fff; border-radius: 14px; border: none; display: flex; align-items: center; gap: 4px; cursor: pointer; box-shadow: rgba(0, 0, 0, 0.15) 0 6px 8px -3px; transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out; transform-style: preserve-3d; }
         .ux-social-btn span { color: var(--ux-fill); }
-
-        .ux-parent:hover .ux-social-btn {
-            transform: translate3d(0, 0, 30px);
-            box-shadow: rgba(0, 0, 0, 0.15) -3px 10px 10px 0;
-        }
-
+        .ux-parent:hover .ux-social-btn { transform: translate3d(0, 0, 30px); box-shadow: rgba(0, 0, 0, 0.15) -3px 10px 10px 0; }
         .ux-more-btn { background: none; border: none; color: var(--ux-cta); font-weight: 800; font-size: 0.75rem; font-family: inherit; cursor: pointer; text-transform: uppercase; letter-spacing: 0.08em; transition: transform 0.2s ease; }
         .ux-more-btn:hover { transform: translate3d(0, 0, 10px); }
 
@@ -181,32 +162,55 @@
         .carousel-item { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease; will-change: transform, opacity, filter; -webkit-user-select: none; user-select: none; }
         .carousel-wrapper { touch-action: pan-y; }
 
-        /* Fixed Guestbook Hover Styles */
-        .gb-note {
-            transform: rotate(var(--note-rot, 0deg));
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, z-index 0.4s;
-            position: relative;
-        }
-        .gb-note:hover {
-            transform: scale(1.05) translateY(-4px) rotate(0deg);
-            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15);
-            z-index: 10;
-        }
-        .dark .gb-note:hover {
-            box-shadow: 0 12px 24px -8px rgba(0,0,0,0.4);
-        }
+        .gb-note { transform: rotate(var(--note-rot, 0deg)); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease, z-index 0.4s; position: relative; }
+        .gb-note:hover { transform: scale(1.05) translateY(-4px) rotate(0deg); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15); z-index: 10; }
+        .dark .gb-note:hover { box-shadow: 0 12px 24px -8px rgba(0,0,0,0.4); }
         
-        /* Clean up iframe outlines */
-        .spotify-container iframe {
-            outline: none !important;
-            border: none !important;
+        @keyframes plant-grow {
+            0% { transform: scale(0.8) translateY(10px); }
+            100% { transform: scale(1) translateY(0); }
         }
+        .plant-grow { animation: plant-grow 0.5s ease-out forwards; }
+        
+        /* --- PIXEL CAT COMPANION --- */
+        .pixel-cat-container { position: absolute; bottom: -40px; right: 15px; z-index: 40; width: 85px; height: 85px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+        .bubble-wrap { position: absolute; bottom: 110%; right: -10px; width: 85px; height: 85px; pointer-events: none; margin: 0; }
+        .cat-wrap { position: absolute; bottom: 0; right: 0; width: 100%; height: 100%; margin: 0; overflow: hidden; }
+        
+        .bubble { position: absolute; top: 0; width: 100%; height: 100%; display: grid; grid-template-rows: repeat(16, 1fr); grid-template-columns: repeat(16, 1fr); opacity: 0; }
+        .bubble span, .cat span { transform: scale(1.05); } 
+        
+        .bubble-outline { background-color: #3F3F3F; }
+        .bubble-shadow { background-color: #CCCCCC; }
+        .bubble-red { background-color: #FF515D; }
+        .bubble-red-dark { background-color: #9E3546; }
+        .bubble-yellow { background-color: #FFCD59; }
+        .bubble-orange { background-color: #FF8859; }
+        
+        .cat { position: absolute; top: 0; display: grid; grid-template-rows: repeat(16, 1fr); grid-template-columns: repeat(16, 1fr); height: 100%; width: 100%; }
+        .cat-1 { animation: showHide linear 3s infinite; }
+        .cat-2 { animation: showHide linear 3s infinite reverse; }
+        .cat-fur { background: #807267; }
+        .cat-fur-dark { background: #5D5146; }
+        .cat-outline { background: #3B2B26; }
+        .cat-fur-light { background: #D8D1B6; }
+        .cat-nose { background: #C46D86; }
+        
+        .bubble-wrap.animate .bubble-1 { animation: showBubble1 linear .75s; }
+        .bubble-wrap.animate .bubble-2 { animation: showBubble2 linear .75s; }
+        .bubble-wrap.animate .bubble-3 { animation: showBubble3 linear .75s; }
+        .bubble-wrap.animate .bubble-4 { animation: showBubble4 linear .75s; }
+        
+        @keyframes showHide { 0%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        @keyframes showBubble1 { 0%, 24.99% { opacity: 1; } 25%, 100% { opacity: 0; } }
+        @keyframes showBubble2 { 0%, 24.99% { opacity: 0; } 25%, 49.99% { opacity: 1; } 50%, 100% { opacity: 0; } }
+        @keyframes showBubble3 { 0%, 49.99% { opacity: 0; } 50%, 74.99% { opacity: 1; } 75%, 100% { opacity: 0; } }
+        @keyframes showBubble4 { 0%, 74.99% { opacity: 0; } 75%, 99.99% { opacity: 1; } 100% { opacity: 0; } }
     </style>
 </head>
 <body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center transition-colors duration-500">
 
     <nav class="relative flex items-center justify-center p-1.5 bg-white/90 dark:bg-[#1a1b41]/90 backdrop-blur-md rounded-full shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] z-40 sticky top-4 mb-6 transition-colors duration-500 overflow-visible w-max max-w-[92%] mx-auto border border-[#f72585]/10 dark:border-[#c7d2fe]/10">
-        <!-- Sliding Indicator -->
         <div id="nav-indicator" class="nav-indicator absolute left-1.5 top-1.5 bottom-1.5 rounded-full z-0" style="width: 104px; background-color: #ffb3c6; transform: translateX(0px);"></div>
 
         <button id="btn-home" class="nav-item active-nav relative z-10 flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold font-quicksand transition-colors duration-300 text-[#c2185b] dark:text-[#e0e7ff]" data-color-light="#ffb3c6" data-color-dark="#4c489d" onclick="nav('home', this)">
@@ -223,8 +227,8 @@
     <div class="w-full max-w-[480px] bg-white dark:bg-[#1f1e3d] min-h-screen sm:min-h-0 sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative pb-12 sm:border-[8px] border-white dark:border-[#1f1e3d] transition-colors duration-500 overflow-hidden sm:overflow-visible mt-2">
         <div class="w-full relative">
 
-            <div id="home" class="page active">
-                <div class="px-8 py-4 flex flex-col items-center text-center">
+            <div id="home" class="page active relative">
+                <div class="px-8 py-4 flex flex-col items-center text-center relative">
                     <div class="flex flex-col items-center justify-center mb-6">
                         <div onclick="openProfilePic()" class="cursor-pointer relative transform transition-transform hover:scale-105 duration-300 w-36 h-36">
                             <div id="avatar-ring" class="avatar-ring w-full h-full rounded-full flex items-center justify-center p-1.5 transition-colors duration-500" style="background: linear-gradient(135deg, #ffb3c6, #f72585)">
@@ -239,7 +243,8 @@
                     <p class="text-sm leading-relaxed mb-6 text-[#9e4a6e] dark:text-[#b1b1d1] max-w-[320px] transition-colors duration-500">welcome to my tiny pastel corner of the internet! i make cozy things, collect cute stickers, and drink way too much matcha. nice to meet ya! ✨</p>
 
                     <div class="flex flex-wrap justify-center gap-2 mb-8" id="interests-container"></div>
-                    <div class="w-full flex flex-col gap-2" id="socials-container"></div>
+                    <div class="w-full flex flex-col gap-2 relative z-10" id="socials-container"></div>
+                    
                 </div>
             </div>
 
@@ -249,16 +254,14 @@
                     <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">a visual diary that makes me smile</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 mb-8" id="gallery-grid">
-                    <!-- Populated by JS -->
-                </div>
+                <div class="grid grid-cols-2 gap-3 mb-8" id="gallery-grid"></div>
 
-                <div class="rounded-2xl overflow-hidden border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10 transition-colors duration-500 spotify-container bg-[#fff5f8] dark:bg-[#25234b]">
-                    <div class="flex items-center justify-center gap-2 py-2.5 text-xs tracking-widest uppercase font-bold bg-[#ffe0ec] dark:bg-[#3b2c5c] text-[#f72585] dark:text-[#c7d2fe] font-quicksand transition-colors duration-500">
+                <div class="rounded-2xl overflow-hidden border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10 transition-colors duration-500 bg-[#fff5f8] dark:bg-[#25234b] flex flex-col">
+                    <div class="flex items-center justify-center gap-2 py-2.5 text-xs tracking-widest uppercase font-bold bg-[#ffe0ec] dark:bg-[#3b2c5c] text-[#f72585] dark:text-[#c7d2fe] font-quicksand transition-colors duration-500 shrink-0">
                         🎵 cozy soundtrack
                     </div>
-                    <div class="flex justify-center py-4 transition-colors duration-500">
-                        <iframe data-testid="embed-iframe" class="outline-none focus:outline-none border-none ring-0" style="border-radius:12px; outline:none; border:none;" src="https://open.spotify.com/embed/playlist/2nQZ2w4OhLwIjsNVoWAYoZ?utm_source=generator&theme=0&si=108b5d134cd3422d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <div class="flex justify-center transition-colors duration-500 w-full flex-1 leading-none bg-black">
+                        <iframe data-testid="embed-iframe" class="block w-full m-0 p-0 outline-none focus:outline-none border-none ring-0" style="min-height: 352px; display: block;" src="https://open.spotify.com/embed/playlist/2nQZ2w4OhLwIjsNVoWAYoZ?utm_source=generator&theme=0&si=108b5d134cd3422d" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                     </div>
                 </div>
             </div>
@@ -269,22 +272,24 @@
                     <h2 id="modal-title" class="text-center text-lg mb-4 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
                     
                     <div id="modal-carousel" class="hidden w-full relative">
-                        <!-- Taller aspect ratio for larger images as requested -->
                         <div class="carousel-wrapper relative w-full aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-3 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
-                            
-                            <div id="carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d">
-                            </div>
-                            
+                            <div id="carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
                             <button onclick="prevSlide(event)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
                             <button onclick="nextSlide(event)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
                         </div>
-                        
                         <div id="carousel-dots" class="flex justify-center items-center gap-2 h-4 mt-2"></div>
                     </div>
 
-                    <div id="modal-youtube" class="hidden w-full relative z-10">
-                        <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-inner">
-                            <iframe id="youtube-iframe" width="100%" height="100%" src="" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    <div id="modal-plant" class="hidden w-full relative z-10 flex flex-col items-center bg-[#fff5f8] dark:bg-[#1a1b41] rounded-2xl p-6 border-[1.5px] border-[#ffb3c6] dark:border-[#3b2c5c] transition-colors duration-500">
+                        <div class="relative w-32 h-32 flex items-center justify-center mb-4 bg-white dark:bg-[#0f0f23] rounded-full shadow-inner overflow-hidden border-[4px] border-[#ffe0ec] dark:border-[#2d2d5a]">
+                            <span id="plant-emoji" class="text-6xl transition-transform duration-500 hover:scale-110 cursor-pointer select-none leading-none flex items-center justify-center w-full h-full" onclick="petPlant()">🌱</span>
+                        </div>
+                        <p id="plant-status" class="text-sm font-bold font-quicksand text-[#c2185b] dark:text-[#a5b4fc] mb-6 text-center">A tiny seedling!</p>
+                        
+                        <div class="flex gap-3 w-full justify-center">
+                            <button id="water-btn" class="w-full max-w-[200px] py-2.5 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-[#4facfe] to-[#00f2fe] shadow-md hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-1">
+                                💧 Water
+                            </button>
                         </div>
                     </div>
 
@@ -396,6 +401,7 @@
             }
         });
 
+        // --- THEME & NAV LOGIC ---
         let isSleepyMode = false;
         function toggleSleepyMode() {
             playSFX('pin'); 
@@ -433,7 +439,6 @@
             if (activeBtn) updateNavIndicator(activeBtn);
         }
 
-        // --- NEW PILL NAV SCRIPT ---
         function updateNavIndicator(btn) {
             if (!btn) return;
             const indicator = document.getElementById('nav-indicator');
@@ -442,7 +447,7 @@
             const navRect = navContainer.getBoundingClientRect();
             const btnRect = btn.getBoundingClientRect();
             
-            const paddingOffset = 6; // 1.5 * 4px for Tailwind p-1.5
+            const paddingOffset = 6; 
             const offsetLeft = btnRect.left - navRect.left;
             
             indicator.style.transform = `translateX(${offsetLeft - paddingOffset}px)`;
@@ -496,24 +501,57 @@
             { icon: "coffee", label: "ko-fi", handle: "buy me a matcha", color: "#FF5E5B", darkColor: "#FF5E5B" },
         ];
 
-        document.getElementById('interests-container').innerHTML = interests.map(tag => 
-            `<span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#fff0f5] dark:bg-[#3b2c5c] text-[#c2185b] dark:text-[#e0e7ff] font-quicksand border-[1.5px] border-[#f72585]/25 dark:border-[#c7d2fe]/20 transition-colors duration-500">${tag}</span>`
-        ).join('');
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById('interests-container').innerHTML = interests.map(tag => 
+                `<span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#fff0f5] dark:bg-[#3b2c5c] text-[#c2185b] dark:text-[#e0e7ff] font-quicksand border-[1.5px] border-[#f72585]/25 dark:border-[#c7d2fe]/20 transition-colors duration-500">${tag}</span>`
+            ).join('');
 
-        document.getElementById('socials-container').innerHTML = socials.map(s => `
-            <div class="flex items-center justify-between px-4 py-3 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] bg-[#fff5f8] dark:bg-[#25234b] group border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="${s.icon}" class="w-[18px] h-[18px] transition-colors duration-500 text-[${s.color}] dark:text-[${s.darkColor}]" style="color: ${s.color}"></i>
-                    <span class="text-sm font-semibold text-[#7a1a3e] dark:text-[#e0e7ff] transition-colors duration-500">${s.label}</span>
+            document.getElementById('socials-container').innerHTML = socials.map(s => `
+                <div class="flex items-center justify-between px-4 py-3 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] bg-[#fff5f8] dark:bg-[#25234b] group border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10">
+                    <div class="flex items-center gap-3">
+                        <i data-lucide="${s.icon}" class="w-[18px] h-[18px] transition-colors duration-500 text-[${s.color}] dark:text-[${s.darkColor}]" style="color: ${s.color}"></i>
+                        <span class="text-sm font-semibold text-[#7a1a3e] dark:text-[#e0e7ff] transition-colors duration-500">${s.label}</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">${s.handle}</span>
+                        <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>
+                    </div>
                 </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-xs font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">${s.handle}</span>
-                    <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>
-                </div>
-            </div>
-        `).join('');
+            `).join('');
 
-        // --- GALLERY DATA UPDATED TO 5 IMAGES ---
+            document.getElementById('gallery-grid').innerHTML = collections.map((c, i) => `
+                <div class="ux-parent ux-parent--${c.theme}">
+                    <div onclick="openGalleryModal(${i})" class="ux-card">
+                        <div class="ux-glass"></div>
+                        <div class="ux-logo">
+                            <div class="ux-circle"></div>
+                            <div class="ux-circle"></div>
+                            <div class="ux-circle"></div>
+                            <div class="ux-circle"></div>
+                            <div class="ux-circle font-nunito font-bold text-white shadow-xl bg-white/20 border border-white/40">${c.emoji}</div>
+                        </div>
+                        <div class="ux-content">
+                            <span class="text-[9px] tracking-widest uppercase font-bold font-quicksand text-white block mb-1 drop-shadow-md">${c.label}</span>
+                            <span class="ux-title drop-shadow-md">${c.title}</span>
+                            <span class="ux-text drop-shadow-md">${c.desc}</span>
+                        </div>
+                        <div class="ux-bottom">
+                            <button onclick="likeCollection(event, ${i})" class="ux-social-btn">
+                                <i data-lucide="heart" id="heart-icon-${i}" class="w-4 h-4 fill-[#f72585] text-[#f72585] dark:fill-[#f72585] dark:text-[#f72585] transition-colors duration-300"></i>
+                                <span id="like-count-${i}" class="text-[10px] font-bold font-quicksand ml-0.5">${c.likes}</span>
+                            </button>
+                            <button class="ux-more-btn flex items-center gap-1">Open <i data-lucide="chevron-right" class="w-3 h-3"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            renderGuestbookUI();
+            setupSwipeEvents();
+            lucide.createIcons();
+        });
+
+        // --- GALLERY LOGIC ---
         const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80";
         const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; 
         const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
@@ -523,7 +561,7 @@
         const collections = [
             { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [img1, img2, img3, img4, img5], likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [img4, img1, img5, img3, img2], likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "peach", type: "youtube", videoId: "jfKfPfyJRdk", emoji: "⭐", label: "NEW VID", title: "Sticker Shop", desc: "Hand-cut vinyl stickers!", likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "peach", type: "plant", emoji: "🪴", label: "MINIGAME", title: "Plant Nursery", desc: "Grow a tiny seedling with me!", likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "mint", type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Setup", desc: "Pastel builds & keyboards.", likes: Math.floor(Math.random() * 121) + 40,
               specs: `
                 <div class="space-y-4">
@@ -542,56 +580,19 @@
             },
         ];
 
-        document.getElementById('gallery-grid').innerHTML = collections.map((c, i) => `
-            <div class="ux-parent ux-parent--${c.theme}">
-                <div onclick="openGalleryModal(${i})" class="ux-card">
-                    <div class="ux-glass"></div>
-                    
-                    <div class="ux-logo">
-                        <div class="ux-circle"></div>
-                        <div class="ux-circle"></div>
-                        <div class="ux-circle"></div>
-                        <div class="ux-circle"></div>
-                        <div class="ux-circle font-nunito font-bold text-white shadow-xl bg-white/20 border border-white/40">${c.emoji}</div>
-                    </div>
-                    
-                    <div class="ux-content">
-                        <span class="text-[9px] tracking-widest uppercase font-bold font-quicksand text-white block mb-1 drop-shadow-md">${c.label}</span>
-                        <span class="ux-title drop-shadow-md">${c.title}</span>
-                        <span class="ux-text drop-shadow-md">${c.desc}</span>
-                    </div>
-
-                    <div class="ux-bottom">
-                        <button onclick="likeCollection(event, ${i})" class="ux-social-btn">
-                            <!-- Updated Heart Color Defaulting to Red/Pink explicitly -->
-                            <i data-lucide="heart" id="heart-icon-${i}" class="w-4 h-4 fill-[#f72585] text-[#f72585] dark:fill-[#f72585] dark:text-[#f72585] transition-colors duration-300"></i>
-                            <span id="like-count-${i}" class="text-[10px] font-bold font-quicksand ml-0.5">${c.likes}</span>
-                        </button>
-                        <button class="ux-more-btn flex items-center gap-1">
-                            Open <i data-lucide="chevron-right" class="w-3 h-3"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `).join('');
-
         function likeCollection(e, index) {
             e.stopPropagation(); 
             playSFX('heart');
-            
             collections[index].likes++;
             document.getElementById(`like-count-${index}`).innerText = collections[index].likes;
-            
             const icon = document.getElementById(`heart-icon-${index}`);
             icon.classList.add('heart-pop');
-            
-            setTimeout(() => {
-                icon.classList.remove('heart-pop');
-            }, 300);
+            setTimeout(() => icon.classList.remove('heart-pop'), 300);
         }
 
         let currentCollection = [];
         let currentImgIndex = 0;
+        let plantInterval = null;
 
         function openGalleryModal(colIndex) {
             playSFX('gallery');
@@ -599,23 +600,29 @@
             document.getElementById('modal-title').innerText = `${c.emoji} ${c.title}`;
             
             document.getElementById('modal-carousel').classList.add('hidden');
-            document.getElementById('modal-youtube').classList.add('hidden');
             document.getElementById('modal-specs').classList.add('hidden');
+            document.getElementById('modal-plant').classList.add('hidden');
 
             if (c.type === 'carousel') {
                 currentCollection = c.images;
                 currentImgIndex = 0;
-                
                 document.getElementById('carousel-track').innerHTML = '';
                 updateCarouselUI();
-                
                 document.getElementById('modal-carousel').classList.remove('hidden');
-            } else if (c.type === 'youtube') {
-                document.getElementById('youtube-iframe').src = `https://www.youtube.com/embed/${c.videoId}?autoplay=1`;
-                document.getElementById('modal-youtube').classList.remove('hidden');
             } else if (c.type === 'specs') {
                 document.getElementById('modal-specs').innerHTML = c.specs;
                 document.getElementById('modal-specs').classList.remove('hidden');
+            } else if (c.type === 'plant') {
+                renderPlant();
+                document.getElementById('modal-plant').classList.remove('hidden');
+                
+                plantInterval = setInterval(() => {
+                    if(!document.getElementById('gallery-modal').classList.contains('hidden') && !document.getElementById('modal-plant').classList.contains('hidden')) {
+                        renderPlant();
+                    } else {
+                        clearInterval(plantInterval);
+                    }
+                }, 1000);
             }
 
             document.getElementById('gallery-modal').classList.remove('hidden');
@@ -623,7 +630,7 @@
 
         function closeGalleryModal() {
             document.getElementById('gallery-modal').classList.add('hidden');
-            document.getElementById('youtube-iframe').src = ""; 
+            if (plantInterval) clearInterval(plantInterval);
         }
 
         function nextSlide(e) {
@@ -650,7 +657,6 @@
 
         function updateCarouselUI() {
             const track = document.getElementById('carousel-track');
-            
             if (track.children.length === 0) {
                 track.innerHTML = currentCollection.map((src, i) => `
                     <div class="carousel-item absolute w-[80%] h-[90%] top-[5%] rounded-[1.5rem] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] cursor-pointer bg-[#ffe0ec] dark:bg-[#3b2c5c]" onclick="goToSlide(${i}, event)">
@@ -670,19 +676,14 @@
                 if (offset < -Math.floor(len / 2)) offset += len;
 
                 const absOffset = Math.abs(offset);
-                
                 let tx = offset * 65; 
                 let tz = absOffset * -150;
                 let scale = 1 - (absOffset * 0.15); 
                 let rotateY = offset * -18;
-                
                 let opacity = absOffset === 0 ? 1 : Math.max(0, 0.7 - (absOffset * 0.2));
                 let zIndex = 20 - absOffset;
 
-                if (absOffset > 2) {
-                    opacity = 0;
-                    scale = 0.5;
-                }
+                if (absOffset > 2) { opacity = 0; scale = 0.5; }
 
                 item.style.transform = `translateX(${tx}%) translateZ(${tz}px) scale(${scale}) rotateY(${rotateY}deg)`;
                 item.style.opacity = opacity;
@@ -707,46 +708,23 @@
 
         function setupSwipeEvents() {
             const wrapper = document.getElementById('carousel-wrapper');
-            
-            wrapper.addEventListener('touchstart', e => {
-                touchStartX = e.changedTouches[0].screenX;
-                isSwiping = true;
-            }, {passive: true});
-
-            wrapper.addEventListener('touchend', e => {
-                if(!isSwiping) return;
-                let touchEndX = e.changedTouches[0].screenX;
-                handleSwipeFinish(touchEndX);
-            }, {passive: true});
-
-            wrapper.addEventListener('mousedown', e => {
-                touchStartX = e.screenX;
-                isSwiping = true;
-                wrapper.classList.add('cursor-grabbing');
-            });
-
-            window.addEventListener('mouseup', e => {
-                if(!isSwiping) return;
-                let touchEndX = e.screenX;
-                wrapper.classList.remove('cursor-grabbing');
-                handleSwipeFinish(touchEndX);
-            });
+            wrapper.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
+            wrapper.addEventListener('touchend', e => { if(!isSwiping) return; handleSwipeFinish(e.changedTouches[0].screenX); }, {passive: true});
+            wrapper.addEventListener('mousedown', e => { touchStartX = e.screenX; isSwiping = true; wrapper.classList.add('cursor-grabbing'); });
+            window.addEventListener('mouseup', e => { if(!isSwiping) return; wrapper.classList.remove('cursor-grabbing'); handleSwipeFinish(e.screenX); });
         }
 
         function handleSwipeFinish(endX) {
             const diff = endX - touchStartX;
-            const threshold = 40; 
-            if (diff < -threshold) {
-                nextSlide();
-            } else if (diff > threshold) {
-                prevSlide();
-            }
+            if (diff < -40) nextSlide();
+            else if (diff > 40) prevSlide();
             isSwiping = false;
         }
 
         function openProfilePic() { document.getElementById('profile-modal').classList.remove('hidden'); }
         function closeProfilePic() { document.getElementById('profile-modal').classList.add('hidden'); }
 
+        // --- GUESTBOOK LOGIC ---
         const COLORS = [
             { key: "pink", bg: "#ffe0ec", border: "#f72585" },
             { key: "lavender", bg: "#ede0ff", border: "#9b59b6" },
@@ -787,7 +765,6 @@
             document.getElementById('guestbook-wall').innerHTML = entries.map((entry, i) => {
                 const c = COLORS.find(col => col.key === entry.color) || COLORS[0];
                 const rotation = i % 2 === 0 ? '0.5deg' : '-0.5deg';
-                // Inline CSS variable --note-rot passed safely to the stylesheet for smooth hovers without !important conflicts
                 return `
                 <div class="gb-note rounded-2xl p-4 relative" style="background: ${c.bg}; border: 1.5px solid ${c.border}30; --note-rot: ${rotation};">
                     <div class="absolute -top-2.5 -right-1 w-8 h-8 rounded-full flex items-center justify-center text-base shadow-sm bg-white" style="border: 1.5px solid ${c.border}40">${entry.sticker}</div>
@@ -802,8 +779,7 @@
                 </div>
                 `;
             }).join('');
-            
-            lucide.createIcons();
+            if(window.lucide) lucide.createIcons();
         }
 
         function setColor(k) { activeColor = k; playSFX('sticker'); renderGuestbookUI(); }
@@ -816,21 +792,13 @@
             const message = document.getElementById('gb-message').value;
             if(!name || !message) return;
 
-            const newEntry = {
-                id: Date.now(),
-                name: name,
-                message: message,
-                color: activeColor,
-                sticker: activeSticker,
+            entries.unshift({
+                id: Date.now(), name: name, message: message, color: activeColor, sticker: activeSticker,
                 date: new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })
-            };
+            });
 
-            entries.unshift(newEntry);
             localStorage.setItem('guestbook_entries', JSON.stringify(entries)); 
-            
-            document.getElementById('gb-name').value = '';
-            document.getElementById('gb-message').value = '';
-            
+            document.getElementById('gb-name').value = ''; document.getElementById('gb-message').value = '';
             renderGuestbookUI();
         }
 
@@ -843,10 +811,141 @@
             }, 300);
         }
 
-        renderGuestbookUI();
-        setupSwipeEvents();
-        lucide.createIcons();
+        // --- PLANT NURSERY LOGIC ---
+        let plantData = JSON.parse(localStorage.getItem('vanessa_plant_v5')) || { level: 0, lastWatered: 0 };
+        const plantStages = [
+            { emoji: "🌱", text: "A tiny cute seedling!" },
+            { emoji: "🌿", text: "It's growing beautiful leaves!" },
+            { emoji: "🪴", text: "A healthy, happy potted plant!" },
+        ];
+        
+        const plantFinalForms = ["🌸", "🌻", "🍄", "🌵", "🌲", "🌳", "🌷", "🌹", "🌺"];
+        
+        const WATER_COOLDOWN = 180000; 
 
+        function renderPlant() {
+            const level = plantData.level || 0;
+            
+            let emoji = "🌱";
+            let text = "A tiny cute seedling!";
+            
+            if (level < 3) {
+                emoji = plantStages[level].emoji;
+                text = plantStages[level].text;
+            } else {
+                if (!plantData.finalEmoji) {
+                    plantData.finalEmoji = plantFinalForms[Math.floor(Math.random() * plantFinalForms.length)];
+                    localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
+                }
+                emoji = plantData.finalEmoji;
+                text = "Wow, it grew into something special! So cozy!";
+            }
+
+            const emojiEl = document.getElementById('plant-emoji');
+            emojiEl.innerText = emoji;
+            document.getElementById('plant-status').innerText = text;
+
+            const now = Date.now();
+            const timeSinceWater = now - plantData.lastWatered;
+            
+            const canWater = timeSinceWater > WATER_COOLDOWN || plantData.lastWatered === 0;
+            const btn = document.getElementById('water-btn');
+            
+            if (canWater && level < 3) {
+                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'from-[#b19cd9]', 'to-[#ffb3c6]');
+                btn.classList.add('from-[#4facfe]', 'to-[#00f2fe]');
+                btn.innerText = "💧 Water Plant";
+                btn.onclick = () => waterPlant();
+            } else if (level >= 3) {
+                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'from-[#4facfe]', 'to-[#00f2fe]');
+                btn.classList.add('from-[#b19cd9]', 'to-[#ffb3c6]');
+                btn.innerText = "✨ Harvest & Replant";
+                btn.onclick = () => resetPlant();
+            } else {
+                btn.classList.add('opacity-50', 'cursor-not-allowed');
+                const secondsLeft = Math.ceil((WATER_COOLDOWN - timeSinceWater) / 1000);
+                const mins = Math.floor(secondsLeft / 60);
+                const secs = secondsLeft % 60;
+                btn.innerText = `💧 Water in ${mins > 0 ? mins + 'm ' : ''}${secs}s`;
+                btn.onclick = null;
+            }
+        }
+
+        function resetPlant() {
+            playSFX('pin');
+            plantData = { level: 0, lastWatered: 0 };
+            delete plantData.finalEmoji;
+            localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
+            
+            const emojiEl = document.getElementById('plant-emoji');
+            emojiEl.classList.add('plant-grow');
+            setTimeout(() => emojiEl.classList.remove('plant-grow'), 500);
+            
+            renderPlant();
+        }
+
+        function waterPlant() {
+            playSFX('pin');
+            const emojiEl = document.getElementById('plant-emoji');
+            
+            const drop = document.createElement('div');
+            drop.innerText = '💧';
+            drop.className = 'absolute -top-6 left-1/2 -translate-x-1/2 text-2xl animate-bounce pointer-events-none';
+            emojiEl.parentElement.appendChild(drop);
+            
+            setTimeout(() => {
+                drop.remove();
+                if(plantData.level < 3) {
+                    plantData.level++;
+                    plantData.lastWatered = Date.now();
+                    localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
+                    
+                    emojiEl.classList.add('plant-grow');
+                    setTimeout(() => emojiEl.classList.remove('plant-grow'), 500);
+                    
+                    renderPlant();
+                    playSFX('gallery'); 
+                }
+            }, 600);
+        }
+
+        function petPlant() {
+            if (plantData.level >= 3) return; 
+            
+            playSFX('heart');
+            
+            if (plantData.lastWatered > 0) {
+                plantData.lastWatered -= 3000; 
+                localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
+                renderPlant();
+            }
+            
+            const emojiEl = document.getElementById('plant-emoji');
+            const plantModal = document.getElementById('modal-plant');
+            
+            emojiEl.classList.add('scale-125');
+            setTimeout(() => emojiEl.classList.remove('scale-125'), 150);
+            
+            const sun = document.createElement('div');
+            sun.innerText = '☀️';
+            sun.className = 'absolute text-2xl pointer-events-none transition-all duration-1000 ease-out z-50';
+            
+            sun.style.left = '50%';
+            sun.style.top = '30px'; 
+            sun.style.transform = 'translateX(-50%) scale(0.8)';
+            sun.style.opacity = '1';
+            
+            plantModal.appendChild(sun);
+            
+            setTimeout(() => {
+                sun.style.transform = 'translateX(-50%) translateY(-60px) scale(1.2) rotate(15deg)';
+                sun.style.opacity = '0';
+            }, 50);
+
+            setTimeout(() => {
+                sun.remove();
+            }, 1000);
+        }
     </script>
 </body>
 </html>
