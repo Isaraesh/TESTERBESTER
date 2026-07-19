@@ -469,7 +469,7 @@
             { icon: "youtube", label: "youtube", handle: "vanessa vlogs", color: "#FF0000", darkColor: "#FF0000" },
             { icon: "coffee", label: "ko-fi", handle: "buy me a matcha", color: "#FF5E5B", darkColor: "#FF5E5B" },
         ];
-
+        // --- GALLERY LOGIC ---
         const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80";
         const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; 
         const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
@@ -479,7 +479,7 @@
         const collections = [
             { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [img1, img2, img3, img4, img5], likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [img4, img1, img5, img3, img2], likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "peach", type: "letterboxd", emoji: "🎞️", label: "WATCHLIST", title: "Film Diary", desc: "My recent cinematic adventures.", likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "peach", type: "letterboxd", emoji: "🎞️", label: "WATCHED", title: "Film Diary", desc: "My recent cinematic adventures.", likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "mint", type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Setup", desc: "Pastel builds & keyboards.", likes: Math.floor(Math.random() * 121) + 40,
               specs: `
                 <div class="space-y-4">
@@ -532,7 +532,7 @@
                             <div class="ux-circle font-nunito font-bold text-white shadow-xl bg-white/20 border border-white/40">${c.emoji}</div>
                         </div>
                         <div class="ux-content">
-                            <span class="text-[9px] tracking-widest uppercase font-bold font-quicksand text-white block mb-1 drop-shadow-md">${c.label}</span>
+                            <span class="text-[9px] tracking-widest uppercase font-bold font-quicksand text-white [text-shadow:_0_1.5px_3px_rgba(0,0,0,0.6)] block mb-1">${c.label}</span>
                             <span class="ux-title drop-shadow-md">${c.title}</span>
                             <span class="ux-text drop-shadow-md">${c.desc}</span>
                         </div>
