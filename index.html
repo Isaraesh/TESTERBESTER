@@ -46,6 +46,14 @@
             100% { transform: scale(1); }
         }
         
+        @keyframes bear-wobble {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-15deg) scale(1.1); }
+            50% { transform: rotate(15deg) scale(1.1); }
+            75% { transform: rotate(-15deg) scale(1.1); }
+        }
+        .bear-wobble { animation: bear-wobble 0.4s ease-in-out; }
+        
         .heart-pop { animation: heartPop 0.3s ease-out; }
         .avatar-ring { animation: pulse-glow 3s ease-in-out infinite; }
         .sparkle-badge { animation: spin-slow 6s linear infinite; }
@@ -235,7 +243,7 @@
 
             <div id="gallery" class="page px-6 py-4">
                 <div class="text-center mb-8">
-                    <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">my little gallery 🐻</h1>
+                    <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">my little gallery <span class="cursor-pointer select-none inline-block origin-bottom" onclick="playBearEasterEgg(this)">🐻</span></h1>
                     <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">a visual diary that makes me smile</p>
                 </div>
 
@@ -290,7 +298,7 @@
                         </div>
                     </div>
 
-                    <div id="modal-specs" class="hidden w-full bg-white dark:bg-[#1a1b41] rounded-xl p-5 text-sm text-[#7a1a3e] dark:text-[#c7d2fe] font-nunito border border-[#ffe0ec] dark:border-[#3b2c5c] shadow-inner overflow-y-auto max-h-[350px] transition-colors duration-500 relative z-10">
+                    <div id="modal-specs" class="hidden w-full bg-white dark:bg-[#1a1b41] rounded-xl p-5 text-sm text-[#7a1a3e] dark:text-[#c7d2fe] font-nunito border border-[#ffe0ec] dark:border-[#3b2c5c] shadow-inner overflow-y-auto max-h-[65vh] sm:max-h-[350px] transition-colors duration-500 relative z-10">
                     </div>
                 </div>
             </div>
@@ -383,6 +391,7 @@
     <audio id="sfx-galleryclick" src="https://res.cloudinary.com/frjxw0k6/video/upload/Gallery.mp3"></audio>
     <audio id="sfx-arrow" src="https://res.cloudinary.com/frjxw0k6/video/upload/Arrow.mp3"></audio>
     <audio id="sfx-slide" src="https://res.cloudinary.com/frjxw0k6/video/upload/Slide.mp3"></audio>
+    <audio id="sfx-bear" src="bear.mp3"></audio>
 
     <script>
         const sfx = {
@@ -393,7 +402,8 @@
             like: document.getElementById('sfx-like'),
             galleryclick: document.getElementById('sfx-galleryclick'),
             arrow: document.getElementById('sfx-arrow'),
-            slide: document.getElementById('sfx-slide')
+            slide: document.getElementById('sfx-slide'),
+            bear: document.getElementById('sfx-bear')
         };
         
         const maxBgmVolume = 0.15;
@@ -405,6 +415,7 @@
         if(sfx.galleryclick) sfx.galleryclick.volume = 0.2;
         if(sfx.arrow) sfx.arrow.volume = 0.1;
         if(sfx.slide) sfx.slide.volume = 0.07;
+        if(sfx.bear) sfx.bear.volume = 0.2;
 
         function playSFX(name) {
             if (sfx[name] && !globalMuted) {
@@ -509,6 +520,12 @@
                     fadeOutAudio.pause();
                 }
             }, 30);
+        }
+
+        function playBearEasterEgg(el) {
+            playSFX('bear');
+            el.classList.add('bear-wobble');
+            setTimeout(() => el.classList.remove('bear-wobble'), 400);
         }
 
         // --- THEME & NAV LOGIC ---
@@ -935,7 +952,7 @@
             if (track.children.length === 0) {
                 track.innerHTML = currentCollection.map((src, i) => `
                     <div class="carousel-item absolute w-[80%] h-[90%] top-[5%] rounded-[1.5rem] overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] cursor-pointer bg-[#ffe0ec] dark:bg-[#3b2c5c]" onclick="goToSlide(${i}, event)">
-                        <img src="${src}" class="w-full h-full object-cover select-none pointer-events-none" draggable="false">
+                        <img src="${src}" class="w-full h-full object-contain select-none pointer-events-none" draggable="false">
                         <div class="absolute inset-0 bg-gradient-to-tr from-white/30 to-transparent pointer-events-none"></div>
                         <div class="absolute inset-0 border-[1.5px] border-white/40 dark:border-white/10 rounded-[1.5rem] pointer-events-none"></div>
                     </div>
@@ -951,7 +968,8 @@
                 if (offset < -Math.floor(len / 2)) offset += len;
 
                 const absOffset = Math.abs(offset);
-                let tx = offset * 65; 
+                const txStep = window.innerWidth < 640 ? 50 : 65;
+                let tx = offset * txStep; 
                 let tz = absOffset * -150;
                 let scale = 1 - (absOffset * 0.15); 
                 let rotateY = offset * -18;
@@ -1113,7 +1131,7 @@
                         <div class="flex items-center gap-1.5 text-[10px] text-[#b05c7a]">
                             <i data-lucide="calendar" class="w-2.5 h-2.5"></i> ${entry.date}
                         </div>
-                        <span onclick="likeGuestbookNote(event, this)" class="text-base select-none cursor-pointer inline-block transition-transform hover:scale-125 active:scale-90" style="color: ${c.border}">♥</span>
+                        <span onclick="likeGuestbookNote(event, this)" class="text-base select-none cursor-pointer inline-block transition-transform hover:scale-125" style="color: ${c.border}">♥</span>
                     </div>
                 </div>
                 `;
