@@ -258,24 +258,24 @@
                 </div>
             </div>
 
-            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
+            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
                 <!-- Outer wrapper sets constraints and positioning context so close button is safe from clipping -->
-                <div class="relative w-[95%] max-w-[700px] sm:max-w-[800px]">
+                <div class="relative w-[96%] sm:w-[95%] max-w-[700px] sm:max-w-[800px]">
                     
                     <!-- Close button stays relative to outer wrapper -->
-                    <button onclick="closeGalleryModal()" class="absolute -top-3 -right-3 sm:-top-4 sm:-right-4 w-10 h-10 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-50"><i data-lucide="x" class="w-5 h-5"></i></button>
+                    <button onclick="closeGalleryModal()" class="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 w-10 h-10 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-50"><i data-lucide="x" class="w-5 h-5"></i></button>
                     
                     <!-- Inner wrapper uses overflow-hidden to clip non-focused carousel items perfectly at the edge -->
-                    <div class="bg-gradient-to-br from-[#fff0f5] to-[#ffd1e3] dark:from-[#25234b] dark:to-[#1a1b41] w-full rounded-[2.5rem] p-6 sm:p-10 shadow-[0_0_60px_rgba(247,37,133,0.4)] dark:shadow-[0_0_60px_rgba(99,102,241,0.4)] relative border-[2px] border-white/60 dark:border-[#c7d2fe]/30 transition-colors duration-500 overflow-hidden">
+                    <div class="bg-gradient-to-br from-[#fff0f5] to-[#ffd1e3] dark:from-[#25234b] dark:to-[#1a1b41] w-full rounded-[2.5rem] px-3 py-6 sm:p-10 shadow-[0_0_60px_rgba(247,37,133,0.4)] dark:shadow-[0_0_60px_rgba(99,102,241,0.4)] relative border-[2px] border-white/60 dark:border-[#c7d2fe]/30 transition-colors duration-500 overflow-hidden">
                         
-                        <h2 id="modal-title" class="text-center text-2xl sm:text-3xl mb-6 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
+                        <h2 id="modal-title" class="text-center text-2xl sm:text-3xl mb-4 sm:mb-6 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
                         
                         <div id="modal-carousel" class="hidden w-full relative">
                             <!-- Constraining wrapper inside clipping mask -->
-                            <div class="carousel-wrapper relative w-[85%] sm:w-full max-w-[260px] sm:max-w-[500px] mx-auto h-[340px] sm:h-[560px] flex items-center justify-center perspective-1000 mb-6 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
+                            <div class="carousel-wrapper relative w-[72%] sm:w-full max-w-[280px] sm:max-w-[500px] mx-auto h-[420px] sm:h-[560px] flex items-center justify-center perspective-1000 mb-6 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
                                 <div id="carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
-                                <button onclick="prevSlide(event)" class="absolute -left-6 sm:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
-                                <button onclick="nextSlide(event)" class="absolute -right-6 sm:-right-12 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-7 h-7"></i></button>
+                                <button onclick="prevSlide(event)" class="absolute -left-9 sm:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
+                                <button onclick="nextSlide(event)" class="absolute -right-9 sm:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
                             </div>
                             <div id="carousel-dots" class="flex justify-center items-center gap-2.5 h-4 mt-2 relative z-10"></div>
                         </div>
@@ -284,10 +284,10 @@
                             <div id="lb-loading" class="text-sm font-quicksand animate-pulse text-[#b05c7a] dark:text-[#8b8bb4] w-full text-center block my-12">loading cinema reel...</div>
                             
                             <div id="lb-content" class="hidden w-full flex flex-col items-center pb-2">
-                                <div class="carousel-wrapper relative w-[80%] sm:w-full max-w-[220px] sm:max-w-[320px] mx-auto aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-6 cursor-grab active:cursor-grabbing" id="lb-carousel-wrapper">
+                                <div class="carousel-wrapper relative w-[72%] sm:w-full max-w-[240px] sm:max-w-[320px] mx-auto aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-6 cursor-grab active:cursor-grabbing" id="lb-carousel-wrapper">
                                     <div id="lb-carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
-                                    <button onclick="prevLbSlide(event)" class="absolute -left-8 sm:-left-14 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-7 h-7"></i></button>
-                                    <button onclick="nextLbSlide(event)" class="absolute -right-8 sm:-right-14 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-7 h-7"></i></button>
+                                    <button onclick="prevLbSlide(event)" class="absolute -left-9 sm:-left-14 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
+                                    <button onclick="nextLbSlide(event)" class="absolute -right-9 sm:-right-14 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
                                 </div>
                                 
                                 <div id="lb-text-container" class="text-center min-h-[60px] flex flex-col justify-center items-center w-full px-2">
@@ -633,7 +633,7 @@
         const art2 = "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80";
         const art3 = "https://images.unsplash.com/photo-1560015534-cee980ba7e13?auto=format&fit=crop&w=600&q=80";
         const art4 = "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=600&q=80";
-        const art5 = "https://res.cloudinary.com/frjxw0k6/image/upload/008870_cdmnvw.jpg";
+        const art5 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
 
         // Pastel Vibes Array
         const pastel1 = "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80";
@@ -968,7 +968,7 @@
             const len = currentCollection.length;
             
             const isMobile = window.innerWidth < 640;
-            const txStep = isMobile ? 55 : 80; 
+            const txStep = isMobile ? 65 : 80; 
 
             items.forEach((item, i) => {
                 let offset = i - currentImgIndex;
