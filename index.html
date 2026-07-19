@@ -54,6 +54,12 @@
         .font-quicksand { font-family: 'Quicksand', sans-serif; }
         .font-nunito { font-family: 'Nunito', sans-serif; }
         
+        /* --- Browser Artifact Fixes --- */
+        * { -webkit-tap-highlight-color: transparent; }
+        *:focus { outline: none !important; }
+        ::selection { background: rgba(247, 37, 133, 0.25); color: inherit; }
+        .dark ::selection { background: rgba(99, 102, 241, 0.35); color: inherit; }
+        
         .page { display: none; animation: fadeIn 0.4s ease-out forwards; }
         .page.active { display: block; }
         
