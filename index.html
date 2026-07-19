@@ -334,20 +334,33 @@
         </div> 
     </div>
 
-    <div class="mt-6 mb-2 flex flex-col items-center justify-center gap-1.5 z-10 relative">
-        <div id="sleepy-toggle" class="sleepy-toggle" onclick="toggleSleepyMode()">
-            <div class="toggle-cloud" style="width: 14px; height: 10px; top: 16px; left: 26px;"></div>
-            <div class="toggle-cloud" style="width: 20px; height: 12px; top: 9px; left: 35px;"></div>
-            <div class="toggle-star" style="width: 3px; height: 3px; top: 6px; left: 16px;"></div>
-            <div class="toggle-star" style="width: 2px; height: 2px; top: 16px; left: 26px;"></div>
-            <div class="toggle-star" style="width: 4px; height: 4px; top: 20px; left: 10px;"></div>
-            <div class="sun-moon">
-                <div class="crater" style="width: 5px; height: 5px; top: 4px; left: 10px;"></div>
-                <div class="crater" style="width: 3px; height: 3px; top: 14px; left: 4px;"></div>
-                <div class="crater" style="width: 7px; height: 7px; top: 12px; left: 13px;"></div>
+    <div class="w-[92%] sm:w-full max-w-[480px] mx-auto mt-6 mb-2 flex items-start justify-between z-10 relative px-1">
+        <!-- Invisible spacer to keep the center exactly in the middle -->
+        <div class="w-10 sm:w-12"></div>
+        
+        <div class="flex flex-col items-center justify-center gap-1.5">
+            <div id="sleepy-toggle" class="sleepy-toggle" onclick="toggleSleepyMode()">
+                <div class="toggle-cloud" style="width: 14px; height: 10px; top: 16px; left: 26px;"></div>
+                <div class="toggle-cloud" style="width: 20px; height: 12px; top: 9px; left: 35px;"></div>
+                <div class="toggle-star" style="width: 3px; height: 3px; top: 6px; left: 16px;"></div>
+                <div class="toggle-star" style="width: 2px; height: 2px; top: 16px; left: 26px;"></div>
+                <div class="toggle-star" style="width: 4px; height: 4px; top: 20px; left: 10px;"></div>
+                <div class="sun-moon">
+                    <div class="crater" style="width: 5px; height: 5px; top: 4px; left: 10px;"></div>
+                    <div class="crater" style="width: 3px; height: 3px; top: 14px; left: 4px;"></div>
+                    <div class="crater" style="width: 7px; height: 7px; top: 12px; left: 13px;"></div>
+                </div>
             </div>
+            <span class="text-[10px] font-quicksand font-bold text-[#b05c7a] dark:text-[#8b8bb4] uppercase tracking-widest transition-colors duration-300 text-center" id="sleepy-text">Sleepy Mode</span>
         </div>
-        <span class="text-[10px] font-quicksand font-bold text-[#b05c7a] dark:text-[#8b8bb4] uppercase tracking-widest transition-colors duration-300 text-center" id="sleepy-text">Sleepy Mode</span>
+
+        <!-- Mute Button aligned to the right -->
+        <div class="w-10 sm:w-12 flex justify-end -mt-1">
+            <button onclick="toggleMute()" id="mute-btn" class="w-10 h-10 rounded-full bg-white/80 dark:bg-[#1a1b41]/80 backdrop-blur-md shadow-[0_8px_30px_rgba(247,37,133,0.15)] dark:shadow-[0_8px_30px_rgba(0,0,0,0.4)] border border-[#f72585]/10 dark:border-[#c7d2fe]/10 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 group">
+                <i data-lucide="volume-2" id="icon-unmuted" class="w-5 h-5 transition-transform duration-300 group-active:scale-90"></i>
+                <i data-lucide="volume-x" id="icon-muted" class="w-5 h-5 hidden transition-transform duration-300 group-active:scale-90 opacity-70"></i>
+            </button>
+        </div>
     </div>
 
     <footer class="mt-2 mb-4 text-center z-10 relative">
@@ -356,47 +369,147 @@
         </p>
     </footer>
 
-    <audio id="bgm" src="bgm.mp3" loop></audio>
-    <audio id="sfx-gallery" src="galleryclick.mp3"></audio>
-    <audio id="sfx-heart" src="heart.mp3"></audio>
+    <audio id="bgm1" src="bgm1.mp3" loop></audio>
+    <audio id="bgm2" src="bgm2.mp3" loop></audio>
+    <audio id="sfx-click" src="click.mp3"></audio>
     <audio id="sfx-pin" src="pin.mp3"></audio>
-    <audio id="sfx-sticker" src="sticker.mp3"></audio>
+    <audio id="sfx-like" src="like.mp3"></audio>
+    <audio id="sfx-galleryclick" src="galleryclick.mp3"></audio>
+    <audio id="sfx-arrow" src="arrow.mp3"></audio>
 
     <script>
         const sfx = {
-            bgm: document.getElementById('bgm'),
-            gallery: document.getElementById('sfx-gallery'),
-            heart: document.getElementById('sfx-heart'),
+            bgm1: document.getElementById('bgm1'),
+            bgm2: document.getElementById('bgm2'),
+            click: document.getElementById('sfx-click'),
             pin: document.getElementById('sfx-pin'),
-            sticker: document.getElementById('sfx-sticker')
+            like: document.getElementById('sfx-like'),
+            galleryclick: document.getElementById('sfx-galleryclick'),
+            arrow: document.getElementById('sfx-arrow')
         };
         
-        sfx.bgm.volume = 0.12;
-        sfx.gallery.volume = 0.5;
-        sfx.heart.volume = 0.6;
-        sfx.pin.volume = 0.7;
-        sfx.sticker.volume = 0.4;
+        const maxBgmVolume = 0.12;
+        if(sfx.bgm1) sfx.bgm1.volume = maxBgmVolume;
+        if(sfx.bgm2) sfx.bgm2.volume = 0; // Starts at 0 for fade effect
+        if(sfx.click) sfx.click.volume = 0.5;
+        if(sfx.pin) sfx.pin.volume = 0.7;
+        if(sfx.like) sfx.like.volume = 0.6;
+        if(sfx.galleryclick) sfx.galleryclick.volume = 0.5;
+        if(sfx.arrow) sfx.arrow.volume = 0.4;
 
         function playSFX(name) {
-            if (sfx[name]) {
+            if (sfx[name] && !globalMuted) {
                 sfx[name].currentTime = 0;
                 sfx[name].play().catch(() => {});
             }
         }
 
         let bgmStarted = false;
+        let fadeInterval;
+
         document.addEventListener('click', () => {
-            if (!bgmStarted) {
-                sfx.bgm.play().catch(() => {});
+            if (!bgmStarted && !globalMuted) {
+                const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
+                if(initialBgm) {
+                    initialBgm.volume = maxBgmVolume;
+                    initialBgm.play().catch(() => {});
+                }
                 bgmStarted = true;
             }
         });
 
+        let globalMuted = false;
+        function toggleMute() {
+            globalMuted = !globalMuted;
+            
+            // Mute or unmute all sound elements
+            Object.values(sfx).forEach(audio => {
+                if(audio) audio.muted = globalMuted;
+            });
+
+            // Force play click sound even when muting for immediate UI feedback
+            if (sfx.click) {
+                sfx.click.muted = false;
+                sfx.click.currentTime = 0;
+                sfx.click.play().catch(()=>{});
+                if (globalMuted) {
+                    setTimeout(() => { if(sfx.click) sfx.click.muted = true; }, 300);
+                }
+            }
+
+            // Update button UI
+            const unmuteIcon = document.getElementById('icon-unmuted');
+            const muteIcon = document.getElementById('icon-muted');
+            const btn = document.getElementById('mute-btn');
+
+            if(globalMuted) {
+                unmuteIcon.classList.add('hidden');
+                muteIcon.classList.remove('hidden');
+                btn.classList.remove('text-[#f72585]', 'dark:text-[#c7d2fe]');
+                btn.classList.add('text-[#b05c7a]', 'dark:text-[#8b8bb4]');
+            } else {
+                unmuteIcon.classList.remove('hidden');
+                muteIcon.classList.add('hidden');
+                btn.classList.remove('text-[#b05c7a]', 'dark:text-[#8b8bb4]');
+                btn.classList.add('text-[#f72585]', 'dark:text-[#c7d2fe]');
+                
+                // Start BGM if they unmute and it hasn't started yet
+                if(!bgmStarted) {
+                    const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
+                    if(initialBgm) {
+                        initialBgm.volume = maxBgmVolume;
+                        initialBgm.play().catch(()=>{});
+                    }
+                    bgmStarted = true;
+                }
+            }
+        }
+
+        function crossfadeBgm(enteringNight) {
+            if (!bgmStarted) return;
+            
+            const fadeOutAudio = enteringNight ? sfx.bgm1 : sfx.bgm2;
+            const fadeInAudio = enteringNight ? sfx.bgm2 : sfx.bgm1;
+
+            if (!fadeOutAudio || !fadeInAudio) return;
+
+            if (globalMuted) {
+                fadeOutAudio.pause();
+                fadeInAudio.volume = maxBgmVolume;
+                fadeInAudio.play().catch(()=>{});
+                return;
+            }
+
+            clearInterval(fadeInterval);
+            fadeInAudio.volume = 0;
+            fadeInAudio.play().catch(()=>{});
+
+            let step = 0.005;
+            fadeInterval = setInterval(() => {
+                let outVol = fadeOutAudio.volume - step;
+                let inVol = fadeInAudio.volume + step;
+
+                if (outVol <= 0) outVol = 0;
+                if (inVol >= maxBgmVolume) inVol = maxBgmVolume;
+
+                fadeOutAudio.volume = outVol;
+                fadeInAudio.volume = inVol;
+
+                if (outVol === 0 && inVol === maxBgmVolume) {
+                    clearInterval(fadeInterval);
+                    fadeOutAudio.pause();
+                }
+            }, 30);
+        }
+
         // --- THEME & NAV LOGIC ---
         let isSleepyMode = false;
         function toggleSleepyMode() {
-            playSFX('pin'); 
+            playSFX('click'); 
             isSleepyMode = !isSleepyMode;
+            
+            crossfadeBgm(isSleepyMode);
+            
             const root = document.documentElement;
             const toggle = document.getElementById('sleepy-toggle');
             const text = document.getElementById('sleepy-text');
@@ -423,6 +536,7 @@
             }
 
             renderSocials(); // Re-render to update icon colors if dark mode changes
+            renderGuestbookUI(); // Re-render guestbook so selected stickers update immediately
 
             if (!document.getElementById('gallery-modal').classList.contains('hidden') && currentCollection.length > 0) {
                 updateCarouselUI();
@@ -458,6 +572,7 @@
         }
 
         function nav(pageId, btn) {
+            playSFX('click');
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(pageId).classList.add('active');
             
@@ -577,7 +692,7 @@
 
         function likeCollection(e, index) {
             e.stopPropagation(); 
-            playSFX('heart');
+            playSFX('like');
             collections[index].likes++;
             document.getElementById(`like-count-${index}`).innerText = collections[index].likes;
             const icon = document.getElementById(`heart-icon-${index}`);
@@ -593,7 +708,7 @@
         let lbLoaded = false;
 
         function openGalleryModal(colIndex) {
-            playSFX('gallery');
+            playSFX('galleryclick');
             const c = collections[colIndex];
             document.getElementById('modal-title').innerText = `${c.emoji} ${c.title}`;
             
@@ -679,14 +794,14 @@
         function nextSlide(e) {
             if(e) e.stopPropagation();
             currentImgIndex = (currentImgIndex + 1) % currentCollection.length;
-            playSFX('gallery');
+            playSFX('arrow');
             updateCarouselUI();
         }
 
         function prevSlide(e) {
             if(e) e.stopPropagation();
             currentImgIndex = (currentImgIndex - 1 + currentCollection.length) % currentCollection.length;
-            playSFX('gallery');
+            playSFX('arrow');
             updateCarouselUI();
         }
 
@@ -694,15 +809,16 @@
             if(e) e.stopPropagation();
             if (i === currentImgIndex) return;
             currentImgIndex = i;
-            playSFX('gallery');
+            playSFX('arrow');
             updateCarouselUI();
         }
 
+        // --- LETTERBOXD 3D CAROUSEL LOGIC ---
         function nextLbSlide(e) {
             if(e) e.stopPropagation();
             if(!lbCollection.length) return;
             currentLbIndex = (currentLbIndex + 1) % lbCollection.length;
-            playSFX('gallery');
+            playSFX('arrow');
             updateLbCarouselUI();
         }
 
@@ -710,18 +826,19 @@
             if(e) e.stopPropagation();
             if(!lbCollection.length) return;
             currentLbIndex = (currentLbIndex - 1 + lbCollection.length) % lbCollection.length;
-            playSFX('gallery');
+            playSFX('arrow');
             updateLbCarouselUI();
         }
 
         function goToLbSlide(i, e) {
             if(e) e.stopPropagation();
+            // If they click the center, actively focused poster, open the review link!
             if (i === currentLbIndex) {
                  window.open(lbCollection[i].link, '_blank');
                  return;
             }
             currentLbIndex = i;
-            playSFX('gallery');
+            playSFX('arrow');
             updateLbCarouselUI();
         }
 
@@ -994,8 +1111,8 @@
             if(window.lucide) lucide.createIcons();
         }
 
-        function setColor(k) { activeColor = k; playSFX('sticker'); renderGuestbookUI(); }
-        function setSticker(s) { activeSticker = s; playSFX('sticker'); renderGuestbookUI(); }
+        function setColor(k) { activeColor = k; playSFX('click'); renderGuestbookUI(); }
+        function setSticker(s) { activeSticker = s; playSFX('click'); renderGuestbookUI(); }
 
         function submitGuestbook(e) {
             e.preventDefault();
@@ -1025,7 +1142,7 @@
 
         function likeGuestbookNote(e, el) {
             e.stopPropagation();
-            playSFX('heart');
+            playSFX('like');
             el.classList.add('heart-pop');
             setTimeout(() => {
                 el.classList.remove('heart-pop');
