@@ -166,11 +166,10 @@
         .gb-note:hover { transform: scale(1.02) translateY(-4px) rotate(0deg); box-shadow: 0 12px 24px -8px rgba(0,0,0,0.15); z-index: 10; }
         .dark .gb-note:hover { box-shadow: 0 12px 24px -8px rgba(0,0,0,0.4); }
         
-        @keyframes plant-grow {
-            0% { transform: scale(0.8) translateY(10px); }
-            100% { transform: scale(1) translateY(0); }
-        }
-        .plant-grow { animation: plant-grow 0.5s ease-out forwards; }
+        #letterboxd-carousel::-webkit-scrollbar { height: 6px; }
+        #letterboxd-carousel::-webkit-scrollbar-track { background: transparent; }
+        #letterboxd-carousel::-webkit-scrollbar-thumb { background: #ffb3c6; border-radius: 10px; }
+        .dark #letterboxd-carousel::-webkit-scrollbar-thumb { background: #4c489d; }
     </style>
 </head>
 <body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center justify-center transition-colors duration-500">
@@ -230,30 +229,42 @@
                 </div>
             </div>
 
-            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
-                <div class="bg-[#fff0f5] dark:bg-[#25234b] w-full max-w-sm rounded-3xl p-4 shadow-xl relative border-[1.5px] border-[rgba(247,37,133,0.2)] dark:border-[#c7d2fe]/20 transition-colors duration-500">
+            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
+                <!-- UPDATED MODAL: Wider box, gradient background, glowing drop-shadow -->
+                <div class="bg-gradient-to-br from-[#fff0f5] to-[#ffd1e3] dark:from-[#25234b] dark:to-[#1a1b41] w-[95%] max-w-[540px] rounded-[2rem] p-6 shadow-[0_0_60px_rgba(247,37,133,0.4)] dark:shadow-[0_0_60px_rgba(99,102,241,0.4)] relative border-[2px] border-white/60 dark:border-[#c7d2fe]/30 transition-colors duration-500">
                     <button onclick="closeGalleryModal()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-50"><i data-lucide="x" class="w-4 h-4"></i></button>
-                    <h2 id="modal-title" class="text-center text-lg mb-4 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
+                    <h2 id="modal-title" class="text-center text-xl mb-5 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
                     
                     <div id="modal-carousel" class="hidden w-full relative">
-                        <div class="carousel-wrapper relative w-full aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-3 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
+                        <!-- Constraining wrapper to prevent clipping, pushing buttons further out -->
+                        <div class="carousel-wrapper relative w-full max-w-[260px] mx-auto aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-4 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
                             <div id="carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
-                            <button onclick="prevSlide(event)" class="absolute left-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-5 h-5"></i></button>
-                            <button onclick="nextSlide(event)" class="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-5 h-5"></i></button>
+                            <button onclick="prevSlide(event)" class="absolute -left-10 sm:-left-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+                            <button onclick="nextSlide(event)" class="absolute -right-10 sm:-right-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
                         </div>
                         <div id="carousel-dots" class="flex justify-center items-center gap-2 h-4 mt-2"></div>
                     </div>
 
-                    <div id="modal-plant" class="hidden w-full relative z-10 flex flex-col items-center bg-[#fff5f8] dark:bg-[#1a1b41] rounded-2xl p-6 border-[1.5px] border-[#ffb3c6] dark:border-[#3b2c5c] transition-colors duration-500">
-                        <div class="relative w-32 h-32 flex items-center justify-center mb-4 bg-white dark:bg-[#0f0f23] rounded-full shadow-inner overflow-hidden border-[4px] border-[#ffe0ec] dark:border-[#2d2d5a]">
-                            <span id="plant-emoji" class="text-6xl transition-transform duration-500 hover:scale-110 cursor-pointer select-none leading-none flex items-center justify-center w-full h-full" onclick="petPlant()">🌱</span>
-                        </div>
-                        <p id="plant-status" class="text-sm font-bold font-quicksand text-[#c2185b] dark:text-[#a5b4fc] mb-6 text-center">A tiny seedling!</p>
+                    <div id="modal-letterboxd" class="hidden w-full relative z-10 flex flex-col transition-colors duration-500">
+                        <div id="lb-loading" class="text-xs font-quicksand animate-pulse text-[#b05c7a] dark:text-[#8b8bb4] w-full text-center block my-12">loading cinema reel...</div>
                         
-                        <div class="flex gap-3 w-full justify-center">
-                            <button id="water-btn" class="w-full max-w-[200px] py-2.5 rounded-xl text-white font-bold text-sm bg-gradient-to-r from-[#4facfe] to-[#00f2fe] shadow-md hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-1">
-                                💧 Water
-                            </button>
+                        <div id="lb-content" class="hidden w-full flex flex-col items-center pb-2">
+                            <div class="carousel-wrapper relative w-full max-w-[220px] mx-auto aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-4 cursor-grab active:cursor-grabbing" id="lb-carousel-wrapper">
+                                <div id="lb-carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
+                                <button onclick="prevLbSlide(event)" class="absolute -left-12 sm:-left-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-6 h-6"></i></button>
+                                <button onclick="nextLbSlide(event)" class="absolute -right-12 sm:-right-16 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-6 h-6"></i></button>
+                            </div>
+                            
+                            <div id="lb-text-container" class="text-center min-h-[60px] flex flex-col justify-center items-center w-full px-2">
+                                <h3 id="lb-movie-title" class="text-[16px] font-bold font-quicksand text-[#c2185b] dark:text-[#e0e7ff] leading-tight line-clamp-2 mb-1.5"></h3>
+                                <div class="flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
+                                    <span id="lb-movie-year" class="text-[#f72585] dark:text-[#a5b4fc]"></span>
+                                    <span id="lb-movie-dot" class="text-[#b05c7a]/40 dark:text-[#8b8bb4]/40">•</span>
+                                    <span id="lb-movie-date" class="text-[#b05c7a] dark:text-[#8b8bb4]"></span>
+                                </div>
+                            </div>
+                            
+                            <div id="lb-carousel-dots" class="flex justify-center items-center gap-1.5 h-4 mt-2"></div>
                         </div>
                     </div>
 
@@ -449,12 +460,6 @@
             }
         });
 
-        document.addEventListener("DOMContentLoaded", () => {
-            setTimeout(() => {
-                updateNavIndicator(document.getElementById('btn-home'));
-            }, 100);
-        });
-
         const interests = ["🎮 gaming", "🎵 lo-fi music", "🍵 matcha", "🌸 art"];
         const socials = [
             { icon: "instagram", label: "instagram", handle: "@vanessapastel", color: "#E1306C", darkColor: "#E1306C" },
@@ -465,7 +470,39 @@
             { icon: "coffee", label: "ko-fi", handle: "buy me a matcha", color: "#FF5E5B", darkColor: "#FF5E5B" },
         ];
 
+        const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80";
+        const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; 
+        const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
+        const img4 = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=600&q=80";
+        const img5 = "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80";
+
+        const collections = [
+            { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [img1, img2, img3, img4, img5], likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [img4, img1, img5, img3, img2], likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "peach", type: "letterboxd", emoji: "🎞️", label: "WATCHLIST", title: "Film Diary", desc: "My recent cinematic adventures.", likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "mint", type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Setup", desc: "Pastel builds & keyboards.", likes: Math.floor(Math.random() * 121) + 40,
+              specs: `
+                <div class="space-y-4">
+                    <p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-base mb-4 text-center font-quicksand">My Cozy White & Pastel Build 🌸</p>
+                    <ul class="space-y-3 px-2">
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Case:</span> <span>Lian Li O11 Mini Snow</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">CPU:</span> <span>Ryzen 7 5800X</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">GPU:</span> <span>RTX 3060 Ti White</span></li>
+                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Keeb:</span> <span>Epomaker Alice</span></li>
+                    </ul>
+                    <div class="mt-4 p-3 bg-[#fff0f5] dark:bg-[#3b2c5c] rounded-lg border border-[#ffb3c6] dark:border-[#6366f1]/30">
+                        <p class="text-[11px] italic text-center font-bold">Clean, bright, and full of pastels! ✨</p>
+                    </div>
+                </div>
+              `
+            },
+        ];
+
         document.addEventListener("DOMContentLoaded", () => {
+            setTimeout(() => {
+                updateNavIndicator(document.getElementById('btn-home'));
+            }, 100);
+
             document.getElementById('interests-container').innerHTML = interests.map(tag => 
                 `<span class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#fff0f5] dark:bg-[#3b2c5c] text-[#c2185b] dark:text-[#e0e7ff] font-quicksand border-[1.5px] border-[#f72585]/25 dark:border-[#c7d2fe]/20 transition-colors duration-500">${tag}</span>`
             ).join('');
@@ -515,35 +552,6 @@
             lucide.createIcons();
         });
 
-        // --- GALLERY LOGIC ---
-        const img1 = "https://images.unsplash.com/photo-1603484477859-abe6a73f9366?auto=format&fit=crop&w=600&q=80";
-        const img2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80"; 
-        const img3 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
-        const img4 = "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=600&q=80";
-        const img5 = "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80";
-
-        const collections = [
-            { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [img1, img2, img3, img4, img5], likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [img4, img1, img5, img3, img2], likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "peach", type: "plant", emoji: "🪴", label: "MINIGAME", title: "Plant Nursery", desc: "Grow a tiny seedling with me!", likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "mint", type: "specs", emoji: "☕", label: "MY GEAR", title: "Cozy Setup", desc: "Pastel builds & keyboards.", likes: Math.floor(Math.random() * 121) + 40,
-              specs: `
-                <div class="space-y-4">
-                    <p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-base mb-4 text-center font-quicksand">My Cozy White & Pastel Build 🌸</p>
-                    <ul class="space-y-3 px-2">
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Case:</span> <span>Lian Li O11 Mini Snow</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">CPU:</span> <span>Ryzen 7 5800X</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">GPU:</span> <span>RTX 3060 Ti White</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Keeb:</span> <span>Epomaker Alice</span></li>
-                    </ul>
-                    <div class="mt-4 p-3 bg-[#fff0f5] dark:bg-[#3b2c5c] rounded-lg border border-[#ffb3c6] dark:border-[#6366f1]/30">
-                        <p class="text-[11px] italic text-center font-bold">Clean, bright, and full of pastels! ✨</p>
-                    </div>
-                </div>
-              `
-            },
-        ];
-
         function likeCollection(e, index) {
             e.stopPropagation(); 
             playSFX('heart');
@@ -556,7 +564,10 @@
 
         let currentCollection = [];
         let currentImgIndex = 0;
-        let plantInterval = null;
+
+        let lbCollection = [];
+        let currentLbIndex = 0;
+        let lbLoaded = false;
 
         function openGalleryModal(colIndex) {
             playSFX('gallery');
@@ -565,7 +576,7 @@
             
             document.getElementById('modal-carousel').classList.add('hidden');
             document.getElementById('modal-specs').classList.add('hidden');
-            document.getElementById('modal-plant').classList.add('hidden');
+            document.getElementById('modal-letterboxd').classList.add('hidden');
 
             if (c.type === 'carousel') {
                 currentCollection = c.images;
@@ -576,17 +587,63 @@
             } else if (c.type === 'specs') {
                 document.getElementById('modal-specs').innerHTML = c.specs;
                 document.getElementById('modal-specs').classList.remove('hidden');
-            } else if (c.type === 'plant') {
-                renderPlant();
-                document.getElementById('modal-plant').classList.remove('hidden');
+            } else if (c.type === 'letterboxd') {
+                document.getElementById('modal-letterboxd').classList.remove('hidden');
                 
-                plantInterval = setInterval(() => {
-                    if(!document.getElementById('gallery-modal').classList.contains('hidden') && !document.getElementById('modal-plant').classList.contains('hidden')) {
-                        renderPlant();
-                    } else {
-                        clearInterval(plantInterval);
-                    }
-                }, 1000);
+                if(!lbLoaded) {
+                    const username = "akeha"; 
+                    const rssUrl = `https://letterboxd.com/${username}/rss/`;
+                    const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+
+                    fetch(apiUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status !== 'ok') throw new Error("Failed to load feed");
+                        const items = data.items.slice(0, 10);
+                        
+                        lbCollection = items.map(item => {
+                            const link = item.link || "#";
+                            const fullTitle = item.title || "Movie";
+                            
+                            let title = fullTitle;
+                            let year = "";
+                            let rating = "";
+                            
+                            const match = fullTitle.match(/(.+?)(?:, (\d{4}))?(?: - ([★½]+))?$/);
+                            if (match) {
+                                title = match[1].trim();
+                                year = match[2] || "";
+                                rating = match[3] || "";
+                            }
+                            
+                            let dateStr = "";
+                            if (item.pubDate) {
+                                const d = new Date(item.pubDate.replace(/-/g, '/'));
+                                if (!isNaN(d)) {
+                                    dateStr = "Watched " + d.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+                                }
+                            }
+                            
+                            const tempDiv = document.createElement('div');
+                            tempDiv.innerHTML = item.description || "";
+                            const imgEl = tempDiv.querySelector('img');
+                            const imgSrc = imgEl ? imgEl.src : 'https://placehold.co/150x225/ffb3c6/ffffff?text=?';
+
+                            return { title, year, rating, imgSrc, link, dateStr };
+                        });
+
+                        lbLoaded = true;
+                        document.getElementById('lb-loading').classList.add('hidden');
+                        document.getElementById('lb-content').classList.remove('hidden');
+                        
+                        updateLbCarouselUI();
+                    })
+                    .catch(err => {
+                        document.getElementById('lb-loading').innerHTML = 'Failed to load diary :(';
+                    });
+                } else {
+                    updateLbCarouselUI();
+                }
             }
 
             document.getElementById('gallery-modal').classList.remove('hidden');
@@ -594,7 +651,6 @@
 
         function closeGalleryModal() {
             document.getElementById('gallery-modal').classList.add('hidden');
-            if (plantInterval) clearInterval(plantInterval);
         }
 
         function nextSlide(e) {
@@ -617,6 +673,100 @@
             currentImgIndex = i;
             playSFX('gallery');
             updateCarouselUI();
+        }
+
+        function nextLbSlide(e) {
+            if(e) e.stopPropagation();
+            if(!lbCollection.length) return;
+            currentLbIndex = (currentLbIndex + 1) % lbCollection.length;
+            playSFX('gallery');
+            updateLbCarouselUI();
+        }
+
+        function prevLbSlide(e) {
+            if(e) e.stopPropagation();
+            if(!lbCollection.length) return;
+            currentLbIndex = (currentLbIndex - 1 + lbCollection.length) % lbCollection.length;
+            playSFX('gallery');
+            updateLbCarouselUI();
+        }
+
+        function goToLbSlide(i, e) {
+            if(e) e.stopPropagation();
+            if (i === currentLbIndex) {
+                 window.open(lbCollection[i].link, '_blank');
+                 return;
+            }
+            currentLbIndex = i;
+            playSFX('gallery');
+            updateLbCarouselUI();
+        }
+
+        function updateLbCarouselUI() {
+            if(!lbCollection.length) return;
+            const track = document.getElementById('lb-carousel-track');
+            
+            if (track.children.length === 0) {
+                track.innerHTML = lbCollection.map((film, i) => `
+                    <div class="carousel-item absolute w-[80%] h-full top-0 rounded-2xl overflow-hidden shadow-[0_15px_35px_rgba(0,0,0,0.25)] dark:shadow-[0_15px_35px_rgba(0,0,0,0.6)] cursor-pointer bg-[#ffe0ec] dark:bg-[#3b2c5c]" onclick="goToLbSlide(${i}, event)">
+                        <img src="${film.imgSrc}" class="w-full h-full object-cover select-none pointer-events-none" draggable="false">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent pointer-events-none"></div>
+                        <div class="absolute inset-0 border-[1.5px] border-white/40 dark:border-white/10 rounded-2xl pointer-events-none"></div>
+                        ${film.rating ? `<div class="absolute top-2 right-2 bg-black/60 backdrop-blur-md text-[#f72585] dark:text-[#a5b4fc] text-[10px] px-1.5 py-0.5 rounded-md font-bold tracking-widest">${film.rating}</div>` : ''}
+                    </div>
+                `).join('');
+            }
+
+            const items = track.querySelectorAll('.carousel-item');
+            const len = lbCollection.length;
+
+            items.forEach((item, i) => {
+                let offset = i - currentLbIndex;
+                if (offset > Math.floor(len / 2)) offset -= len;
+                if (offset < -Math.floor(len / 2)) offset += len;
+
+                const absOffset = Math.abs(offset);
+                let tx = offset * 65; 
+                let tz = absOffset * -150;
+                let scale = 1 - (absOffset * 0.15); 
+                let rotateY = offset * -18;
+                let opacity = absOffset === 0 ? 1 : Math.max(0, 0.7 - (absOffset * 0.2));
+                let zIndex = 20 - absOffset;
+
+                if (absOffset > 2) { opacity = 0; scale = 0.5; }
+
+                item.style.transform = `translateX(${tx}%) translateZ(${tz}px) scale(${scale}) rotateY(${rotateY}deg)`;
+                item.style.opacity = opacity;
+                item.style.zIndex = zIndex;
+                
+                if (absOffset !== 0) {
+                    item.style.filter = isSleepyMode ? 'brightness(0.4) saturate(0.8)' : 'brightness(0.7) saturate(0.9)';
+                    item.style.pointerEvents = 'auto'; 
+                } else {
+                    item.style.filter = 'brightness(1) saturate(1)';
+                    item.style.pointerEvents = 'auto';
+                }
+            });
+
+            const currentFilm = lbCollection[currentLbIndex];
+            document.getElementById('lb-movie-title').innerText = currentFilm.title;
+            
+            const yearEl = document.getElementById('lb-movie-year');
+            const dateEl = document.getElementById('lb-movie-date');
+            const dotEl = document.getElementById('lb-movie-dot');
+            
+            yearEl.innerText = currentFilm.year;
+            dateEl.innerText = currentFilm.dateStr;
+            
+            if (currentFilm.year && currentFilm.dateStr) {
+                dotEl.style.display = 'inline';
+            } else {
+                dotEl.style.display = 'none';
+            }
+            
+            document.getElementById('lb-carousel-dots').innerHTML = lbCollection.map((_, i) => 
+                `<div onclick="goToLbSlide(${i}, event)" class="cursor-pointer h-1.5 rounded-full transition-all duration-500 ease-out ${i === currentLbIndex ? (isSleepyMode ? 'bg-[#c7d2fe] w-5' : 'bg-[#f72585] w-5') : (isSleepyMode ? 'bg-[#c7d2fe]/30 w-1.5 hover:bg-[#c7d2fe]/60' : 'bg-[#f72585]/30 w-1.5 hover:bg-[#f72585]/60')} shadow-sm"></div>`
+            ).join('');
         }
 
         function updateCarouselUI() {
@@ -672,23 +822,37 @@
 
         function setupSwipeEvents() {
             const wrapper = document.getElementById('carousel-wrapper');
-            wrapper.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
-            wrapper.addEventListener('touchend', e => { if(!isSwiping) return; handleSwipeFinish(e.changedTouches[0].screenX); }, {passive: true});
-            wrapper.addEventListener('mousedown', e => { touchStartX = e.screenX; isSwiping = true; wrapper.classList.add('cursor-grabbing'); });
-            window.addEventListener('mouseup', e => { if(!isSwiping) return; wrapper.classList.remove('cursor-grabbing'); handleSwipeFinish(e.screenX); });
+            if (wrapper) {
+                wrapper.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
+                wrapper.addEventListener('touchend', e => { if(!isSwiping) return; handleSwipeFinish(e.changedTouches[0].screenX, 'main'); }, {passive: true});
+                wrapper.addEventListener('mousedown', e => { touchStartX = e.screenX; isSwiping = true; wrapper.classList.add('cursor-grabbing'); });
+                window.addEventListener('mouseup', e => { if(!isSwiping) return; wrapper.classList.remove('cursor-grabbing'); handleSwipeFinish(e.screenX, 'main'); });
+            }
+
+            const lbWrapper = document.getElementById('lb-carousel-wrapper');
+            if(lbWrapper) {
+                lbWrapper.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
+                lbWrapper.addEventListener('touchend', e => { if(!isSwiping) return; handleSwipeFinish(e.changedTouches[0].screenX, 'lb'); }, {passive: true});
+                lbWrapper.addEventListener('mousedown', e => { touchStartX = e.screenX; isSwiping = true; lbWrapper.classList.add('cursor-grabbing'); });
+                window.addEventListener('mouseup', e => { if(!isSwiping) return; lbWrapper.classList.remove('cursor-grabbing'); handleSwipeFinish(e.screenX, 'lb'); });
+            }
         }
 
-        function handleSwipeFinish(endX) {
+        function handleSwipeFinish(endX, type = 'main') {
             const diff = endX - touchStartX;
-            if (diff < -40) nextSlide();
-            else if (diff > 40) prevSlide();
+            if (type === 'main') {
+                if (diff < -40) nextSlide();
+                else if (diff > 40) prevSlide();
+            } else if (type === 'lb') {
+                if (diff < -40) nextLbSlide();
+                else if (diff > 40) prevLbSlide();
+            }
             isSwiping = false;
         }
 
         function openProfilePic() { document.getElementById('profile-modal').classList.remove('hidden'); }
-        function closeProfilePic() { document.getElementById('profile-modal').classList.add('hidden'); } // fixed close function call
+        function closeProfilePic() { document.getElementById('profile-modal').classList.add('hidden'); }
 
-        // --- GUESTBOOK LOGIC ---
         const COLORS = [
             { key: "pink", bg: "#ffe0ec", border: "#f72585" },
             { key: "lavender", bg: "#ede0ff", border: "#9b59b6" },
@@ -728,7 +892,7 @@
             document.getElementById('gb-count').innerText = entries.length;
             document.getElementById('guestbook-wall').innerHTML = entries.map((entry, i) => {
                 const c = COLORS.find(col => col.key === entry.color) || COLORS[0];
-                const rotation = '0deg'; // Fixed rotation to 0deg to be non-tilted
+                const rotation = '0deg'; 
                 return `
                 <div class="gb-note rounded-2xl p-4 relative" style="background: ${c.bg}; border: 1.5px solid ${c.border}30; --note-rot: ${rotation};">
                     <div class="absolute -top-2.5 -right-1 w-8 h-8 rounded-full flex items-center justify-center text-base shadow-sm bg-white" style="border: 1.5px solid ${c.border}40">${entry.sticker}</div>
@@ -756,7 +920,6 @@
             const message = document.getElementById('gb-message').value;
             if(!name || !message) return;
 
-            // Send to Formspree
             fetch('https://formspree.io/f/xlgqjyka', {
                 method: 'POST',
                 headers: {
@@ -783,122 +946,6 @@
             setTimeout(() => {
                 el.classList.remove('heart-pop');
             }, 300);
-        }
-
-        // --- PLANT NURSERY LOGIC ---
-        let plantData = JSON.parse(localStorage.getItem('vanessa_plant_v5')) || { level: 0, lastWatered: 0 };
-        const plantStages = [
-            { emoji: "🌱", text: "A tiny cute seedling!" },
-            { emoji: "🌿", text: "It's growing beautiful leaves!" },
-            { emoji: "🪴", text: "A healthy, happy potted plant!" },
-        ];
-        
-        const plantFinalForms = ["🌸", "🌻", "🍄", "🌵", "🌲", "🌳", "🌷", "🌹", "🌺"];
-        const WATER_COOLDOWN = 180000; 
-
-        function renderPlant() {
-            const level = plantData.level || 0;
-            let emoji = "🌱";
-            let text = "A tiny cute seedling!";
-            
-            if (level < 3) {
-                emoji = plantStages[level].emoji;
-                text = plantStages[level].text;
-            } else {
-                if (!plantData.finalEmoji) {
-                    plantData.finalEmoji = plantFinalForms[Math.floor(Math.random() * plantFinalForms.length)];
-                    localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
-                }
-                emoji = plantData.finalEmoji;
-                text = "Wow, it grew into something special! So cozy!";
-            }
-
-            const emojiEl = document.getElementById('plant-emoji');
-            emojiEl.innerText = emoji;
-            document.getElementById('plant-status').innerText = text;
-
-            const now = Date.now();
-            const timeSinceWater = now - plantData.lastWatered;
-            const canWater = timeSinceWater > WATER_COOLDOWN || plantData.lastWatered === 0;
-            const btn = document.getElementById('water-btn');
-            
-            if (canWater && level < 3) {
-                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'from-[#b19cd9]', 'to-[#ffb3c6]');
-                btn.classList.add('from-[#4facfe]', 'to-[#00f2fe]');
-                btn.innerText = "💧 Water Plant";
-                btn.onclick = () => waterPlant();
-            } else if (level >= 3) {
-                btn.classList.remove('opacity-50', 'cursor-not-allowed', 'from-[#4facfe]', 'to-[#00f2fe]');
-                btn.classList.add('from-[#b19cd9]', 'to-[#ffb3c6]');
-                btn.innerText = "✨ Harvest & Replant";
-                btn.onclick = () => resetPlant();
-            } else {
-                btn.classList.add('opacity-50', 'cursor-not-allowed');
-                const secondsLeft = Math.ceil((WATER_COOLDOWN - timeSinceWater) / 1000);
-                const mins = Math.floor(secondsLeft / 60);
-                const secs = secondsLeft % 60;
-                btn.innerText = `💧 Water in ${mins > 0 ? mins + 'm ' : ''}${secs}s`;
-                btn.onclick = null;
-            }
-        }
-
-        function resetPlant() {
-            playSFX('pin');
-            plantData = { level: 0, lastWatered: 0 };
-            delete plantData.finalEmoji;
-            localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
-            const emojiEl = document.getElementById('plant-emoji');
-            emojiEl.classList.add('plant-grow');
-            setTimeout(() => emojiEl.classList.remove('plant-grow'), 500);
-            renderPlant();
-        }
-
-        function waterPlant() {
-            playSFX('pin');
-            const emojiEl = document.getElementById('plant-emoji');
-            const drop = document.createElement('div');
-            drop.innerText = '💧';
-            drop.className = 'absolute -top-6 left-1/2 -translate-x-1/2 text-2xl animate-bounce pointer-events-none';
-            emojiEl.parentElement.appendChild(drop);
-            setTimeout(() => {
-                drop.remove();
-                if(plantData.level < 3) {
-                    plantData.level++;
-                    plantData.lastWatered = Date.now();
-                    localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
-                    emojiEl.classList.add('plant-grow');
-                    setTimeout(() => emojiEl.classList.remove('plant-grow'), 500);
-                    renderPlant();
-                    playSFX('gallery'); 
-                }
-            }, 600);
-        }
-
-        function petPlant() {
-            if (plantData.level >= 3) return; 
-            playSFX('heart');
-            if (plantData.lastWatered > 0) {
-                plantData.lastWatered -= 3000; 
-                localStorage.setItem('vanessa_plant_v5', JSON.stringify(plantData));
-                renderPlant();
-            }
-            const emojiEl = document.getElementById('plant-emoji');
-            const plantModal = document.getElementById('modal-plant');
-            emojiEl.classList.add('scale-125');
-            setTimeout(() => emojiEl.classList.remove('scale-125'), 150);
-            const sun = document.createElement('div');
-            sun.innerText = '☀️';
-            sun.className = 'absolute text-2xl pointer-events-none transition-all duration-1000 ease-out z-50';
-            sun.style.left = '50%';
-            sun.style.top = '30px'; 
-            sun.style.transform = 'translateX(-50%) scale(0.8)';
-            sun.style.opacity = '1';
-            plantModal.appendChild(sun);
-            setTimeout(() => {
-                sun.style.transform = 'translateX(-50%) translateY(-60px) scale(1.2) rotate(15deg)';
-                sun.style.opacity = '0';
-            }, 50);
-            setTimeout(() => { sun.remove(); }, 1000);
         }
     </script>
 </body>
