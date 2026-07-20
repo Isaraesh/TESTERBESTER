@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vanessa's Pastel Corner 🌸</title>
+    <title>Vanessa's Corner 🌸</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -62,10 +62,24 @@
         .font-quicksand { font-family: 'Quicksand', sans-serif; }
         .font-nunito { font-family: 'Nunito', sans-serif; }
         
+        /* --- Browser Artifact Fixes --- */
         * { -webkit-tap-highlight-color: transparent; }
         *:focus { outline: none !important; }
         ::selection { background: rgba(247, 37, 133, 0.25); color: inherit; }
         .dark ::selection { background: rgba(99, 102, 241, 0.35); color: inherit; }
+
+        /* Firefox Rendering Bug Fixes (Prevents random black lines during 3D repaints/hover/clicks) */
+        .page, .ux-parent, .ux-card, .ux-glass, .ux-circle, .ux-bottom, .ux-social-btn, #custom-player-wrapper, #player-track, #player-content, #album-art, .carousel-item {
+            outline: 1px solid transparent; /* Smooths anti-aliasing edges */
+            -moz-osx-font-smoothing: grayscale; /* Better text rendering during transforms */
+        }
+        
+        /* Make sure backface visibility is explicitly hidden for moving parts to stop layer tearing */
+        .ux-glass, .ux-circle, .ux-bottom, .ux-social-btn, #player-track, #player-content {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            transform-style: preserve-3d;
+        }
         
         .page { display: none; animation: fadeIn 0.4s ease-out forwards; }
         .page.active { display: block; }
@@ -109,19 +123,14 @@
             transform: translateZ(0);
             transform-style: preserve-3d;
             backface-visibility: hidden;
-            outline: 1px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.55s ease;
             box-shadow: 0 15px 25px rgba(247, 37, 133, 0.15), rgba(0,0,0, 0) 40px 50px 25px -40px, rgba(0,0,0, 0.1) 0 20px 20px -5px;
             cursor: pointer;
         }
 
-        .ux-card::before {
-            content: "";
-            position: absolute;
-            inset: -2px; 
-            background: var(--ux-grad);
-            border-radius: 30px; 
-            z-index: -1;
+        .dark .ux-card {
+            border: 1px solid rgba(255, 255, 255, 0.02);
         }
 
         .ux-parent:hover .ux-card {
@@ -198,6 +207,106 @@
         #letterboxd-carousel::-webkit-scrollbar-track { background: transparent; }
         #letterboxd-carousel::-webkit-scrollbar-thumb { background: #ffb3c6; border-radius: 10px; }
         .dark #letterboxd-carousel::-webkit-scrollbar-thumb { background: #4c489d; }
+
+        /* --- Custom Music Player --- */
+        #custom-player-wrapper {
+            position: relative;
+            width: 100%;
+            height: 90px;
+            margin-top: 20px; 
+            margin-bottom: 5px; 
+            transition: margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        #custom-player-wrapper.active {
+            margin-top: 100px;
+        }
+        
+        #player { position: relative; height: 100%; z-index: 3; }
+        
+        #player-track {
+            position: absolute; top: 0; right: 15px; left: 15px; 
+            padding: 10px 20px 15px 145px;
+            background-color: rgba(255, 255, 255, 0.8); backdrop-filter: blur(8px); 
+            border-radius: 15px 15px 0 0;
+            transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1) top; z-index: 1;
+            border: 1px solid rgba(247, 37, 133, 0.1); border-bottom: none;
+        }
+        .dark #player-track {
+            background-color: rgba(59, 44, 92, 0.8); border: 1px solid rgba(199, 210, 254, 0.1); border-bottom: none;
+        }
+
+        #player-track.active { top: -88px; }
+
+        #album-name { color: #c2185b; font-size: 14px; font-weight: bold; font-family: 'Quicksand', sans-serif; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+        .dark #album-name { color: #e0e7ff; }
+
+        #track-name { color: #b05c7a; font-size: 11px; margin: 2px 0 4px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-align: left; }
+        .dark #track-name { color: #8b8bb4; }
+
+        #track-time { height: 12px; margin-bottom: 5px; overflow: hidden; font-family: 'Quicksand', sans-serif; font-weight: bold; font-size: 10px; }
+        #current-time { float: left; }
+        #track-length { float: right; }
+        
+        #current-time, #track-length { color: transparent; transition: 0.3s ease all; }
+        #track-time.active #current-time, #track-time.active #track-length { color: #f72585; }
+        .dark #track-time.active #current-time, .dark #track-time.active #track-length { color: #a5b4fc; }
+
+        #seek-bar-container, #seek-bar { position: relative; height: 4px; border-radius: 4px; }
+        #seek-bar-container { background-color: rgba(247, 37, 133, 0.15); cursor: pointer; }
+        .dark #seek-bar-container { background-color: rgba(199, 210, 254, 0.15); }
+
+        #seek-time {
+            position: absolute; top: -29px; color: #fff; font-size: 10px; white-space: pre; padding: 4px 6px; border-radius: 4px; display: none; background-color: #f72585; font-family: 'Quicksand', sans-serif; font-weight: bold;
+        }
+        .dark #seek-time { background-color: #6366f1; }
+
+        #s-hover { position: absolute; top: 0; bottom: 0; left: 0; opacity: 0.2; z-index: 2; background-color: #f72585; }
+        .dark #s-hover { background-color: #a5b4fc; }
+
+        #seek-bar { position: absolute; top: 0; bottom: 0; left: 0; width: 0; background-color: #f72585; transition: 0.2s ease width; z-index: 1; }
+        .dark #seek-bar { background-color: #6366f1; }
+
+        #player-content { position: relative; height: 100%; background-color: #fff; box-shadow: 0 10px 30px rgba(247, 37, 133, 0.15); border-radius: 20px; z-index: 2; display: flex; align-items: center; border: 1.5px solid rgba(247, 37, 133, 0.1); }
+        .dark #player-content { background-color: #1a1b41; box-shadow: 0 10px 30px rgba(0,0,0, 0.4); border: 1.5px solid rgba(199, 210, 254, 0.1); }
+
+        #album-art { position: absolute; top: -25px; left: 22px; width: 106px; height: 106px; transform: rotateZ(0); transition: 0.3s ease all; box-shadow: 0 0 0 6px #fff; border-radius: 50%; overflow: hidden; background: #ffe0ec; z-index: 3; }
+        .dark #album-art { box-shadow: 0 0 0 6px #1a1b41; background: #3b2c5c; }
+
+        #album-art.active { top: -53px; box-shadow: 0 0 0 4px #fff, 0 15px 25px -5px rgba(247, 37, 133, 0.4); }
+        .dark #album-art.active { box-shadow: 0 0 0 4px #1a1b41, 0 15px 25px -5px rgba(0,0,0, 0.6); }
+
+        #album-art::before { content: ""; position: absolute; top: 50%; left: 50%; width: 16px; height: 16px; margin: -8px 0 0 -8px; background-color: #fff; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(247, 37, 133, 0.1); z-index: 2; }
+        .dark #album-art::before { background-color: #1f1e3d; box-shadow: inset 0 0 0 2px rgba(199, 210, 254, 0.2); }
+
+        #album-art img { display: block; position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; z-index: -1; object-fit: cover; }
+        #album-art img.active { opacity: 1; z-index: 1; }
+        #album-art.active img.active { z-index: 1; animation: rotateAlbumArt 4s linear 0s infinite forwards; }
+
+        @keyframes rotateAlbumArt { 0% { transform: rotateZ(0); } 100% { transform: rotateZ(360deg); } }
+
+        #buffer-box { position: absolute; top: 50%; right: 0; left: 0; height: 13px; color: #f72585; font-size: 11px; font-family: 'Quicksand', sans-serif; text-align: center; font-weight: bold; line-height: 1; padding: 6px; margin: -12px auto 0 auto; background-color: rgba(255, 255, 255, 0.6); backdrop-filter: blur(2px); opacity: 0; z-index: 2; }
+        .dark #buffer-box { color: #a5b4fc; background-color: rgba(26, 27, 65, 0.6); }
+
+        #album-art img, #buffer-box { transition: 0.1s linear all; }
+        #album-art.buffering img { opacity: 0.25; }
+        #album-art.buffering img.active { opacity: 0.8; filter: blur(2px); }
+        #album-art.buffering #buffer-box { opacity: 1; }
+
+        #player-controls { margin-left: 145px; display: flex; align-items: center; justify-content: center; gap: 8px; flex: 1; padding-right: 15px; }
+
+        .control-button { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; background-color: rgba(247, 37, 133, 0.05); border-radius: 50%; cursor: pointer; transition: 0.2s ease all; color: #f72585; }
+        .dark .control-button { background-color: rgba(199, 210, 254, 0.05); color: #a5b4fc; }
+
+        .control-button:hover { background-color: #f72585; color: #fff; transform: scale(1.05); }
+        .dark .control-button:hover { background-color: #6366f1; color: #fff; }
+        .control-button:active { transform: scale(0.95); }
+
+        #play-pause-button { width: 44px; height: 44px; background: linear-gradient(135deg, #f72585, #ff85a1); color: white; box-shadow: 0 4px 10px rgba(247, 37, 133, 0.3); }
+        .dark #play-pause-button { background: linear-gradient(135deg, #4c489d, #6366f1); box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3); }
+        
+        #play-pause-button:hover { transform: scale(1.08); background: linear-gradient(135deg, #c2185b, #f72585); }
+        .dark #play-pause-button:hover { background: linear-gradient(135deg, #3b2c5c, #4c489d); }
     </style>
 </head>
 <body class="bg-[#fff0f5] bg-gradient-to-b from-[#fff0f5] via-[#fff0f5] to-[#ffd1e3] dark:from-[#0f0f23] dark:via-[#1a1a3a] dark:to-[#2d1b36] bg-fixed text-[#7a1a3e] dark:text-[#e6e6fa] font-nunito min-h-screen sm:py-8 flex flex-col items-center justify-center transition-colors duration-500">
@@ -216,7 +325,7 @@
         </button>
     </nav>
 
-    <div class="w-[92%] sm:w-full max-w-[480px] mx-auto bg-white dark:bg-[#1f1e3d] min-h-[90vh] sm:min-h-0 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative pb-12 border-[6px] sm:border-[8px] border-white dark:border-[#1f1e3d] transition-colors duration-500 overflow-hidden sm:overflow-visible mt-4 sm:mt-2">
+    <div class="w-[92%] sm:w-full max-w-[480px] mx-auto bg-white dark:bg-[#1f1e3d] min-h-[90vh] sm:min-h-0 rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_0_50px_rgba(247,37,133,0.15)] dark:shadow-[0_0_50px_rgba(0,0,0,0.5)] relative pb-8 border-[6px] sm:border-[8px] border-white dark:border-[#1f1e3d] transition-colors duration-500 overflow-hidden sm:overflow-visible mt-4 sm:mt-2">
         <div class="w-full relative">
 
             <!-- Home Page -->
@@ -240,70 +349,100 @@
                 </div>
             </div>
 
-            <div id="gallery" class="page px-6 py-4">
+            <div id="gallery" class="page px-6 pt-4 pb-2">
                 <div class="text-center mb-8">
                     <h1 class="text-3xl mb-1 font-pacifico text-[#c2185b] dark:text-[#e0e7ff] transition-colors duration-500">my little gallery <span class="cursor-pointer select-none inline-block origin-bottom" onclick="playBearEasterEgg(this)">🐻</span></h1>
                     <p class="text-xs tracking-widest uppercase font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">a visual diary that makes me smile</p>
                 </div>
 
-                <div class="grid grid-cols-2 gap-3 mb-8" id="gallery-grid"></div>
+                <div class="grid grid-cols-2 gap-3 mb-12" id="gallery-grid"></div>
 
-                <div class="rounded-2xl overflow-hidden transition-colors duration-500 bg-[#fff5f8] dark:bg-[#25234b] flex flex-col">
-                    <div class="flex items-center justify-center gap-2 py-2.5 text-xs tracking-widest uppercase font-bold bg-[#ffe0ec] dark:bg-[#3b2c5c] text-[#f72585] dark:text-[#c7d2fe] font-quicksand transition-colors duration-500 shrink-0">
-                        🎵 latest fav
+                <div class="rounded-2xl px-3 pt-3 pb-2 transition-colors duration-500 bg-[#fff5f8] dark:bg-[#25234b] flex flex-col border-[1.5px] border-[rgba(247,37,133,0.15)] dark:border-[#c7d2fe]/10">
+                    <div class="flex items-center justify-center gap-2 mb-1 text-xs tracking-widest uppercase font-bold text-[#f72585] dark:text-[#c7d2fe] font-quicksand transition-colors duration-500 shrink-0">
+                        🎵 on repeat
                     </div>
-                    <div class="flex justify-center transition-colors duration-500 w-full flex-1 leading-none bg-black">
-                        <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2nQZ2w4OhLwIjsNVoWAYoZ?utm_source=generator&theme=0&si=8768f28f9dec4db7" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    
+                    <!-- Custom Music Player -->
+                    <div id="custom-player-wrapper" class="mx-auto max-w-[400px]">
+                        <div id="player">
+                            <div id="player-track">
+                                <div id="album-name"></div>
+                                <div id="track-name"></div>
+                                <div id="track-time">
+                                    <div id="current-time"></div>
+                                    <div id="track-length"></div>
+                                </div>
+                                <div id="seek-bar-container">
+                                    <div id="seek-time"></div>
+                                    <div id="s-hover"></div>
+                                    <div id="seek-bar"></div>
+                                </div>
+                            </div>
+                            <div id="player-content">
+                                <div id="album-art">
+                                    <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=150&q=80" class="active" id="_1" />
+                                    <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?w=150&q=80" id="_2" />
+                                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&q=80" id="_3" />
+                                    <div id="buffer-box">Buffering ...</div>
+                                </div>
+                                <div id="player-controls">
+                                    <div class="control-button" id="play-previous">
+                                        <i data-lucide="skip-back" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                    <div class="control-button" id="play-pause-button">
+                                        <!-- Wrapper spans to easily toggle visibility without destroying svg -->
+                                        <div id="play-btn-wrapper" class="flex items-center justify-center">
+                                            <i data-lucide="play" class="w-5 h-5 fill-current ml-0.5"></i>
+                                        </div>
+                                        <div id="pause-btn-wrapper" class="flex items-center justify-center hidden">
+                                            <i data-lucide="pause" class="w-5 h-5 fill-current"></i>
+                                        </div>
+                                    </div>
+                                    <div class="control-button" id="play-next">
+                                        <i data-lucide="skip-forward" class="w-4 h-4 fill-current"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
-                <!-- Outer wrapper sets constraints and positioning context so close button is safe from clipping -->
-                <div class="relative w-[96%] sm:w-[95%] max-w-[700px] sm:max-w-[800px]">
-                    
-                    <!-- Close button stays relative to outer wrapper -->
-                    <button onclick="closeGalleryModal()" class="absolute -top-3 -right-2 sm:-top-4 sm:-right-4 w-10 h-10 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-50"><i data-lucide="x" class="w-5 h-5"></i></button>
-                    
-                    <!-- Inner wrapper uses overflow-hidden to clip non-focused carousel items perfectly at the edge -->
-                    <div class="bg-gradient-to-br from-[#fff0f5] to-[#ffd1e3] dark:from-[#25234b] dark:to-[#1a1b41] w-full rounded-[2.5rem] px-3 py-6 sm:p-10 shadow-[0_0_60px_rgba(247,37,133,0.4)] dark:shadow-[0_0_60px_rgba(99,102,241,0.4)] relative border-[2px] border-white/60 dark:border-[#c7d2fe]/30 transition-colors duration-500 overflow-hidden">
-                        
-                        <h2 id="modal-title" class="text-center text-2xl sm:text-3xl mb-4 sm:mb-6 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10">Title</h2>
+            <div id="gallery-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-white/60 dark:bg-[#0f0f23]/80 backdrop-blur-md transition-all duration-300">
+                <div id="modal-wrapper" class="relative w-[96%] sm:w-[95%] max-w-[700px] sm:max-w-[800px] transition-all duration-300">
+                    <div class="bg-gradient-to-br from-[#fff0f5] to-[#ffd1e3] dark:from-[#25234b] dark:to-[#1a1b41] w-full rounded-[2rem] p-6 shadow-[0_0_60px_rgba(247,37,133,0.4)] dark:shadow-[0_0_60px_rgba(99,102,241,0.4)] relative border-[2px] border-white/60 dark:border-[#c7d2fe]/30 transition-colors duration-500">
+                        <button onclick="closeGalleryModal()" class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-50"><i data-lucide="x" class="w-4 h-4"></i></button>
+                        <h2 id="modal-title" class="text-center text-xl mb-5 font-quicksand font-bold text-[#c2185b] dark:text-[#e0e7ff] relative z-10 pointer-events-none">Title</h2>
                         
                         <div id="modal-carousel" class="hidden w-full relative">
-                            <!-- Constraining wrapper inside clipping mask -->
-                            <div class="carousel-wrapper relative w-[72%] sm:w-full max-w-[280px] sm:max-w-[500px] mx-auto h-[420px] sm:h-[560px] flex items-center justify-center perspective-1000 mb-6 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
+                            <div class="carousel-wrapper relative w-[80%] sm:w-full max-w-[220px] sm:max-w-[340px] mx-auto h-[280px] sm:h-[380px] flex items-center justify-center perspective-1000 mb-4 cursor-grab active:cursor-grabbing" id="carousel-wrapper">
                                 <div id="carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
-                                <button onclick="prevSlide(event)" class="absolute -left-9 sm:-left-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
-                                <button onclick="nextSlide(event)" class="absolute -right-9 sm:-right-12 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
                             </div>
-                            <div id="carousel-dots" class="flex justify-center items-center gap-2.5 h-4 mt-2 relative z-10"></div>
+                            <div id="carousel-dots" class="flex justify-center items-center gap-2 h-4 mt-2"></div>
                         </div>
 
                         <div id="modal-letterboxd" class="hidden w-full relative z-10 flex flex-col transition-colors duration-500">
-                            <div id="lb-loading" class="text-sm font-quicksand animate-pulse text-[#b05c7a] dark:text-[#8b8bb4] w-full text-center block my-12">loading cinema reel...</div>
+                            <div id="lb-loading" class="text-xs font-quicksand animate-pulse text-[#b05c7a] dark:text-[#8b8bb4] w-full text-center block my-12">loading cinema reel...</div>
                             
                             <div id="lb-content" class="hidden w-full flex flex-col items-center pb-2">
-                                <div class="carousel-wrapper relative w-[72%] sm:w-full max-w-[240px] sm:max-w-[320px] mx-auto aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-6 cursor-grab active:cursor-grabbing" id="lb-carousel-wrapper">
+                                <div class="carousel-wrapper relative w-[75%] sm:w-full max-w-[190px] sm:max-w-[220px] mx-auto aspect-[3/4] rounded-xl flex items-center justify-center perspective-1000 mb-4 cursor-grab active:cursor-grabbing" id="lb-carousel-wrapper">
                                     <div id="lb-carousel-track" class="w-full h-full absolute top-0 left-0 flex items-center justify-center transform-style-3d"></div>
-                                    <button onclick="prevLbSlide(event)" class="absolute -left-9 sm:-left-14 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-left" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
-                                    <button onclick="nextLbSlide(event)" class="absolute -right-9 sm:-right-14 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/80 dark:bg-black/50 text-[#f72585] dark:text-[#c7d2fe] flex items-center justify-center shadow-lg hover:bg-white dark:hover:bg-black transition-colors z-40 backdrop-blur-md border border-white/50 dark:border-white/10 active:scale-95"><i data-lucide="chevron-right" class="w-6 h-6 sm:w-7 sm:h-7"></i></button>
                                 </div>
                                 
-                                <div id="lb-text-container" class="text-center min-h-[60px] flex flex-col justify-center items-center w-full px-2">
-                                    <h3 id="lb-movie-title" class="text-[18px] sm:text-[22px] font-bold font-quicksand text-[#c2185b] dark:text-[#e0e7ff] leading-tight line-clamp-2 mb-1.5"></h3>
-                                    <div class="flex items-center justify-center gap-1.5 text-[11px] sm:text-[12px] font-bold tracking-widest uppercase">
+                                <div id="lb-text-container" class="text-center min-h-[60px] flex flex-col justify-center items-center w-full px-2 pointer-events-none">
+                                    <h3 id="lb-movie-title" class="text-[16px] font-bold font-quicksand text-[#c2185b] dark:text-[#e0e7ff] leading-tight line-clamp-2 mb-1.5"></h3>
+                                    <div class="flex items-center justify-center gap-1.5 text-[10px] font-bold tracking-widest uppercase">
                                         <span id="lb-movie-year" class="text-[#f72585] dark:text-[#a5b4fc]"></span>
                                         <span id="lb-movie-dot" class="text-[#b05c7a]/40 dark:text-[#8b8bb4]/40">•</span>
                                         <span id="lb-movie-date" class="text-[#b05c7a] dark:text-[#8b8bb4]"></span>
                                     </div>
                                 </div>
                                 
-                                <div id="lb-carousel-dots" class="flex justify-center items-center gap-2 h-4 mt-4 relative z-10"></div>
+                                <div id="lb-carousel-dots" class="flex justify-center items-center gap-1.5 h-4 mt-2"></div>
                             </div>
                         </div>
 
-                        <div id="modal-specs" class="hidden w-full bg-white dark:bg-[#1a1b41] rounded-2xl p-6 sm:p-10 text-base sm:text-lg text-[#7a1a3e] dark:text-[#c7d2fe] font-nunito border border-[#ffe0ec] dark:border-[#3b2c5c] shadow-inner overflow-y-auto max-h-[65vh] sm:max-h-[450px] transition-colors duration-500 relative z-10">
+                        <div id="modal-specs" class="hidden w-full bg-white dark:bg-[#1a1b41] rounded-xl p-5 text-sm text-[#7a1a3e] dark:text-[#c7d2fe] font-nunito border border-[#ffe0ec] dark:border-[#3b2c5c] shadow-inner overflow-y-auto max-h-[65vh] sm:max-h-[350px] transition-colors duration-500 relative z-10">
                         </div>
                     </div>
                 </div>
@@ -314,6 +453,20 @@
                     <button onclick="closeProfilePic()" class="absolute -top-4 -right-2 w-10 h-10 rounded-full bg-[#f72585] dark:bg-[#6366f1] text-white flex items-center justify-center shadow-lg transform transition hover:scale-110 z-10"><i data-lucide="x" class="w-5 h-5"></i></button>
                     <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=800&q=80" alt="Full Profile" class="w-full h-auto aspect-square rounded-[2.5rem] shadow-2xl border-[8px] border-white dark:border-[#1f1e3d] object-cover bg-white dark:bg-[#1f1e3d] transition-colors duration-500">
                     <p class="mt-3 text-sm font-medium text-gray-500 dark:text-[#a5b4fc] text-center w-full tracking-wide transition-colors duration-500">that's me! ✨</p>
+                </div>
+            </div>
+
+            <div id="spotify-confirm-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-6 bg-black/40 dark:bg-black/60 backdrop-blur-sm transition-all duration-300">
+                <div class="bg-white dark:bg-[#1f1e3d] w-full max-w-xs rounded-3xl p-6 shadow-2xl border-[2px] border-[#ffe0ec] dark:border-[#3b2c5c] text-center transform scale-100 transition-transform">
+                    <div class="w-14 h-14 mx-auto bg-[#1DB954]/10 rounded-full flex items-center justify-center mb-4">
+                        <i data-lucide="music" class="w-7 h-7 text-[#1DB954]"></i>
+                    </div>
+                    <h3 class="text-lg font-bold font-quicksand text-[#c2185b] dark:text-[#e0e7ff] mb-2">Listen on Spotify?</h3>
+                    <p class="text-sm text-[#7a1a3e] dark:text-[#b1b1d1] mb-6 leading-relaxed">You've reached the end of my showcase! Want to visit Spotify to explore my full playlist?</p>
+                    <div class="flex gap-3">
+                        <button onclick="closeSpotifyModal()" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">Cancel</button>
+                        <a href="https://open.spotify.com/user/31vjkbs7bzllhj6usjjieoijqb4i" target="_blank" rel="noopener noreferrer" onclick="closeSpotifyModal()" class="flex-1 py-2.5 rounded-xl text-sm font-bold bg-[#1DB954] text-white hover:bg-[#1ed760] transition-colors shadow-lg shadow-[#1DB954]/30 block text-center">Yes, let's go!</a>
+                    </div>
                 </div>
             </div>
 
@@ -430,9 +583,10 @@
 
         let bgmStarted = false;
         let fadeInterval;
+        let isPlayerPlaying = false; 
 
         document.addEventListener('click', () => {
-            if (!bgmStarted && !globalMuted) {
+            if (!bgmStarted && !globalMuted && !isPlayerPlaying) {
                 const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
                 if(initialBgm) {
                     initialBgm.volume = maxBgmVolume;
@@ -449,6 +603,10 @@
             Object.values(sfx).forEach(audio => {
                 if(audio) audio.muted = globalMuted;
             });
+            
+            if (customAudio) {
+                customAudio.muted = globalMuted;
+            }
 
             if (sfx.click) {
                 sfx.click.muted = false;
@@ -474,7 +632,7 @@
                 btn.classList.remove('text-[#b05c7a]', 'dark:text-[#8b8bb4]');
                 btn.classList.add('text-[#f72585]', 'dark:text-[#c7d2fe]');
                 
-                if(!bgmStarted) {
+                if(!bgmStarted && !isPlayerPlaying) {
                     const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
                     if(initialBgm) {
                         initialBgm.volume = maxBgmVolume;
@@ -485,8 +643,25 @@
             }
         }
 
+        function pauseBgmForPlayer() {
+            isPlayerPlaying = true;
+            if(sfx.bgm1) sfx.bgm1.pause();
+            if(sfx.bgm2) sfx.bgm2.pause();
+        }
+
+        function resumeBgmFromPlayer() {
+            isPlayerPlaying = false;
+            if (!globalMuted && bgmStarted) {
+                const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
+                if(initialBgm) {
+                    initialBgm.volume = maxBgmVolume;
+                    initialBgm.play().catch(()=>{});
+                }
+            }
+        }
+
         function crossfadeBgm(enteringNight) {
-            if (!bgmStarted) return;
+            if (!bgmStarted || isPlayerPlaying) return; 
             
             const fadeOutAudio = enteringNight ? sfx.bgm1 : sfx.bgm2;
             const fadeInAudio = enteringNight ? sfx.bgm2 : sfx.bgm1;
@@ -628,14 +803,12 @@
             { icon: "message-square", label: "discord", handle: "@vagessa", color: "#5c6feb", darkColor: "#5c6feb", link: "https://discord.com/" },
         ];
         
-        // Digital Art Array
         const art1 = "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?auto=format&fit=crop&w=600&q=80";
         const art2 = "https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=600&q=80";
         const art3 = "https://images.unsplash.com/photo-1560015534-cee980ba7e13?auto=format&fit=crop&w=600&q=80";
         const art4 = "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?auto=format&fit=crop&w=600&q=80";
         const art5 = "https://images.unsplash.com/photo-1578301978693-85fa9c026f43?auto=format&fit=crop&w=600&q=80";
 
-        // Pastel Vibes Array
         const pastel1 = "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?auto=format&fit=crop&w=600&q=80";
         const pastel2 = "https://images.unsplash.com/photo-1593640408182-31c70c8268f5?auto=format&fit=crop&w=600&q=80";
         const pastel3 = "https://images.unsplash.com/photo-1495954484750-af469f2f9be5?auto=format&fit=crop&w=600&q=80";
@@ -740,11 +913,22 @@
         let lbCollection = [];
         let currentLbIndex = 0;
         let lbLoaded = false;
+        
+        let activeColIndex = null;
+        let justSwiped = false;
 
         function openGalleryModal(colIndex) {
             playSFX('galleryclick');
+            activeColIndex = colIndex;
             const c = collections[colIndex];
             document.getElementById('modal-title').innerText = `${c.emoji} ${c.title}`;
+            
+            const modalWrapper = document.getElementById('modal-wrapper');
+            if (c.type === 'carousel') {
+                modalWrapper.className = "relative w-[96%] sm:w-[95%] max-w-[700px] sm:max-w-[800px] transition-all duration-300";
+            } else {
+                modalWrapper.className = "relative w-[96%] sm:w-[95%] max-w-[500px] sm:max-w-[540px] transition-all duration-300";
+            }
             
             document.getElementById('modal-carousel').classList.add('hidden');
             document.getElementById('modal-specs').classList.add('hidden');
@@ -823,6 +1007,7 @@
 
         function closeGalleryModal() {
             document.getElementById('gallery-modal').classList.add('hidden');
+            activeColIndex = null;
         }
 
         function nextSlide(e) {
@@ -910,7 +1095,6 @@
                 let rotateY = offset * -18;
                 let zIndex = 20 - absOffset;
                 
-                // Hide completely right before they clip on the boundary edge
                 let opacity = absOffset === 0 ? 1 : Math.max(0, 0.7 - (absOffset * 0.2));
                 if (absOffset >= 2) { opacity = 0; scale = 0.5; }
 
@@ -982,7 +1166,6 @@
                 let rotateY = offset * -18;
                 let zIndex = 20 - absOffset;
 
-                // Hide completely right before they clip on the boundary edge
                 let opacity = absOffset === 0 ? 1 : Math.max(0, 0.8 - (absOffset * 0.3));
                 if (absOffset >= 2) { opacity = 0; scale = 0.5; }
 
@@ -1008,21 +1191,53 @@
         let isSwiping = false;
 
         function setupSwipeEvents() {
-            const wrapper = document.getElementById('carousel-wrapper');
-            if (wrapper) {
-                wrapper.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
-                wrapper.addEventListener('touchend', e => { if(!isSwiping) return; handleSwipeFinish(e.changedTouches[0].screenX, 'main'); }, {passive: true});
-                wrapper.addEventListener('mousedown', e => { touchStartX = e.screenX; isSwiping = true; wrapper.classList.add('cursor-grabbing'); });
-                window.addEventListener('mouseup', e => { if(!isSwiping) return; wrapper.classList.remove('cursor-grabbing'); handleSwipeFinish(e.screenX, 'main'); });
+            const modal = document.getElementById('gallery-modal');
+            if (modal) {
+                modal.addEventListener('touchstart', e => { 
+                    touchStartX = e.changedTouches[0].screenX; 
+                    isSwiping = true; 
+                }, {passive: true});
+                
+                modal.addEventListener('touchend', e => { 
+                    if(!isSwiping) return; 
+                    handleModalSwipeFinish(e.changedTouches[0].screenX); 
+                }, {passive: true});
+                
+                modal.addEventListener('mousedown', e => { 
+                    if (activeColIndex !== null && collections[activeColIndex].type === 'specs') return;
+                    touchStartX = e.screenX; 
+                    isSwiping = true; 
+                });
+                
+                window.addEventListener('mouseup', e => { 
+                    if(!isSwiping) return; 
+                    handleModalSwipeFinish(e.screenX); 
+                });
+
+                modal.addEventListener('click', (e) => {
+                    if (justSwiped || activeColIndex === null) return;
+                    const type = collections[activeColIndex].type;
+                    if (type !== 'carousel' && type !== 'letterboxd') return;
+
+                    const target = e.target;
+                    const isInteractive = target.closest('button') || 
+                                          target.closest('.carousel-item') || 
+                                          target.closest('#carousel-dots') ||
+                                          target.closest('#lb-carousel-dots');
+                                          
+                    if (isInteractive) return; 
+
+                    const screenWidth = window.innerWidth;
+                    if (e.clientX < screenWidth / 2) {
+                        handleSideClick('prev');
+                    } else {
+                        handleSideClick('next');
+                    }
+                });
             }
 
             const lbWrapper = document.getElementById('lb-carousel-wrapper');
             if(lbWrapper) {
-                lbWrapper.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].screenX; isSwiping = true; }, {passive: true});
-                lbWrapper.addEventListener('touchend', e => { if(!isSwiping) return; handleSwipeFinish(e.changedTouches[0].screenX, 'lb'); }, {passive: true});
-                lbWrapper.addEventListener('mousedown', e => { touchStartX = e.screenX; isSwiping = true; lbWrapper.classList.add('cursor-grabbing'); });
-                window.addEventListener('mouseup', e => { if(!isSwiping) return; lbWrapper.classList.remove('cursor-grabbing'); handleSwipeFinish(e.screenX, 'lb'); });
-
                 lbWrapper.addEventListener('mousemove', (e) => {
                     if (isSwiping) return;
                     const activeItem = lbWrapper.querySelector('.carousel-item.lb-active');
@@ -1070,16 +1285,41 @@
             }
         }
 
-        function handleSwipeFinish(endX, type = 'main') {
+        function handleModalSwipeFinish(endX) {
+            if (!isSwiping) return;
+            isSwiping = false;
+            
+            if (activeColIndex === null) return;
+            
             const diff = endX - touchStartX;
-            if (type === 'main') {
+            if (Math.abs(diff) < 40) {
+                justSwiped = false;
+                return;
+            }
+            
+            justSwiped = true;
+            setTimeout(() => justSwiped = false, 100); 
+            
+            const type = collections[activeColIndex].type;
+            if (type === 'carousel') {
                 if (diff < -40) nextSlide();
                 else if (diff > 40) prevSlide();
-            } else if (type === 'lb') {
+            } else if (type === 'letterboxd') {
                 if (diff < -40) nextLbSlide();
                 else if (diff > 40) prevLbSlide();
             }
-            isSwiping = false;
+        }
+
+        function handleSideClick(dir) {
+            if (activeColIndex === null) return;
+            const type = collections[activeColIndex].type;
+            if (type === 'carousel') {
+                if (dir === 'prev') prevSlide();
+                else nextSlide();
+            } else if (type === 'letterboxd') {
+                if (dir === 'prev') prevLbSlide();
+                else nextLbSlide();
+            }
         }
 
         function openProfilePic() { document.getElementById('profile-modal').classList.remove('hidden'); }
@@ -1179,6 +1419,236 @@
                 el.classList.remove('heart-pop');
             }, 300);
         }
+
+        function closeSpotifyModal() {
+            document.getElementById('spotify-confirm-modal').classList.add('hidden');
+        }
+
+        /* --- Vanilla JS Music Player Logic --- */
+        let customAudio = new Audio();
+        
+        document.addEventListener("DOMContentLoaded", () => {
+            const playerWrapper = document.getElementById("custom-player-wrapper");
+            const playerTrack = document.getElementById("player-track");
+            const albumName = document.getElementById("album-name");
+            const trackName = document.getElementById("track-name");
+            const albumArt = document.getElementById("album-art");
+            const sArea = document.getElementById("seek-bar-container");
+            const seekBar = document.getElementById("seek-bar");
+            const trackTime = document.getElementById("track-time");
+            const seekTime = document.getElementById("seek-time");
+            const sHover = document.getElementById("s-hover");
+            const playPauseButton = document.getElementById("play-pause-button");
+            const tProgress = document.getElementById("current-time");
+            const tTime = document.getElementById("track-length");
+            const playPreviousTrackButton = document.getElementById("play-previous");
+            const playNextTrackButton = document.getElementById("play-next");
+            
+            // Re-targeting the explicit SVG wrappers
+            const playBtnWrap = document.getElementById("play-btn-wrapper");
+            const pauseBtnWrap = document.getElementById("pause-btn-wrapper");
+
+            const albums = ["Savage", "Citizens", "Deathwish"];
+            const trackNames = [
+                "Aespa - Lemonade",
+                "Faouzia - we'll have a family...",
+                "akiaura - Deathwish"
+            ];
+            const albumArtworks = ["_1", "_2", "_3"];
+            
+            const trackUrl = [
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+            ];
+
+            let seekT, seekLoc, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress, bTime, 
+                nTime = 0, buffInterval = null, tFlag = false, currIndex = -1;
+
+            function playPause() {
+                setTimeout(() => {
+                    if (customAudio.paused) {
+                        playerWrapper.classList.add("active");
+                        playerTrack.classList.add("active");
+                        albumArt.classList.add("active");
+                        checkBuffering();
+                        playBtnWrap.classList.add("hidden");
+                        pauseBtnWrap.classList.remove("hidden");
+                        customAudio.play();
+                        pauseBgmForPlayer();
+                    } else {
+                        playerWrapper.classList.remove("active");
+                        playerTrack.classList.remove("active");
+                        albumArt.classList.remove("active");
+                        clearInterval(buffInterval);
+                        albumArt.classList.remove("buffering");
+                        playBtnWrap.classList.remove("hidden");
+                        pauseBtnWrap.classList.add("hidden");
+                        customAudio.pause();
+                        resumeBgmFromPlayer();
+                    }
+                }, 150);
+            }
+
+            function showHover(event) {
+                const seekBarPos = sArea.getBoundingClientRect();
+                seekT = event.clientX - seekBarPos.left;
+                seekLoc = customAudio.duration * (seekT / sArea.offsetWidth);
+
+                sHover.style.width = seekT + "px";
+
+                cM = seekLoc / 60;
+                ctMinutes = Math.floor(cM);
+                ctSeconds = Math.floor(seekLoc - ctMinutes * 60);
+
+                if (ctMinutes < 0 || ctSeconds < 0 || isNaN(ctMinutes) || isNaN(ctSeconds)) {
+                    seekTime.innerText = "--:--";
+                } else {
+                    if (ctMinutes < 10) ctMinutes = "0" + ctMinutes;
+                    if (ctSeconds < 10) ctSeconds = "0" + ctSeconds;
+                    seekTime.innerText = ctMinutes + ":" + ctSeconds;
+                }
+
+                seekTime.style.left = seekT + "px";
+                seekTime.style.marginLeft = "-21px";
+                seekTime.style.display = "block";
+            }
+
+            function hideHover() {
+                sHover.style.width = "0px";
+                seekTime.innerText = "00:00";
+                seekTime.style.left = "0px";
+                seekTime.style.marginLeft = "0px";
+                seekTime.style.display = "none";
+            }
+
+            function playFromClickedPos() {
+                customAudio.currentTime = seekLoc;
+                seekBar.style.width = seekT + "px";
+                hideHover();
+            }
+
+            function updateCurrTime() {
+                nTime = new Date().getTime();
+
+                if (!tFlag) {
+                    tFlag = true;
+                    trackTime.classList.add("active");
+                }
+
+                curMinutes = Math.floor(customAudio.currentTime / 60);
+                curSeconds = Math.floor(customAudio.currentTime - curMinutes * 60);
+                durMinutes = Math.floor(customAudio.duration / 60);
+                durSeconds = Math.floor(customAudio.duration - durMinutes * 60);
+                playProgress = (customAudio.currentTime / customAudio.duration) * 100;
+
+                if (curMinutes < 10) curMinutes = "0" + curMinutes;
+                if (curSeconds < 10) curSeconds = "0" + curSeconds;
+                if (durMinutes < 10) durMinutes = "0" + durMinutes;
+                if (durSeconds < 10) durSeconds = "0" + durSeconds;
+
+                if (isNaN(curMinutes) || isNaN(curSeconds)) tProgress.innerText = "00:00";
+                else tProgress.innerText = curMinutes + ":" + curSeconds;
+
+                if (isNaN(durMinutes) || isNaN(durSeconds)) tTime.innerText = "00:00";
+                else tTime.innerText = durMinutes + ":" + durSeconds;
+
+                if (isNaN(curMinutes) || isNaN(curSeconds) || isNaN(durMinutes) || isNaN(durSeconds))
+                    trackTime.classList.remove("active");
+                else 
+                    trackTime.classList.add("active");
+
+                seekBar.style.width = playProgress + "%";
+
+                if (playProgress == 100) {
+                    playBtnWrap.classList.remove("hidden");
+                    pauseBtnWrap.classList.add("hidden");
+                    seekBar.style.width = "0px";
+                    tProgress.innerText = "00:00";
+                    albumArt.classList.remove("buffering");
+                    albumArt.classList.remove("active");
+                    playerWrapper.classList.remove("active");
+                    playerTrack.classList.remove("active");
+                    clearInterval(buffInterval);
+                    resumeBgmFromPlayer();
+                }
+            }
+
+            function checkBuffering() {
+                clearInterval(buffInterval);
+                buffInterval = setInterval(() => {
+                    if (nTime == 0 || bTime - nTime > 1000) albumArt.classList.add("buffering");
+                    else albumArt.classList.remove("buffering");
+                    bTime = new Date().getTime();
+                }, 100);
+            }
+
+            function selectTrack(flag) {
+                if (flag === 1 && currIndex === albums.length - 1) {
+                    document.getElementById('spotify-confirm-modal').classList.remove('hidden');
+                    return; 
+                }
+
+                if (flag === 0 || flag === 1) ++currIndex;
+                else --currIndex;
+
+                if (currIndex > -1 && currIndex < albumArtworks.length) {
+                    if (flag === 0) {
+                        playBtnWrap.classList.remove("hidden");
+                        pauseBtnWrap.classList.add("hidden");
+                    } else {
+                        albumArt.classList.remove("buffering");
+                        playBtnWrap.classList.add("hidden");
+                        pauseBtnWrap.classList.remove("hidden");
+                    }
+
+                    seekBar.style.width = "0px";
+                    trackTime.classList.remove("active");
+                    tProgress.innerText = "00:00";
+                    tTime.innerText = "00:00";
+
+                    albumName.innerText = albums[currIndex];
+                    trackName.innerText = trackNames[currIndex];
+                    
+                    customAudio.src = trackUrl[currIndex];
+                    nTime = 0;
+                    bTime = new Date().getTime();
+
+                    if (flag !== 0) {
+                        customAudio.play();
+                        playerWrapper.classList.add("active");
+                        playerTrack.classList.add("active");
+                        albumArt.classList.add("active");
+                        clearInterval(buffInterval);
+                        checkBuffering();
+                        pauseBgmForPlayer();
+                    }
+
+                    document.querySelectorAll("#album-art img").forEach(img => img.classList.remove("active"));
+                    document.getElementById(albumArtworks[currIndex]).classList.add("active");
+                    
+                } else {
+                    if (flag === 0 || flag === 1) --currIndex;
+                    else ++currIndex;
+                }
+            }
+
+            function initPlayer() {
+                selectTrack(0);
+                customAudio.loop = false;
+
+                playPauseButton.addEventListener("click", playPause);
+                sArea.addEventListener("mousemove", showHover);
+                sArea.addEventListener("mouseout", hideHover);
+                sArea.addEventListener("click", playFromClickedPos);
+                customAudio.addEventListener("timeupdate", updateCurrTime);
+
+                playPreviousTrackButton.addEventListener("click", () => selectTrack(-1));
+                playNextTrackButton.addEventListener("click", () => selectTrack(1));
+            }
+
+            initPlayer();
+        });
     </script>
 </body>
 </html>
