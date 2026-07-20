@@ -195,7 +195,7 @@
         .toggle-star { position: absolute; background: white; border-radius: 50%; opacity: 0; transition: all 0.5s; }
         .sleepy-toggle.dark .toggle-star { opacity: 1; }
 
-        .mobile-expanded .sub-accounts { max-height: 100px !important; opacity: 1 !important; }
+        .mobile-expanded .sub-accounts { max-height: 400px !important; opacity: 1 !important; }
         .mobile-expanded .chevron-icon { transform: rotate(180deg); }
 
         .perspective-1000 { perspective: 1000px; }
@@ -343,7 +343,7 @@
                             <div id="avatar-ring" class="avatar-ring w-full h-full rounded-full flex items-center justify-center p-2.5 transition-colors duration-500" style="background: linear-gradient(135deg, #ffb3c6, #f72585)">
                                 <img src="https://images.unsplash.com/photo-1518002171953-a080ee817e1f?auto=format&fit=crop&w=400&q=80" alt="Vanessa" class="w-full h-full rounded-full object-cover border-[3.5px] border-white dark:border-[#1f1e3d] bg-white dark:bg-[#1f1e3d] transition-colors duration-500">
                             </div>
-                            <div id="home-badge" class="sparkle-badge absolute top-1 right-1 w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-md z-10 transition-colors duration-500" style="background: linear-gradient(135deg, #f72585, #ff85a1); border: 3px solid white;">💖</div>
+                            <div id="home-badge" class="sparkle-badge absolute top-1 right-1 w-12 h-12 rounded-full flex items-center justify-center text-xl shadow-md z-10 transition-colors duration-500" style="background: linear-gradient(135deg, #f72585, #ff85a1); border: 3px solid white;">🍓</div>
                         </div>
                     </div>
 
@@ -736,7 +736,7 @@
                 root.classList.remove('dark');
                 toggle.classList.remove('dark');
                 text.innerText = "Light Mode";
-                homeBadge.innerText = "💖";
+                homeBadge.innerText = "🍓";
                 homeBadge.style.background = "linear-gradient(135deg, #f72585, #ff85a1)";
                 submitBtn.style.background = "linear-gradient(135deg, #f72585, #ff85a1)";
                 avatarRing.style.background = "linear-gradient(135deg, #ffb3c6, #f72585)";
@@ -811,13 +811,28 @@
                 darkColor: "#FF0000", 
                 link: "https://www.last.fm/user/sadbutbadbitch",
                 subAccounts: [
-                    { label: "alt.fm", handle: "@your_alt_here", link: "https://www.last.fm/user/your_alt_here" }
+                    { icon: "disc", label: "last.fm (kpop)", handle: "@yvesi", color: "#e11d48", darkColor: "#fb7185", link: "https://www.last.fm/user/yvesi" }
                 ]
             },
             { icon: "gamepad-2", label: "steam", handle: "@yorha10h", color: "#1b2838", darkColor: "#66c0f4", link: "https://steamcommunity.com/id/yorha10h/" },
             { icon: "audio-waveform", label: "spotify", handle: "@V.", color: "#1DB954", darkColor: "#1DB954", link: "https://open.spotify.com/user/31vjkbs7bzllhj6usjjieoijqb4i" },
             { icon: "library", label: "MAL", handle: "@vanessa", color: "#2e51a2", darkColor: "#6ba2ff", link: "https://myanimelist.net/profile/vanessa" },
             { icon: "message-square", label: "discord", handle: "@vagessa", color: "#5c6feb", darkColor: "#5c6feb", link: "https://discord.com/" },
+            {
+                icon: "folder-heart",
+                label: "more trackers",
+                handle: "", 
+                color: "#f72585",
+                darkColor: "#a5b4fc",
+                link: "", 
+                subAccounts: [
+                    { icon: "gamepad", label: "backloggd", handle: "@aespa", color: "#10b981", darkColor: "#34d399", link: "https://backloggd.com/u/aespa/" },
+                    { icon: "tv", label: "serializd", handle: "@akeha", color: "#8b5cf6", darkColor: "#a78bfa", link: "https://serializd.com/user/akeha" },
+                    { icon: "sparkles", label: "anilist", handle: "@akeha", color: "#3b82f6", darkColor: "#60a5fa", link: "https://anilist.co/user/akeha" },
+                    { icon: "monitor-play", label: "mydramalist", handle: "@aespa.", color: "#ec4899", darkColor: "#f472b6", link: "https://mydramalist.com/profile/aespa." },
+                    { icon: "headphones", label: "aoty", handle: "@ego", color: "#f59e0b", darkColor: "#fbbf24", link: "https://www.albumoftheyear.org/user/ego/" }
+                ]
+            }
         ];
         
         const art1 = "https://images.unsplash.com/photo-1543857778-c4a1a3e0b2eb?auto=format&fit=crop&w=600&q=80";
@@ -833,25 +848,24 @@
         const pastel5 = "https://images.unsplash.com/photo-1558236714-d02f5a044f2b?auto=format&fit=crop&w=600&q=80";
 
         const collections = [
-            { theme: "pink", type: "carousel", emoji: "🎨", label: "7.8K VIEWS", title: "Digital Art", desc: "Chibi art & profile pictures.", images: [art1, art2, art3, art4, art5], likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "purple", type: "carousel", emoji: "📸", label: "12 SETS", title: "Pastel Vibes", desc: "Cozy rooms & perfect lattes.", images: [pastel1, pastel2, pastel3, pastel4, pastel5], likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "pink", type: "carousel", emoji: "🎨", label: "MY STUFF", title: "Cute Things", desc: "Little treasures and some shit I own.", images: [art1, art2, art3, art4, art5], likes: Math.floor(Math.random() * 121) + 40 },
+            { theme: "purple", type: "carousel", emoji: "🐈", label: "MEOW", title: "Microwave", desc: "Pictures of my annoying cat, Microwave.", images: [pastel1, pastel2, pastel3, pastel4, pastel5], likes: Math.floor(Math.random() * 121) + 40 },
             { theme: "peach", type: "letterboxd", emoji: "🎞️", label: "WATCHED", title: "Film Diary", desc: "My recent letterboxd logs.", likes: Math.floor(Math.random() * 121) + 40 },
-            { theme: "mint", type: "specs", emoji: "☕", label: "MY GEAR", title: "PC Setup", desc: "I ran out of ideas for these buttons.", likes: Math.floor(Math.random() * 121) + 40,
-              specs: `
-                <div class="space-y-4">
-                    <p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-base mb-4 text-center font-quicksand">My Chopped PC I Paid Someone To Build 🌸</p>
-                    <ul class="space-y-3 px-2">
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">CPU:</span> <span>Ryzen 7 9800X3</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">GPU:</span> <span>RTX 4080S</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">RAM:</span> <span>32GB</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Keyboard:</span> <span>It's purple and white, with silent switches and a little screen :3 Mechanical obviously...</span></li>
-                        <li class="flex items-start gap-2"><span class="font-bold opacity-80 min-w-[70px]">Mouse:</span> <span>$10 chinese dog shit with silent clicks. It's about the player, not the overpriced mouse trust</span></li>
-                    </ul>
-                    <div class="mt-4 p-3 bg-[#fff0f5] dark:bg-[#3b2c5c] rounded-lg border border-[#ffb3c6] dark:border-[#6366f1]/30">
-                        <p class="text-[11px] italic text-center font-bold">I upgraded mere months before the AI market incident! LUCKY ME ✨</p>
-                    </div>
-                </div>
-              `
+            { theme: "mint", type: "text-pages", emoji: "💌", label: "ABOUT ME", title: "More Info", desc: "A little more about me, because why not.", likes: Math.floor(Math.random() * 121) + 40,
+              pages: [
+                  { 
+                      title: "Introduction 🌸", 
+                      content: "Hi! I'm Vanessa, a <span class='text-[#f72585] dark:text-[#a5b4fc] font-bold'>registered nurse</span> by day and an avid internet surfer by night. I love romanticizing my life and turning ordinary moments into <span class='text-[#f72585] dark:text-[#a5b4fc] font-bold'>magic</span>. Welcome to my little slice of the web!" 
+                  },
+                  { 
+                      title: "Current Obsessions 🍵", 
+                      content: "Lately, I've been spending entirely too much time collecting <span class='text-[#9b59b6] dark:text-[#c7d2fe] font-bold'>vintage stickers</span> and brewing the perfect cup of <span class='text-[#2ecc71] dark:text-[#86efac] font-bold'>iced matcha</span>. My dream is to one day open a tiny pastel-themed cafe." 
+                  },
+                  { 
+                      title: "My Vibe ✨", 
+                      content: "Even though I love cute things, I'm a bit of a <span class='text-[#e07c3d] dark:text-[#fdba74] font-bold'>gamer</span> at heart. My desk is covered in plushies, but my PC is built for <span class='text-[#3498db] dark:text-[#93c5fd] font-bold'>serious gaming</span>. Thanks for stopping by and checking out my corner!" 
+                  }
+              ]
             },
         ];
 
@@ -906,7 +920,7 @@
                     const subHtml = s.subAccounts.map(sub => `
                         <a href="${sub.link}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-3 border-t border-[rgba(247,37,133,0.08)] dark:border-[#c7d2fe]/10 hover:bg-[#ffe0ec]/50 dark:hover:bg-[#3b2c5c]/50 transition-colors">
                             <div class="flex items-center gap-3">
-                                <div class="w-[18px]"></div>
+                                ${sub.icon ? `<i data-lucide="${sub.icon}" class="w-[18px] h-[18px] transition-colors duration-500" style="color: ${isSleepyMode ? (sub.darkColor || s.darkColor) : (sub.color || s.color)}"></i>` : `<div class="w-[18px]"></div>`}
                                 <span class="text-sm font-semibold text-[#7a1a3e]/80 dark:text-[#e0e7ff]/80 transition-colors duration-500">${sub.label}</span>
                             </div>
                             <div class="flex items-center gap-2">
@@ -916,24 +930,28 @@
                         </a>
                     `).join('');
 
+                    const isDropdownOnly = !s.link;
+                    const mainTag = isDropdownOnly ? 'div' : 'a';
+                    const mainProps = isDropdownOnly ? `onclick="this.closest('.social-group').classList.toggle('mobile-expanded')" style="cursor: pointer;"` : `href="${s.link}" target="_blank" rel="noopener noreferrer"`;
+
                     return `
                     <div class="social-group flex flex-col rounded-2xl bg-[#fff5f8] dark:bg-[#25234b] border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10 transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden">
                         <div class="flex items-center w-full relative">
-                            <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-3 flex-1">
+                            <${mainTag} ${mainProps} class="flex items-center justify-between px-4 py-3 flex-1">
                                 <div class="flex items-center gap-3">
                                     <i data-lucide="${s.icon}" class="w-[18px] h-[18px] transition-colors duration-500" style="color: ${isSleepyMode ? s.darkColor : s.color}"></i>
                                     <span class="text-sm font-semibold text-[#7a1a3e] dark:text-[#e0e7ff] transition-colors duration-500">${s.label}</span>
                                 </div>
                                 <div class="flex items-center gap-2 mr-6 sm:mr-0">
                                     <span class="text-xs font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">${s.handle}</span>
-                                    <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>
+                                    ${!isDropdownOnly ? `<i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>` : ''}
                                 </div>
-                            </a>
+                            </${mainTag}>
                             <button type="button" onclick="this.closest('.social-group').classList.toggle('mobile-expanded')" class="absolute right-0 top-0 bottom-0 px-3 flex items-center justify-center sm:hidden text-[#f72585] dark:text-[#a5b4fc] z-10 outline-none">
                                 <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-300 chevron-icon"></i>
                             </button>
                         </div>
-                        <div class="sub-accounts overflow-hidden transition-all duration-300 max-h-0 opacity-0 sm:group-hover:max-h-[100px] sm:group-hover:opacity-100">
+                        <div class="sub-accounts overflow-hidden transition-all duration-300 max-h-0 opacity-0 sm:group-hover:max-h-[400px] sm:group-hover:opacity-100">
                             ${subHtml}
                         </div>
                     </div>
@@ -976,6 +994,42 @@
         let activeColIndex = null;
         let justSwiped = false;
 
+        let textPagesCol = [];
+        let textPageIndex = 0;
+
+        function updateTextPageUI() {
+            const page = textPagesCol[textPageIndex];
+            const isFirst = textPageIndex === 0;
+            const isLast = textPageIndex === textPagesCol.length - 1;
+            
+            document.getElementById('modal-specs').innerHTML = `
+                <div class="min-h-[220px] flex flex-col justify-between">
+                    <div class="space-y-4 animate-[fadeIn_0.3s_ease-out]">
+                        <p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-lg text-center font-quicksand">${page.title}</p>
+                        <div class="text-[15px] leading-relaxed text-[#7a1a3e] dark:text-[#c7d2fe] px-2 text-center font-medium">
+                            ${page.content}
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center mt-6 pt-4 border-t border-[#ffe0ec] dark:border-[#3b2c5c]">
+                        <button onclick="changeTextPage(-1, event)" class="w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isFirst ? 'opacity-30 cursor-not-allowed' : 'bg-[#fff0f5] dark:bg-[#3b2c5c] hover:bg-[#ffe0ec] dark:hover:bg-[#4c489d] text-[#c2185b] dark:text-[#e0e7ff]'}"><i data-lucide="arrow-left" class="w-4 h-4"></i></button>
+                        <span class="text-[11px] font-bold font-quicksand text-[#b05c7a] dark:text-[#8b8bb4] tracking-widest">${textPageIndex + 1} / ${textPagesCol.length}</span>
+                        <button onclick="changeTextPage(1, event)" class="w-8 h-8 flex items-center justify-center rounded-full transition-colors ${isLast ? 'opacity-30 cursor-not-allowed' : 'bg-[#fff0f5] dark:bg-[#3b2c5c] hover:bg-[#ffe0ec] dark:hover:bg-[#4c489d] text-[#c2185b] dark:text-[#e0e7ff]'}"><i data-lucide="arrow-right" class="w-4 h-4"></i></button>
+                    </div>
+                </div>
+            `;
+            if(window.lucide) lucide.createIcons();
+        }
+
+        function changeTextPage(dir, e) {
+            if(e) e.stopPropagation();
+            const newIndex = textPageIndex + dir;
+            if (newIndex >= 0 && newIndex < textPagesCol.length) {
+                textPageIndex = newIndex;
+                playSFX('slide');
+                updateTextPageUI();
+            }
+        }
+
         function openGalleryModal(colIndex) {
             playSFX('galleryclick');
             activeColIndex = colIndex;
@@ -1001,6 +1055,11 @@
                 document.getElementById('modal-carousel').classList.remove('hidden');
             } else if (c.type === 'specs') {
                 document.getElementById('modal-specs').innerHTML = c.specs;
+                document.getElementById('modal-specs').classList.remove('hidden');
+            } else if (c.type === 'text-pages') {
+                textPagesCol = c.pages;
+                textPageIndex = 0;
+                updateTextPageUI();
                 document.getElementById('modal-specs').classList.remove('hidden');
             } else if (c.type === 'letterboxd') {
                 document.getElementById('modal-letterboxd').classList.remove('hidden');
@@ -1276,7 +1335,7 @@
                 modal.addEventListener('click', (e) => {
                     if (justSwiped || activeColIndex === null) return;
                     const type = collections[activeColIndex].type;
-                    if (type !== 'carousel' && type !== 'letterboxd') return;
+                    if (type !== 'carousel' && type !== 'letterboxd' && type !== 'text-pages') return;
 
                     const target = e.target;
                     const isInteractive = target.closest('button') || 
@@ -1366,6 +1425,9 @@
             } else if (type === 'letterboxd') {
                 if (diff < -40) nextLbSlide();
                 else if (diff > 40) prevLbSlide();
+            } else if (type === 'text-pages') {
+                if (diff < -40) changeTextPage(1);
+                else if (diff > 40) changeTextPage(-1);
             }
         }
 
@@ -1378,6 +1440,9 @@
             } else if (type === 'letterboxd') {
                 if (dir === 'prev') prevLbSlide();
                 else nextLbSlide();
+            } else if (type === 'text-pages') {
+                if (dir === 'prev') changeTextPage(-1);
+                else changeTextPage(1);
             }
         }
 
