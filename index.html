@@ -195,6 +195,9 @@
         .toggle-star { position: absolute; background: white; border-radius: 50%; opacity: 0; transition: all 0.5s; }
         .sleepy-toggle.dark .toggle-star { opacity: 1; }
 
+        .mobile-expanded .sub-accounts { max-height: 100px !important; opacity: 1 !important; }
+        .mobile-expanded .chevron-icon { transform: rotate(180deg); }
+
         .perspective-1000 { perspective: 1000px; }
         .transform-style-3d { transform-style: preserve-3d; }
         .carousel-item { transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.6s ease, filter 0.6s ease; will-change: transform, opacity, filter; -webkit-user-select: none; user-select: none; }
@@ -800,7 +803,17 @@
         const interests = ["🎮 gaming", "🎵 kpop", "🍵 energy drinks", "🎬 asian cinema"];
         const socials = [
             { icon: "clapperboard", label: "letterboxd", handle: "@akeha", color: "#E1306C", darkColor: "#E1306C", link: "https://letterboxd.com/akeha/" },
-            { icon: "music", label: "last.fm", handle: "@sadbutbadbitch", color: "#FF0000", darkColor: "#FF0000", link: "https://www.last.fm/user/sadbutbadbitch" },
+            { 
+                icon: "music", 
+                label: "last.fm", 
+                handle: "@sadbutbadbitch", 
+                color: "#FF0000", 
+                darkColor: "#FF0000", 
+                link: "https://www.last.fm/user/sadbutbadbitch",
+                subAccounts: [
+                    { label: "alt.fm", handle: "@your_alt_here", link: "https://www.last.fm/user/your_alt_here" }
+                ]
+            },
             { icon: "gamepad-2", label: "steam", handle: "@yorha10h", color: "#1b2838", darkColor: "#66c0f4", link: "https://steamcommunity.com/id/yorha10h/" },
             { icon: "audio-waveform", label: "spotify", handle: "@V.", color: "#1DB954", darkColor: "#1DB954", link: "https://open.spotify.com/user/31vjkbs7bzllhj6usjjieoijqb4i" },
             { icon: "library", label: "MAL", handle: "@vanessa", color: "#2e51a2", darkColor: "#6ba2ff", link: "https://myanimelist.net/profile/vanessa" },
@@ -886,7 +899,48 @@
         });
 
         function renderSocials() {
-            document.getElementById('socials-container').innerHTML = socials.map(s => `
+            document.getElementById('socials-container').innerHTML = socials.map(s => {
+                const hasSub = s.subAccounts && s.subAccounts.length > 0;
+                
+                if (hasSub) {
+                    const subHtml = s.subAccounts.map(sub => `
+                        <a href="${sub.link}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-3 border-t border-[rgba(247,37,133,0.08)] dark:border-[#c7d2fe]/10 hover:bg-[#ffe0ec]/50 dark:hover:bg-[#3b2c5c]/50 transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-[18px]"></div>
+                                <span class="text-sm font-semibold text-[#7a1a3e]/80 dark:text-[#e0e7ff]/80 transition-colors duration-500">${sub.label}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-xs font-quicksand font-bold text-[#f72585]/80 dark:text-[#a5b4fc]/80 transition-colors duration-500">${sub.handle}</span>
+                                <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 transition-colors"></i>
+                            </div>
+                        </a>
+                    `).join('');
+
+                    return `
+                    <div class="social-group flex flex-col rounded-2xl bg-[#fff5f8] dark:bg-[#25234b] border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10 transition-all duration-300 hover:scale-[1.02] group relative overflow-hidden">
+                        <div class="flex items-center w-full relative">
+                            <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-3 flex-1">
+                                <div class="flex items-center gap-3">
+                                    <i data-lucide="${s.icon}" class="w-[18px] h-[18px] transition-colors duration-500" style="color: ${isSleepyMode ? s.darkColor : s.color}"></i>
+                                    <span class="text-sm font-semibold text-[#7a1a3e] dark:text-[#e0e7ff] transition-colors duration-500">${s.label}</span>
+                                </div>
+                                <div class="flex items-center gap-2 mr-6 sm:mr-0">
+                                    <span class="text-xs font-quicksand font-bold text-[#f72585] dark:text-[#a5b4fc] transition-colors duration-500">${s.handle}</span>
+                                    <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>
+                                </div>
+                            </a>
+                            <button type="button" onclick="this.closest('.social-group').classList.toggle('mobile-expanded')" class="absolute right-0 top-0 bottom-0 px-3 flex items-center justify-center sm:hidden text-[#f72585] dark:text-[#a5b4fc] z-10 outline-none">
+                                <i data-lucide="chevron-down" class="w-4 h-4 transition-transform duration-300 chevron-icon"></i>
+                            </button>
+                        </div>
+                        <div class="sub-accounts overflow-hidden transition-all duration-300 max-h-0 opacity-0 sm:group-hover:max-h-[100px] sm:group-hover:opacity-100">
+                            ${subHtml}
+                        </div>
+                    </div>
+                    `;
+                }
+
+                return `
                 <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-between px-4 py-3 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.02] bg-[#fff5f8] dark:bg-[#25234b] group border-[1.5px] border-[rgba(247,37,133,0.12)] dark:border-[#c7d2fe]/10">
                     <div class="flex items-center gap-3">
                         <i data-lucide="${s.icon}" class="w-[18px] h-[18px] transition-colors duration-500" style="color: ${isSleepyMode ? s.darkColor : s.color}"></i>
@@ -897,7 +951,8 @@
                         <i data-lucide="external-link" class="w-[14px] h-[14px] text-[#f72585]/40 dark:text-[#a5b4fc]/40 group-hover:text-[#f72585] dark:group-hover:text-[#a5b4fc] transition-colors"></i>
                     </div>
                 </a>
-            `).join('');
+                `;
+            }).join('');
             if(window.lucide) lucide.createIcons();
         }
 
