@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Vanessa's Corner 🌸</title>
+    <title>Vanessa's Pastel Corner 🌸</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -70,7 +70,6 @@
 
         /* Firefox Rendering Bug Fixes (Prevents random black lines during 3D repaints/hover/clicks) */
         .page, .ux-parent, .ux-card, .ux-glass, .ux-circle, .ux-bottom, .ux-social-btn, #custom-player-wrapper, #player-track, #player-content, #album-art, .carousel-item {
-            outline: 1px solid transparent; /* Smooths anti-aliasing edges */
             -moz-osx-font-smoothing: grayscale; /* Better text rendering during transforms */
         }
         
@@ -131,11 +130,16 @@
 
         .dark .ux-card {
             border: 1px solid rgba(255, 255, 255, 0.02);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.4), rgba(0,0,0, 0) 40px 50px 25px -40px, rgba(0,0,0, 0.2) 0 20px 20px -5px;
         }
 
         .ux-parent:hover .ux-card {
             transform: rotate3d(1, 1, 0, 22deg);
             box-shadow: rgba(247, 37, 133, 0.2) 20px 40px 28px -20px, rgba(255, 255, 255, 0.1) 0 0 30px -10px, rgba(0, 0, 0, 0.1) 0 20px 30px 0;
+        }
+
+        .dark .ux-parent:hover .ux-card {
+            box-shadow: rgba(99, 102, 241, 0.15) 20px 40px 28px -20px, rgba(255, 255, 255, 0.05) 0 0 30px -10px, rgba(0, 0, 0, 0.3) 0 20px 30px 0;
         }
 
         .ux-parent--pink { --ux-grad: linear-gradient(135deg, #ffb3c6 0%, #f72585 100%); --ux-title: #ffffff; --ux-body: rgba(255, 255, 255, 0.9); --ux-cta: #ffffff; --ux-orbit: rgba(255, 255, 255, 0.25); --ux-fill: #f72585; }
@@ -380,9 +384,9 @@
                             </div>
                             <div id="player-content">
                                 <div id="album-art">
-                                    <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=150&q=80" class="active" id="_1" />
-                                    <img src="https://images.unsplash.com/photo-1619983081563-430f63602796?w=150&q=80" id="_2" />
-                                    <img src="https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=150&q=80" id="_3" />
+                                    <img src="https://res.cloudinary.com/frjxw0k6/image/upload/Lemonade.png" class="active" id="_1" />
+                                    <img src="https://res.cloudinary.com/frjxw0k6/image/upload/Faouzia.jpg" id="_2" />
+                                    <img src="https://res.cloudinary.com/frjxw0k6/image/upload/Deathwish.jpg" id="_3" />
                                     <div id="buffer-box">Buffering ...</div>
                                 </div>
                                 <div id="player-controls">
@@ -523,7 +527,7 @@
                     <div class="crater" style="width: 7px; height: 7px; top: 12px; left: 13px;"></div>
                 </div>
             </div>
-            <span class="text-[10px] font-quicksand font-bold text-[#b05c7a] dark:text-[#8b8bb4] uppercase tracking-widest transition-colors duration-300 text-center" id="sleepy-text">Sleepy Mode</span>
+            <span class="text-[10px] font-quicksand font-bold text-[#b05c7a] dark:text-[#8b8bb4] uppercase tracking-widest transition-colors duration-300 text-center" id="sleepy-text">Light Mode</span>
         </div>
 
         <div class="w-10 sm:w-12 flex justify-end -mt-1">
@@ -1448,18 +1452,18 @@
             const playBtnWrap = document.getElementById("play-btn-wrapper");
             const pauseBtnWrap = document.getElementById("pause-btn-wrapper");
 
-            const albums = ["Savage", "Citizens", "Deathwish"];
+            const albums = ["Lemonade", "we'll have a family someday", "Deathwish"];
             const trackNames = [
-                "Aespa - Lemonade",
-                "Faouzia - we'll have a family...",
-                "akiaura - Deathwish"
+                "Aespa",
+                "Faouzia",
+                "akiaura, LONOWN, Baby Jane "
             ];
             const albumArtworks = ["_1", "_2", "_3"];
             
             const trackUrl = [
-                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"
+                "https://res.cloudinary.com/frjxw0k6/video/upload/LEMONADE.mp3",
+                "https://res.cloudinary.com/frjxw0k6/video/upload/DEATHWISH.mp3",
+                "https://res.cloudinary.com/frjxw0k6/video/upload/FAMILY.mp33"
             ];
 
             let seekT, seekLoc, cM, ctMinutes, ctSeconds, curMinutes, curSeconds, durMinutes, durSeconds, playProgress, bTime, 
