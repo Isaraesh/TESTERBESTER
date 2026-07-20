@@ -79,11 +79,24 @@
         ::selection { background: rgba(247, 37, 133, 0.25); color: inherit; }
         .dark ::selection { background: rgba(99, 102, 241, 0.35); color: inherit; }
 
+        /* --- Image Protection (Prevents Saving/Right-Clicking) --- */
+        img {
+            -webkit-touch-callout: none; /* Disables long press context menu on iOS */
+            -webkit-user-select: none;   /* Disables selection on Safari/Chrome */
+            -khtml-user-select: none;
+            -moz-user-select: none;      /* Disables selection on Firefox */
+            -ms-user-select: none;
+            user-select: none;           /* Disables standard selection */
+            -webkit-user-drag: none;     /* Disables dragging images */
+            user-drag: none;
+        }
+
         /* Firefox Rendering Bug Fixes (Prevents random black lines during 3D repaints/hover/clicks) */
         .page, .ux-parent, .ux-card, .ux-glass, .ux-circle, .ux-bottom, .ux-social-btn, #custom-player-wrapper, #player-track, #player-content, #album-art, .carousel-item {
             -moz-osx-font-smoothing: grayscale; /* Better text rendering during transforms */
         }
         
+        /* STREAMING_CHUNK: Styling 3D elements and navigation... -->
         /* Make sure backface visibility is explicitly hidden for moving parts to stop layer tearing */
         .ux-glass, .ux-circle, .ux-bottom, .ux-social-btn, #player-track, #player-content {
             backface-visibility: hidden;
@@ -201,6 +214,7 @@
         .sleepy-toggle.dark .sun-moon { left: calc(100% - 26px); background: #e0e7ff; box-shadow: 0 0 10px rgba(255,255,255,0.4); }
         .sleepy-toggle .crater { opacity: 0; background: rgba(0,0,0,0.1); border-radius: 50%; position: absolute; transition: opacity 0.5s; }
         .sleepy-toggle.dark .crater { opacity: 1; }
+        
         .toggle-cloud { position: absolute; background: white; border-radius: 50px; transition: all 0.5s; }
         .sleepy-toggle.dark .toggle-cloud { opacity: 0; transform: translateY(10px); }
         .toggle-star { position: absolute; background: white; border-radius: 50%; opacity: 0; transition: all 0.5s; }
@@ -569,6 +583,13 @@
     <audio id="sfx-bear" src="bear.mp3"></audio>
 
     <script>
+        // Prevent right-click on all images to add a second layer of security
+        document.addEventListener('contextmenu', e => {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+            }
+        });
+
         const sfx = {
             bgm1: document.getElementById('bgm1'),
             bgm2: document.getElementById('bgm2'),
