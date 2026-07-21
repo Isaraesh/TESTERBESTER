@@ -235,6 +235,9 @@
         .scrollbar-hide::-webkit-scrollbar { display: none; }
         .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
 
+        #modal-specs b, #modal-specs strong { color: #c2185b; }
+        .dark #modal-specs b, .dark #modal-specs strong { color: #ffffff; text-shadow: 0 0 8px rgba(255,255,255,0.25); }
+
         #letterboxd-carousel::-webkit-scrollbar { height: 6px; }
         #letterboxd-carousel::-webkit-scrollbar-track { background: transparent; }
         #letterboxd-carousel::-webkit-scrollbar-thumb { background: #ffb3c6; border-radius: 10px; }
@@ -887,15 +890,15 @@
               pages: [
                   { 
                       title: "Introduction 🌸", 
-                      content: "Hi! I'm Vanessa, a <span class='text-[#f72585] dark:text-[#a5b4fc] font-bold'>registered nurse</span> by day and an avid internet surfer by night. I love romanticizing my life and turning ordinary moments into <span class='text-[#f72585] dark:text-[#a5b4fc] font-bold'>magic</span>. Welcome to my little slice of the web!" 
+                      content: "hi, i'm vanessa! i am a <span class='text-[#f72585] dark:text-[#a5b4fc] font-bold'>nurse</span>, <i>ex-gymnast</i>, and i have every hobby on earth. master of everything truly. <del class='opacity-50'>i am addicted to short term content.</del> also apparently i like to track a bunch of random stuff because why do i have so many links nobody gaf about 😭 girl whatever..." 
                   },
                   { 
                       title: "Current Obsessions 🍵", 
-                      content: "Lately, I've been spending entirely too much time collecting <span class='text-[#9b59b6] dark:text-[#c7d2fe] font-bold'>vintage stickers</span> and brewing the perfect cup of <span class='text-[#2ecc71] dark:text-[#86efac] font-bold'>iced matcha</span>. My dream is to one day open a tiny pastel-themed cafe." 
+                      content: "lately been into buying <span class='text-[#f72585] dark:text-[#a5b4fc] font-bold'>blind boxes</span>, <i class='opacity-70'>wise financial decision.</i> expanding my <b>karina card collection</b>, and just shopping in general. <i class='opacity-70'>somebody stop me spending money.</i><br><br>big fan of the <b>drakenier universe</b> too. waiting for reincarntion pc port, <span class='text-[11px] opacity-60'>anyday now square enix...</span> i've already played it, this is mostly for your benefit whoever is reading this rn, <b>trust me.</b>" 
                   },
                   { 
-                      title: "My Vibe ✨", 
-                      content: "Even though I love cute things, I'm a bit of a <span class='text-[#e07c3d] dark:text-[#fdba74] font-bold'>gamer</span> at heart. My desk is covered in plushies, but my PC is built for <span class='text-[#3498db] dark:text-[#93c5fd] font-bold'>serious gaming</span>. Thanks for stopping by and checking out my corner!" 
+                      title: "", 
+                      content: "<div class='flex flex-col text-center gap-6 w-full mt-2'><div class='w-full'><p class='font-quicksand font-bold text-xl text-[#2ecc71] dark:text-[#86efac] mb-2 border-b-2 border-[#2ecc71]/30 pb-1.5 inline-block px-6'>Likes 💖</p><p class='text-[13px] leading-relaxed text-[#7a1a3e]/80 dark:text-[#c7d2fe]/80'>placeholder like 1, placeholder like 2, placeholder like 3</p></div><div class='w-full'><p class='font-quicksand font-bold text-xl text-[#e11d48] dark:text-[#fda4af] mb-2 border-b-2 border-[#e11d48]/30 pb-1.5 inline-block px-6'>Dislikes 💔</p><p class='text-[13px] leading-relaxed text-[#7a1a3e]/80 dark:text-[#c7d2fe]/80'>placeholder dislike 1, placeholder dislike 2, placeholder dislike 3</p></div></div>" 
                   }
               ]
             },
@@ -1037,7 +1040,7 @@
             document.getElementById('modal-specs').innerHTML = `
                 <div class="min-h-[220px] flex flex-col justify-between">
                     <div class="space-y-4 animate-[fadeIn_0.3s_ease-out]">
-                        <p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-lg text-center font-quicksand">${page.title}</p>
+                        ${page.title ? `<p class="font-bold text-[#c2185b] dark:text-[#a5b4fc] text-lg text-center font-quicksand">${page.title}</p>` : ''}
                         <div class="text-[15px] leading-relaxed text-[#7a1a3e] dark:text-[#c7d2fe] px-2 text-center font-medium">
                             ${page.content}
                         </div>
