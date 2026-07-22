@@ -23,6 +23,15 @@
         }
     </script>
     
+    <!-- Automatic Theme Detection Script (Prevents FOUC) -->
+    <script>
+        // 7PM (19:00) to 7:59AM (07:59) is Dark Mode
+        const initialHour = new Date().getHours();
+        if (initialHour >= 19 || initialHour < 8) {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Pacifico&family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -618,8 +627,10 @@
             bear: document.getElementById('sfx-bear')
         };
         
-        const maxBgmVolume = 0.15;
-        if(sfx.bgm1) sfx.bgm1.volume = maxBgmVolume;
+        const maxBgm1Volume = 0.15; // Day mode volume
+        const maxBgm2Volume = 0.25; // Night mode volume
+
+        if(sfx.bgm1) sfx.bgm1.volume = maxBgm1Volume;
         if(sfx.bgm2) sfx.bgm2.volume = 0; 
         if(sfx.click) sfx.click.volume = 0.07;
         if(sfx.pin) sfx.pin.volume = 0.3;
@@ -644,7 +655,7 @@
             if (!bgmStarted && !globalMuted && !isPlayerPlaying) {
                 const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
                 if(initialBgm) {
-                    initialBgm.volume = maxBgmVolume;
+                    initialBgm.volume = isSleepyMode ? maxBgm2Volume : maxBgm1Volume;
                     initialBgm.play().catch(() => {});
                 }
                 bgmStarted = true;
@@ -690,7 +701,7 @@
                 if(!bgmStarted && !isPlayerPlaying) {
                     const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
                     if(initialBgm) {
-                        initialBgm.volume = maxBgmVolume;
+                        initialBgm.volume = isSleepyMode ? maxBgm2Volume : maxBgm1Volume;
                         initialBgm.play().catch(()=>{});
                     }
                     bgmStarted = true;
@@ -709,7 +720,7 @@
             if (!globalMuted && bgmStarted) {
                 const initialBgm = isSleepyMode ? sfx.bgm2 : sfx.bgm1;
                 if(initialBgm) {
-                    initialBgm.volume = maxBgmVolume;
+                    initialBgm.volume = isSleepyMode ? maxBgm2Volume : maxBgm1Volume;
                     initialBgm.play().catch(()=>{});
                 }
             }
@@ -720,12 +731,13 @@
             
             const fadeOutAudio = enteringNight ? sfx.bgm1 : sfx.bgm2;
             const fadeInAudio = enteringNight ? sfx.bgm2 : sfx.bgm1;
+            const targetInVolume = enteringNight ? maxBgm2Volume : maxBgm1Volume;
 
             if (!fadeOutAudio || !fadeInAudio) return;
 
             if (globalMuted) {
                 fadeOutAudio.pause();
-                fadeInAudio.volume = maxBgmVolume;
+                fadeInAudio.volume = targetInVolume;
                 fadeInAudio.play().catch(()=>{});
                 return;
             }
@@ -740,12 +752,12 @@
                 let inVol = fadeInAudio.volume + step;
 
                 if (outVol <= 0) outVol = 0;
-                if (inVol >= maxBgmVolume) inVol = maxBgmVolume;
+                if (inVol >= targetInVolume) inVol = targetInVolume;
 
                 fadeOutAudio.volume = outVol;
                 fadeInAudio.volume = inVol;
 
-                if (outVol === 0 && inVol === maxBgmVolume) {
+                if (outVol === 0 && inVol === targetInVolume) {
                     clearInterval(fadeInterval);
                     fadeOutAudio.pause();
                 }
@@ -758,12 +770,15 @@
             setTimeout(() => el.classList.remove('bear-wobble'), 400);
         }
 
-        let isSleepyMode = false;
-        function toggleSleepyMode() {
-            playSFX('click'); 
-            isSleepyMode = !isSleepyMode;
-            
-            crossfadeBgm(isSleepyMode);
+        // Sync initial state with the automatic time script
+        let isSleepyMode = document.documentElement.classList.contains('dark');
+        
+        function toggleSleepyMode(isInit = false) {
+            if (!isInit) {
+                playSFX('click'); 
+                isSleepyMode = !isSleepyMode;
+                crossfadeBgm(isSleepyMode);
+            }
             
             const root = document.documentElement;
             const toggle = document.getElementById('sleepy-toggle');
@@ -918,6 +933,9 @@
         ];
 
         document.addEventListener("DOMContentLoaded", () => {
+            // Apply initial theme UI without sounds based on viewer's local time
+            toggleSleepyMode(true);
+
             setTimeout(() => {
                 updateNavIndicator(document.getElementById('btn-home'));
             }, 100);
